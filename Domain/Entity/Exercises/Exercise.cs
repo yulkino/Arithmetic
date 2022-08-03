@@ -1,17 +1,11 @@
-﻿using Domain.Entity.Operations;
-
-namespace Domain.Entity.Exercises;
+﻿namespace Domain.Entity.Exercises;
 
 public  class Exercise
 {
     public Guid Id { get; init; }
-
     public double LeftOperand { get; init; }
-    
     public double RightOperand { get; init; }
-
     public Operation Operation { get; init; }
-
     public double Answer { get; }
 
     public Exercise(double leftOperand, double rightOperand, Operation operation)

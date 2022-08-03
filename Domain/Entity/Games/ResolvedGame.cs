@@ -5,13 +5,9 @@ namespace Domain.Entity.Games;
 public class ResolvedGame
 {
     public Guid Id { get; init; }
-
     public Game Game { get; init; }
-
     public int CorrectAnswerCount { get; }
-
     public TimeSpan ElapsedTime { get; init; }
-
     public List<ResolvedExercise> ResolvedExercises { get; init; }
 
     public ResolvedGame(Game game, TimeSpan elapsedTime, List<ResolvedExercise> resolvedExercises)

@@ -1,16 +1,10 @@
-﻿using Domain.Entity.Difficulties;
-using Domain.Entity.Operations;
-
-namespace Domain.Entity;
+﻿namespace Domain.Entity;
 
 public class Settings
 {
     public Guid Id { get; init; }
-
     public Difficulty Difficulty { get; init; }
-
     public HashSet<Operation> Operations { get; init; }
-
     public int ExerciseCount { get; init; }
 
     public Settings(Difficulty difficulty, HashSet<Operation> operations, int exerciseCount)

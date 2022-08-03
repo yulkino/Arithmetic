@@ -1,4 +1,4 @@
-﻿namespace Domain.Entity.Difficulties;
+﻿namespace Domain.Entity;
 
 public abstract class Difficulty
 {
@@ -9,7 +9,6 @@ public abstract class Difficulty
     public static readonly Difficulty Hard = new HardDifficulty();
 
     public Guid Id { get; set; }
-
     public abstract int MaxDigitCount { get; }
 
     private class EasyDifficulty : Difficulty

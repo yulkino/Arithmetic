@@ -8,12 +8,10 @@ namespace Domain.Entity.Games;
 public class Game
 {
     public Guid Id { get; init; }
-
     public User User { get; init; }
-
     public Settings Settings { get; init; }
-
     public List<Exercise> Exercises { get; init; }
+    public DateTime Date { get; init; }
 
     public Game(User user, Settings settings)
     {
@@ -21,6 +19,7 @@ public class Game
         User = user;
         Settings = settings;
         Exercises = new();
+        Date = DateTime.Now;
     }
 
     public Exercise GiveNextExercise()
