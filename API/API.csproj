@@ -10,4 +10,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOs\GameDtos\" />
+    <Folder Include="DTOs\ResultDtos\" />
+    <Folder Include="DTOs\SettingsDtos\" />
+  </ItemGroup>
+
 </Project>

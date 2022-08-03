@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using API.DTOs.UserDtos;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
@@ -11,14 +12,14 @@ public class UserController : ControllerBase
 
     }
 
-    [HttpGet("login")]
-    public ActionResult Login()
+    [HttpPost("login")]
+    public ActionResult Login([FromBody] LoginDto loginData)
     {
 
     }
 
     [HttpPost("register")]
-    public ActionResult Register()
+    public ActionResult Register([FromBody] RegisterDto registerData)
     {
 
     }

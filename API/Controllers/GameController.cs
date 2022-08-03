@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using API.DTOs.GameDtos;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
@@ -12,19 +13,19 @@ public class GameController : ControllerBase
     }
 
     [HttpPost("User/{userId}/Game")]
-    public ActionResult StartGame()
+    public ActionResult<GameDto> StartGame([FromRoute] Guid userId)
     {
 
     }
 
-    [HttpGet("User/{userId}/Game/{id}")]
-    public ActionResult GetFirstExercise()
+    [HttpGet("User/{userId}/Game/{gameId}")]
+    public ActionResult<ExerciseDto> GetFirstExercise([FromRoute] Guid userId, [FromRoute] Guid gameId)
     {
 
     }
 
-    [HttpPost("User/{userId}/Game/{id}")]
-    public ActionResult ProcessGameProgress()
+    [HttpPost("User/{userId}/Game/{gameId}")]
+    public ActionResult<ExerciseDto> ProcessGameProgress([FromRoute] Guid userId, [FromRoute] Guid gameId, [FromQuery] string answer)
     {
 
     }

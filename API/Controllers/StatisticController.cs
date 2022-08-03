@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using API.DTOs.StatisticDtos;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
@@ -12,7 +13,7 @@ public class StatisticController : ControllerBase
     }
 
     [HttpGet("User/{userId}/Statistic")]
-    public ActionResult GetStatisticForGame()
+    public ActionResult<StatisticDto> GetStatisticForGame([FromRoute] Guid userId)
     {
 
     }

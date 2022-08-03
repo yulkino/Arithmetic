@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using API.DTOs.ResultDtos;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
@@ -11,8 +12,8 @@ public class ResultController : ControllerBase
         
     }
 
-    [HttpGet("User/{userId}/Game/{id}/Result")]
-    public ActionResult GetGameResult()
+    [HttpGet("User/{userId}/Game/{gameId}/Result")]
+    public ActionResult<ResultDto> GetGameResult([FromRoute] Guid userId, [FromRoute] Guid gameId)
     {
 
     }
