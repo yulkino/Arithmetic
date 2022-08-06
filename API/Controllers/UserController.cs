@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers;
 
 [ApiController]
-[Route("controller")]
+[Route("[controller]")]
 public class UserController : ControllerBase
 {
     public UserController()
@@ -15,12 +15,12 @@ public class UserController : ControllerBase
     [HttpPost("login")]
     public ActionResult Login([FromBody] LoginDto loginData)
     {
-
+        throw new InvalidOperationException();
     }
 
     [HttpPost("register")]
     public ActionResult Register([FromBody] RegisterDto registerData)
     {
-
+        throw new InvalidOperationException();
     }
 }

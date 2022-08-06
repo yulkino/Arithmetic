@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers;
 
 [ApiController]
-[Route("controller")]
 public class StatisticController : ControllerBase
 {
     public StatisticController()
@@ -15,6 +14,6 @@ public class StatisticController : ControllerBase
     [HttpGet("User/{userId}/Statistic")]
     public ActionResult<StatisticDto> GetStatisticForGame([FromRoute] Guid userId)
     {
-
+        throw new InvalidOperationException();
     }
 }
