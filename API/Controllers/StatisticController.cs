@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers;
 
 [ApiController]
-public class StatisticController : ControllerBase
+public sealed class StatisticController : ControllerBase
 {
     public StatisticController()
     {

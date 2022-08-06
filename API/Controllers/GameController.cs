@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers;
 
 [ApiController]
-public class GameController : ControllerBase
+public sealed class GameController : ControllerBase
 {
     public GameController()
     {
@@ -18,13 +18,13 @@ public class GameController : ControllerBase
     }
 
     [HttpGet("User/{userId}/Game/{gameId}")]
-    public ActionResult<ExerciseDto> GetFirstExercise([FromRoute] Guid userId, [FromRoute] Guid gameId)
+    public ActionResult<ExerciseDto> GetNextExercise([FromRoute] Guid userId, [FromRoute] Guid gameId)
     {
         throw new InvalidOperationException();
     }
 
-    [HttpPost("User/{userId}/Game/{gameId}")]
-    public ActionResult<ExerciseDto> ProcessGameProgress([FromRoute] Guid userId, [FromRoute] Guid gameId, [FromQuery] string answer)
+    [HttpPost("User/{userId}/Game/{gameId}/Exercise/{exerciseId}")]
+    public ActionResult<ExerciseDto> SaveAnswer([FromRoute] Guid userId, [FromRoute] Guid gameId, [FromQuery] string answer)
     {
         throw new InvalidOperationException();
     }

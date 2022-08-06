@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entity.Exercises;
 
-public  class Exercise
+public  class Exercise : IEntity
 {
     public Guid Id { get; init; }
     public double LeftOperand { get; init; }

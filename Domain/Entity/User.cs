@@ -1,12 +1,12 @@
 ﻿namespace Domain.Entity;
-public class User
+public class User : IEntity
 {
-    public int Id { get; private set; }
-    public string Login { get; private set; }
+    public Guid Id { get; init; }
+    public string Login { get; init; }
 
-    public User(int id, string login)
+    public User(string login)
     {
-        Id = id;
+        Id = Guid.NewGuid();
         Login = login;
     }
 }

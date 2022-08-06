@@ -6,4 +6,26 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Mediators\GameMediator\Add\" />
+    <Folder Include="Mediators\GameMediator\GetExercise\" />
+    <Folder Include="Mediators\GameMediator\SaveExercise\" />
+    <Folder Include="Mediators\SettingsMediator\Get\" />
+    <Folder Include="Mediators\SettingsMediator\Edit\" />
+    <Folder Include="Mediators\StatisticMediator\Get\" />
+    <Folder Include="Mediators\UserMediator\Get\" />
+    <Folder Include="Mediators\UserMediator\Add\" />
+    <Folder Include="ServiceContracts\Repositories\Write\" />
+    <Folder Include="ServiceContracts\Repositories\Read\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ErrorOr" Version="0.2.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
 </Project>

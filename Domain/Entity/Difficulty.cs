@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entity;
 
-public abstract class Difficulty
+public abstract class Difficulty : IEntity
 {
     public static readonly Difficulty Easy = new EasyDifficulty();
 

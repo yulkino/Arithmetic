@@ -2,7 +2,7 @@
 
 namespace Domain.Entity.Games;
 
-public class ResolvedGame
+public class ResolvedGame : IEntity
 {
     public Guid Id { get; init; }
     public Game Game { get; init; }

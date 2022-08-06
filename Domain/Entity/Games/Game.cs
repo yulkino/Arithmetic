@@ -1,11 +1,9 @@
-﻿using System.Runtime.CompilerServices;
-using Domain.Entity.Difficulties;
-using Domain.Entity.Exercises;
+﻿using Domain.Entity.Exercises;
 using Shared;
 
 namespace Domain.Entity.Games;
 
-public class Game
+public class Game : IEntity
 {
     public Guid Id { get; init; }
     public User User { get; init; }

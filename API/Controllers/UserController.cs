@@ -5,7 +5,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class UserController : ControllerBase
+public sealed class UserController : ControllerBase
 {
     public UserController()
     {

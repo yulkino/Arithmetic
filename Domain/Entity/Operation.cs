@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entity;
 
-public abstract class Operation
+public abstract class Operation : IEntity
 {
     public static readonly Operation Addition = new AdditionOperation();
 

@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entity.Exercises;
 
-public class ResolvedExercise
+public class ResolvedExercise : IEntity
 {
     public Guid Id { get; init; }
     public double UserAnswer { get; init; }

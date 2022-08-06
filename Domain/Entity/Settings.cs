@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entity;
 
-public class Settings
+public class Settings : IEntity
 {
     public Guid Id { get; init; }
     public Difficulty Difficulty { get; init; }

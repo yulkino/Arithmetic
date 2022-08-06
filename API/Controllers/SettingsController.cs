@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers;
 
 [ApiController]
-public class SettingsController : ControllerBase
+public sealed class SettingsController : ControllerBase
 {
     public SettingsController()
     {
@@ -18,7 +18,7 @@ public class SettingsController : ControllerBase
     }
 
     [HttpPut("User/{userId}/Settings")]
-    public ActionResult<SettingsDto> EditUserSettings([FromRoute] Guid usrId, [FromBody] SettingsDto settings)
+    public ActionResult<SettingsDto> EditUserSettings([FromRoute] Guid userId, [FromBody] SettingsDto settings)
     {
         throw new InvalidOperationException();
     }
