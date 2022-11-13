@@ -2,4 +2,5 @@
 
 public sealed record SettingsDto(
     List<int> Operations,
-    int Difficulty);
+    int Difficulty,
+    int ExerciseCount);

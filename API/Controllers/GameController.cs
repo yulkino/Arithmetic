@@ -24,7 +24,7 @@ public sealed class GameController : ControllerBase
     }
 
     [HttpPost("User/{userId}/Game/{gameId}/Exercise/{exerciseId}")]
-    public ActionResult<ExerciseDto> SaveAnswer([FromRoute] Guid userId, [FromRoute] Guid gameId, [FromQuery] string answer)
+    public ActionResult<ExerciseDto> SaveAnswer([FromRoute] Guid userId, [FromRoute] Guid gameId, [FromQuery] double answer)
     {
         throw new InvalidOperationException();
     }
