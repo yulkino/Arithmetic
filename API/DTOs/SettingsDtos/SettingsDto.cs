@@ -2,5 +2,4 @@
 
 public sealed record SettingsDto(
     List<int> Operations,
-    int Difficulty,
-    int DurationInMinutes);
+    int Difficulty);

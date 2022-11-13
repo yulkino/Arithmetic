@@ -29,7 +29,7 @@ public class Game : IEntity
 
         return new(first, second, operation);
         
-        int Pick(int max) 
-            => Random.Shared.Next(-max + 1, max);
+        int Pick(int value) 
+            => Random.Shared.Next(-value + 1, value);
     }
 }
