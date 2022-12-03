@@ -6,4 +6,4 @@ public record EditSettingsCommand(
     Guid UserId,
     List<int> Operations,
     int Difficulty,
-    int DurationInMinutes) : IOperationRequest<Settings>;
+    int ExerciseCount) : IOperationRequest<Settings>;

@@ -1,4 +1,11 @@
 ﻿using API.DTOs.GameDtos;
+using Application.Mediators.GameMediator.Add;
+using Application.Mediators.GameMediator.GetExercise;
+using Application.Mediators.GameMediator.SaveExercise;
+using AutoMapper;
+using Domain.Entity.Exercises;
+using Domain.Entity.Games;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -6,26 +13,41 @@ namespace API.Controllers;
 [ApiController]
 public sealed class GameController : ControllerBase
 {
-    public GameController()
+    private readonly IMediator _mediator;
+    private readonly IMapper _mapper;
+
+    public GameController(IMediator mediator, IMapper mapper)
     {
-        
+        _mediator = mediator;
+        _mapper = mapper;
     }
 
     [HttpPost("User/{userId}/Game")]
-    public ActionResult<GameDto> StartGame([FromRoute] Guid userId)
+    public async Task<ActionResult<GameDto>> StartGame([FromRoute] Guid userId, CancellationToken cancellationToken)
     {
-        throw new InvalidOperationException();
+        var response = await _mediator.Send(new AddGameCommand(userId), cancellationToken);
+        //TODO error catch
+        var result = _mapper.Map<Game, GameDto>(response.Value);
+        return result;
     }
 
     [HttpGet("User/{userId}/Game/{gameId}")]
-    public ActionResult<ExerciseDto> GetNextExercise([FromRoute] Guid userId, [FromRoute] Guid gameId)
+    public async Task<ActionResult<ExerciseDto>> GetNextExercise([FromRoute] Guid userId, [FromRoute] Guid gameId, 
+        CancellationToken cancellationToken)
     {
-        throw new InvalidOperationException();
+        var response = await _mediator.Send(new GetExerciseQuery(userId, gameId), cancellationToken);
+        //TODO error catch
+        var result = _mapper.Map<Exercise, ExerciseDto>(response.Value);
+        return result;
     }
 
     [HttpPost("User/{userId}/Game/{gameId}/Exercise/{exerciseId}")]
-    public ActionResult<ExerciseDto> SaveAnswer([FromRoute] Guid userId, [FromRoute] Guid gameId, [FromQuery] double answer)
+    public async Task<ActionResult<ExerciseDto>> SaveAnswer([FromRoute] Guid userId, [FromRoute] Guid gameId, 
+        [FromQuery] double answer, CancellationToken cancellationToken)
     {
-        throw new InvalidOperationException();
+        var response = await _mediator.Send(new SaveExerciseCommand(userId, gameId, answer), cancellationToken);
+        //TODO error catch
+        var result = _mapper.Map<Exercise, ExerciseDto>(response.Value);
+        return result;
     }
 }

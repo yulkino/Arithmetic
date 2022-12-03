@@ -1,4 +1,8 @@
 ﻿using API.DTOs.ResolvedGameDtos;
+using Application.Mediators.ResolvedGameMediator.Get;
+using AutoMapper;
+using Domain.Entity.Games;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -6,14 +10,22 @@ namespace API.Controllers;
 [ApiController]
 public sealed class ResolvedGameController : ControllerBase
 {
-    public ResolvedGameController()
+    private readonly IMediator _mediator;
+    private readonly IMapper _mapper;
+
+    public ResolvedGameController(IMediator mediator, IMapper mapper)
     {
-        
+        _mediator = mediator;
+        _mapper = mapper;
     }
 
     [HttpGet("User/{userId}/Game/{gameId}/Result")]
-    public ActionResult<ResolvedGameDto> GetGameResult([FromRoute] Guid userId, [FromRoute] Guid gameId)
+    public async Task<ActionResult<ResolvedGameDto>> GetGameResult([FromRoute] Guid userId, [FromRoute] Guid gameId, 
+        CancellationToken cancellationToken)
     {
-        throw new InvalidOperationException();
+        var response = await _mediator.Send(new GetResolvedGameQuery(userId, gameId), cancellationToken);
+        //TODO error catch
+        var result = _mapper.Map<ResolvedGame, ResolvedGameDto>(response.Value);
+        return result;
     }
 }

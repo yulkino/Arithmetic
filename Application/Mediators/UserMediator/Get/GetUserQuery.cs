@@ -2,4 +2,4 @@
 
 namespace Application.Mediators.UserMediator.Get;
 
-public sealed record GetUserQuery(Guid UserId) : IOperationRequest<User>;
+public sealed record GetUserQuery(string Login, string Password) : IOperationRequest<User>;
