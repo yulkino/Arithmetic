@@ -2,7 +2,7 @@
 using Application.Mediators.SettingsMediator.Edit;
 using Application.Mediators.SettingsMediator.Get;
 using AutoMapper;
-using Domain.Entity;
+using Domain.Entity.SettingsEntities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

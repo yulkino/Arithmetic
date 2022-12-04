@@ -1,4 +1,4 @@
-﻿namespace Domain.Entity;
+﻿namespace Domain.Entity.SettingsEntities;
 
 public class Settings : IEntity
 {

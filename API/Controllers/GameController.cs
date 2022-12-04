@@ -3,8 +3,8 @@ using Application.Mediators.GameMediator.Add;
 using Application.Mediators.GameMediator.GetExercise;
 using Application.Mediators.GameMediator.SaveExercise;
 using AutoMapper;
-using Domain.Entity.Exercises;
-using Domain.Entity.Games;
+using Domain.Entity.ExerciseEntities;
+using Domain.Entity.GameEntities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,7 +1,7 @@
 ﻿using API.DTOs.ResolvedGameDtos;
 using Application.Mediators.ResolvedGameMediator.Get;
 using AutoMapper;
-using Domain.Entity.Games;
+using Domain.Entity.GameEntities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

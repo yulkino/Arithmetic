@@ -1,4 +1,4 @@
-﻿using Domain.Entity.Exercises;
+﻿using Domain.Entity.ExerciseEntities;
 
 namespace Application.Mediators.GameMediator.SaveExercise;
 

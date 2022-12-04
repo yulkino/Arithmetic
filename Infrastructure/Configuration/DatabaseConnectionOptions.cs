@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Configurations;
+﻿namespace Infrastructure.Configuration;
 
 public class DatabaseConnectionOptions
 {

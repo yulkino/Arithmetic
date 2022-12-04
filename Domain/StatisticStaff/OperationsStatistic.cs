@@ -1,4 +1,4 @@
-﻿using Domain.Entity;
+﻿using Domain.Entity.SettingsEntities;
 
 namespace Domain.StatisticStaff;
 

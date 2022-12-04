@@ -1,7 +1,8 @@
-﻿using Domain.Entity.Exercises;
+﻿using Domain.Entity.ExerciseEntities;
+using Domain.Entity.SettingsEntities;
 using Shared;
 
-namespace Domain.Entity.Games;
+namespace Domain.Entity.GameEntities;
 
 public class Game : IEntity
 {

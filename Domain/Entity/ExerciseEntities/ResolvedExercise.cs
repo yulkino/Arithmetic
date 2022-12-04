@@ -1,4 +1,4 @@
-﻿namespace Domain.Entity.Exercises;
+﻿namespace Domain.Entity.ExerciseEntities;
 
 public class ResolvedExercise : IEntity
 {

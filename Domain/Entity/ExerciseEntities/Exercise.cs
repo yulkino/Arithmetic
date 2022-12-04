@@ -1,4 +1,6 @@
-﻿namespace Domain.Entity.Exercises;
+﻿using Domain.Entity.SettingsEntities;
+
+namespace Domain.Entity.ExerciseEntities;
 
 public  class Exercise : IEntity
 {

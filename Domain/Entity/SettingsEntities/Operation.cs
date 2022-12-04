@@ -1,4 +1,4 @@
-﻿namespace Domain.Entity;
+﻿namespace Domain.Entity.SettingsEntities;
 
 public abstract class Operation : IEntity
 {

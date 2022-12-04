@@ -1,4 +1,4 @@
-﻿using Domain.Entity;
+﻿using Domain.Entity.SettingsEntities;
 using ErrorOr;
 using MediatR;
 

@@ -2,5 +2,5 @@
 
 public sealed record RegisterDto(
     string Login,
-    string PasswordHash,
-    string PasswordHashConfirmation);
+    string Password,
+    string PasswordConfirmation);

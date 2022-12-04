@@ -1,4 +1,4 @@
-﻿using Domain.Entity.Games;
+﻿using Domain.Entity.GameEntities;
 using ErrorOr;
 using MediatR;
 
