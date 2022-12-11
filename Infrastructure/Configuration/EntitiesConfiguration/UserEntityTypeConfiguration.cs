@@ -12,8 +12,8 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
         builder
             .Property(user => user.Login)
             .IsRequired();
-        //TODO password in entity is not exists
-        builder.Property(typeof(string), "Password")
+        builder
+            .Property(user => user.PasswordHash)
             .IsRequired();
     }
 }

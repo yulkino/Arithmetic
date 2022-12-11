@@ -2,4 +2,4 @@
 
 public sealed record LoginDto(
     string Login,
-    string PasswordHash);
+    string Password);

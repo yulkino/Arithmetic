@@ -24,7 +24,7 @@ public sealed class UserController : ControllerBase
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login([FromBody] LoginDto loginData, CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(new GetUserQuery(loginData.Login, loginData.PasswordHash), cancellationToken);
+        var response = await _mediator.Send(new GetUserQuery(loginData.Login, loginData.Password), cancellationToken);
         //TODO error catch
         var result = _mapper.Map<User, UserDto>(response.Value);
         return result;
