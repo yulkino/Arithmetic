@@ -10,6 +10,9 @@ public class OperationEntityTypeConfiguration : IEntityTypeConfiguration<Operati
     public void Configure(EntityTypeBuilder<Operation> builder)
     {
         builder.HasKey(operation => operation.Id);
+        builder
+            .Property(operation => operation.Name)
+            .IsRequired();
         builder.HasData(Addition, Division, Multiplication, Subtraction);
     }
 }

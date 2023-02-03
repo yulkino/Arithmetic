@@ -11,6 +11,9 @@ public class DifficultyEntityTypeConfiguration : IEntityTypeConfiguration<Diffic
     {
         builder.HasKey(difficulty => difficulty.Id);
         builder
+            .Property(difficulty => difficulty.Name)
+            .IsRequired();
+        builder
             .Property(difficulty => difficulty.MaxDigitCount)
             .IsRequired();
         builder.HasData(Easy, Medium, Hard);

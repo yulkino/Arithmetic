@@ -33,7 +33,7 @@ public sealed class SettingsController : ControllerBase
     public async Task<ActionResult<SettingsDto>> EditUserSettings([FromRoute] Guid userId, [FromBody] SettingsDto settings, 
         CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(
+        var response = await _mediator.Send(//TODO mapping
                 new EditSettingsCommand(userId, settings.Operations, settings.Difficulty, settings.ExerciseCount),
                 cancellationToken);
         //TODO error catch
@@ -41,4 +41,11 @@ public sealed class SettingsController : ControllerBase
         return result;
     }
 
+    public async Task<ActionResult<List<OperationDto>>> GetOperationsList(CancellationToken cancellationToken)
+    {
+        //TODO mediator request
+        throw new NotImplementedException();
+    }
+
+    //TODO GetDifficultiesList
 }

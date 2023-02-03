@@ -2,7 +2,7 @@
 
 namespace API.DTOs.ResolvedGameDtos;
 
-public sealed record ExerciseResultDto(
+public sealed record ResolvedExerciseDto(
     Guid Id,
     double FirstOperand,
     int Operation,
