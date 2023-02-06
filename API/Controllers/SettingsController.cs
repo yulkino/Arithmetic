@@ -1,4 +1,6 @@
 ﻿using API.DTOs.SettingsDtos;
+using Application.Mediators.DifficultyMediator;
+using Application.Mediators.OperationMediator;
 using Application.Mediators.SettingsMediator.Edit;
 using Application.Mediators.SettingsMediator.Get;
 using AutoMapper;
@@ -34,18 +36,32 @@ public sealed class SettingsController : ControllerBase
         CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(//TODO mapping
-                new EditSettingsCommand(userId, settings.Operations, settings.Difficulty, settings.ExerciseCount),
+                new EditSettingsCommand(
+                    userId, 
+                    _mapper.Map<List<OperationDto>, List<OperationItemDto>>(settings.Operations), 
+                    _mapper.Map<DifficultyDto, DifficultyItemDto>(settings.Difficulty), 
+                    settings.ExerciseCount),
                 cancellationToken);
         //TODO error catch
         var result = _mapper.Map<Settings, SettingsDto>(response.Value);
         return result;
     }
 
+    [HttpGet("Settings/Operations")]
     public async Task<ActionResult<List<OperationDto>>> GetOperationsList(CancellationToken cancellationToken)
     {
-        //TODO mediator request
-        throw new NotImplementedException();
+        var response = await _mediator.Send(new GetOperationsQuery(), cancellationToken);
+        //TODO error catch
+        var result = _mapper.Map<List<Operation>, List<OperationDto>>(response.Value);
+        return result;
     }
 
-    //TODO GetDifficultiesList
+    [HttpGet("Settings/Difficulties")]
+    public async Task<ActionResult<List<DifficultyDto>>> GetDifficultiesList(CancellationToken cancellationToken)
+    {
+        var response = await _mediator.Send(new GetDifficultiesQuery(), cancellationToken);
+        //TODO error catch
+        var result = _mapper.Map<List<Difficulty>, List<DifficultyDto>>(response.Value);
+        return result;
+    }
 }

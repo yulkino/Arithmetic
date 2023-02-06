@@ -1,7 +1,9 @@
-﻿namespace API.DTOs.GameDtos;
+﻿using API.DTOs.SettingsDtos;
+
+namespace API.DTOs.GameDtos;
 
 public record ExerciseDto(
     Guid Id,
-    double FirstOperand,
-    int Operation,
-    double SecondOperand);
+    double LeftOperand,
+    OperationDto Operation,
+    double RightOperand);

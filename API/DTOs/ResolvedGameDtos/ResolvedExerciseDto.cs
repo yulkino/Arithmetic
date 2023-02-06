@@ -1,12 +1,14 @@
 ﻿using API.DTOs.GameDtos;
+using API.DTOs.SettingsDtos;
 
 namespace API.DTOs.ResolvedGameDtos;
 
 public sealed record ResolvedExerciseDto(
     Guid Id,
     double FirstOperand,
-    int Operation,
+    OperationDto Operation,
     double SecondOperand,
-    double Answer,
+    double UserAnswer,
+    bool IsCorrect,
     double CorrectAnswer,
-    double ExerciseResolveDuration) : ExerciseDto(Id, FirstOperand, Operation, SecondOperand);
+    double ElapsedTime) : ExerciseDto(Id, FirstOperand, Operation, SecondOperand);
