@@ -1,5 +1,7 @@
-﻿namespace API.DTOs.StatisticDtos;
+﻿using API.DTOs.SettingsDtos;
+
+namespace API.DTOs.StatisticDtos;
 
 public sealed record OperationsStatisticDto(
-    int Operation,
+    OperationDto Operation,
     double GameAverageDuration);
