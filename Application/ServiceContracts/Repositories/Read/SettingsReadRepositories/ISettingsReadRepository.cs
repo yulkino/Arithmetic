@@ -1,6 +1,6 @@
 ﻿using Domain.Entity.SettingsEntities;
 
-namespace Application.ServiceContracts.Repositories.Read;
+namespace Application.ServiceContracts.Repositories.Read.SettingsReadRepositories;
 
 public interface ISettingsReadRepository : IReadRepository<Settings>
 {

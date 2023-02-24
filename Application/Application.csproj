@@ -17,6 +17,8 @@
     <Folder Include="Mediators\StatisticMediator\Get\" />
     <Folder Include="Mediators\UserMediator\Get\" />
     <Folder Include="Mediators\UserMediator\Add\" />
+    <Folder Include="ServiceContracts\Repositories\Read\GameReadRepositories\" />
+    <Folder Include="ServiceContracts\Repositories\Write\GameWriteRepositories\" />
   </ItemGroup>
 
   <ItemGroup>
