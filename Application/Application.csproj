@@ -22,8 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ErrorOr" Version="0.2.0" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+    <PackageReference Include="ErrorOr" Version="1.2.1" />
+    <PackageReference Include="MediatR" Version="12.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
