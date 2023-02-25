@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;
 
@@ -10,5 +11,6 @@ public static class ServiceCollectionExtensions
         {
             config.RegisterServicesFromAssemblyContaining(typeof(ServiceCollectionExtensions));
         });
+        services.AddValidatorsFromAssemblyContaining(typeof(ServiceCollectionExtensions));
     }
 }
