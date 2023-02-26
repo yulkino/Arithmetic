@@ -8,7 +8,7 @@ public  class Exercise : IEntity
     public double LeftOperand { get; init; }
     public double RightOperand { get; init; }
     public Operation Operation { get; init; }
-    public double Answer { get; }
+    public double? Answer { get; }
 
     public Exercise(double leftOperand, double rightOperand, Operation operation)
     {

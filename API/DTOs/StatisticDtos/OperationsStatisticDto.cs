@@ -1,4 +1,4 @@
-﻿using API.DTOs.SettingsDtos;
+﻿using API.DTOs.SettingsDtos.GetSettingsDtos;
 
 namespace API.DTOs.StatisticDtos;
 

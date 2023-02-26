@@ -20,7 +20,6 @@
     <Folder Include="Mapping\GameMappingProfiles\" />
     <Folder Include="Mapping\UserMappingProfiles\" />
     <Folder Include="Mapping\StatisticMappingProfiles\" />
-    <Folder Include="Mapping\SettingsMappingProfiles\" />
   </ItemGroup>
 
 </Project>

@@ -43,7 +43,7 @@ public sealed class GameController : ControllerBase
 
     [HttpPost("User/{userId}/Game/{gameId}/Exercise/{exerciseId}")]
     public async Task<ActionResult<ExerciseDto>> SaveAnswer([FromRoute] Guid userId, [FromRoute] Guid gameId, 
-        [FromQuery] double answer, CancellationToken cancellationToken)
+        [FromQuery] double? answer, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(new SaveExerciseCommand(userId, gameId, answer), cancellationToken);
         //TODO error catch

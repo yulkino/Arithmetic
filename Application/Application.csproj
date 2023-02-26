@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -19,6 +19,10 @@
     <Folder Include="Mediators\UserMediator\Add\" />
     <Folder Include="ServiceContracts\Repositories\Read\GameReadRepositories\" />
     <Folder Include="ServiceContracts\Repositories\Write\GameWriteRepositories\" />
+    <Folder Include="Validators\GameValidators\" />
+    <Folder Include="Validators\StatisticValidators\" />
+    <Folder Include="Validators\ResolvedGameValidators\" />
+    <Folder Include="Validators\SettingsValidators\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,5 @@
-﻿using API.DTOs.SettingsDtos;
+﻿using API.DTOs.SettingsDtos.EditSettingsDtos;
+using API.DTOs.SettingsDtos.GetSettingsDtos;
 using Application.Mediators.DifficultyMediator;
 using Application.Mediators.OperationMediator;
 using Application.Mediators.SettingsMediator.Edit;
@@ -32,14 +33,14 @@ public sealed class SettingsController : ControllerBase
     }
 
     [HttpPut("User/{userId}/Settings")]
-    public async Task<ActionResult<SettingsDto>> EditUserSettings([FromRoute] Guid userId, [FromBody] SettingsDto settings, 
+    public async Task<ActionResult<SettingsDto>> EditUserSettings([FromRoute] Guid userId, [FromBody] EditSettingsDto settings, 
         CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(//TODO mapping
                 new EditSettingsCommand(
                     userId, 
-                    _mapper.Map<List<OperationDto>, List<OperationItemDto>>(settings.Operations), 
-                    _mapper.Map<DifficultyDto, DifficultyItemDto>(settings.Difficulty), 
+                    _mapper.Map<List<OperationIdDto>, List<OperationIdItemDto>>(settings.Operations), 
+                    _mapper.Map<DifficultyIdDto, DifficultyIdItemDto>(settings.Difficulty), 
                     settings.ExerciseCount),
                 cancellationToken);
         //TODO error catch
