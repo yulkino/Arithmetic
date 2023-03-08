@@ -4,5 +4,5 @@ namespace Application.ServiceContracts.Repositories.Write;
 
 public interface IUserWriteRepository : IWriteRepository<User>
 {
-    ValueTask<User?> AddUserAsync(string Login, string Password, string PasswordConfirmation, CancellationToken cancellationToken);
+    ValueTask<User> AddUserAsync(string Login, string Password, CancellationToken cancellationToken);
 }

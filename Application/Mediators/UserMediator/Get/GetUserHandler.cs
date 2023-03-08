@@ -1,22 +1,27 @@
-﻿using Application.Validators.UserValidators;
+﻿using Application.ServiceContracts.Repositories.Read;
 using Domain.Entity;
 using ErrorOr;
-using FluentValidation;
 using MediatR;
 
 namespace Application.Mediators.UserMediator.Get;
 
 public class GetUserHandler : IRequestHandler<GetUserQuery, ErrorOr<User>>
 {
-    private readonly IValidator<GetUserQuery> _validator;
+    private readonly IUserReadRepository _userReadRepository;
 
-    public GetUserHandler(IValidator<GetUserQuery> validator)
+    public GetUserHandler(IUserReadRepository userReadRepository)
     {
-        _validator = validator;
+        _userReadRepository = userReadRepository;
     }
 
-    public Task<ErrorOr<User>> Handle(GetUserQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<User>> Handle(GetUserQuery request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var (login, password) = request;
+
+        if (await _userReadRepository.GetUserByLoginAsync(login, cancellationToken) is null)
+            return ErrorOr<User>.From(new List<Error> { Error.NotFound("General.NotFound", "User is not exists.") });
+
+        var user = await _userReadRepository.LoginUserAsync(login, password, cancellationToken);
+        return user ?? ErrorOr<User>.From(new List<Error> { Error.Failure("General.Failure", "Failed login attempt.") });
     }
 }

@@ -17,6 +17,8 @@
     <Folder Include="Mediators\StatisticMediator\Get\" />
     <Folder Include="Mediators\UserMediator\Get\" />
     <Folder Include="Mediators\UserMediator\Add\" />
+    <Folder Include="Mapping\" />
+    <Folder Include="PipelineBehavior\" />
     <Folder Include="ServiceContracts\Repositories\Read\GameReadRepositories\" />
     <Folder Include="ServiceContracts\Repositories\Write\GameWriteRepositories\" />
     <Folder Include="Validators\GameValidators\" />
@@ -26,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="ErrorOr" Version="1.2.1" />
     <PackageReference Include="FluentValidation" Version="11.5.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.1" />

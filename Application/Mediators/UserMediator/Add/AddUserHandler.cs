@@ -1,22 +1,29 @@
-﻿using Application.Validators.UserValidators;
+﻿using Application.ServiceContracts.Repositories.Read;
+using Application.ServiceContracts.Repositories.Write;
 using Domain.Entity;
 using ErrorOr;
-using FluentValidation;
 using MediatR;
 
 namespace Application.Mediators.UserMediator.Add;
 
 public class AddUserHandler : IRequestHandler<AddUserCommand, ErrorOr<User>>
 {
-    private readonly IValidator<AddUserCommand> _validator;
+    private readonly IUserWriteRepository _userWriteRepository;
+    private readonly IUserReadRepository _userReadRepository;
 
-    public AddUserHandler(IValidator<AddUserCommand> validator)
+    public AddUserHandler(IUserWriteRepository userWriteRepository, IUserReadRepository userReadRepository)
     {
-        _validator = validator;
+        _userWriteRepository = userWriteRepository;
+        _userReadRepository = userReadRepository;
     }
 
-    public Task<ErrorOr<User>> Handle(AddUserCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<User>> Handle(AddUserCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var (login, password, passwordConfirmation) = request;
+
+        if(await _userReadRepository.GetUserByLoginAsync(login, cancellationToken) is not null)
+            return ErrorOr<User>.From(new List<Error> {Error.Conflict("General.Conflict", $"User with Login {login} already exists.")});
+
+        return await _userWriteRepository.AddUserAsync(login, password, cancellationToken);
     }
 }
