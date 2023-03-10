@@ -4,5 +4,5 @@ namespace Application.ServiceContracts.Repositories.Write;
 
 public interface ISettingWriteRepository : IWriteRepository<Settings>
 {
-    ValueTask<Settings?> EditSettingsAsync(Settings settings, CancellationToken cancellationToken);
+    ValueTask<Settings> UpdateSettingsAsync(Settings settings, CancellationToken cancellationToken);
 }

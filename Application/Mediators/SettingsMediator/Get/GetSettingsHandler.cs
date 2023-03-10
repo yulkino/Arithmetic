@@ -1,22 +1,32 @@
-﻿using Application.Validators.SettingsValidators;
+﻿using Application.ServiceContracts.Repositories.Read;
+using Application.ServiceContracts.Repositories.Read.SettingsReadRepositories;
 using Domain.Entity.SettingsEntities;
 using ErrorOr;
-using FluentValidation;
 using MediatR;
 
 namespace Application.Mediators.SettingsMediator.Get;
 
 public class GetSettingsHandler : IRequestHandler<GetSettingsQuery, ErrorOr<Settings>>
 {
-    private readonly IValidator<GetSettingsQuery> _validator;
+    private readonly ISettingsReadRepository _settingsReadRepository;
+    private readonly IUserReadRepository _userReadRepository;
 
-    public GetSettingsHandler(IValidator<GetSettingsQuery> validator)
+    public GetSettingsHandler(ISettingsReadRepository settingsReadRepository, IUserReadRepository userReadRepository)
     {
-        _validator = validator;
+        _settingsReadRepository = settingsReadRepository;
+        _userReadRepository = userReadRepository;
     }
 
-    public Task<ErrorOr<Settings>> Handle(GetSettingsQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Settings>> Handle(GetSettingsQuery request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var userId = request.UserId;
+
+        if (await _userReadRepository.GetUserByIdAsync(userId, cancellationToken) is null)
+            return Error.NotFound("General.NotFound", "User is not exists.");
+
+        var settings = await _settingsReadRepository.GetSettingsAsync(userId, cancellationToken);
+        if(settings is null)
+            return Error.NotFound("General.NotFound", "Settings for the user are not exist.");
+        return settings;
     }
 }

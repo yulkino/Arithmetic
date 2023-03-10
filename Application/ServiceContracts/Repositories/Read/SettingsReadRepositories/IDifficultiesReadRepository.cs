@@ -4,5 +4,6 @@ namespace Application.ServiceContracts.Repositories.Read.SettingsReadRepositorie
 
 public interface IDifficultiesReadRepository : IReadRepository<Difficulty>
 {
-    Task<List<Difficulty>> GetDifficultyListAsync(CancellationToken cancellationToken);
+    Task<List<Difficulty>> GetDifficultiesAsync(CancellationToken cancellationToken);
+    ValueTask<Difficulty?> GetDifficultyByIdAsync(Guid id, CancellationToken cancellationToken);
 }

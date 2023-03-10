@@ -22,7 +22,7 @@ public class AddUserHandler : IRequestHandler<AddUserCommand, ErrorOr<User>>
         var (login, password, passwordConfirmation) = request;
 
         if(await _userReadRepository.GetUserByLoginAsync(login, cancellationToken) is not null)
-            return ErrorOr<User>.From(new List<Error> {Error.Conflict("General.Conflict", $"User with Login {login} already exists.")});
+            return Error.Conflict("General.Conflict", $"User with Login {login} already exists.");
 
         return await _userWriteRepository.AddUserAsync(login, password, cancellationToken);
     }

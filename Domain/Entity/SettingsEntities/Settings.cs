@@ -3,9 +3,9 @@
 public class Settings : IEntity
 {
     public Guid Id { get; init; }
-    public Difficulty Difficulty { get; init; }
-    public HashSet<Operation> Operations { get; init; }
-    public int ExerciseCount { get; init; }
+    public Difficulty Difficulty { get; set; }
+    public HashSet<Operation> Operations { get; set; }
+    public int ExerciseCount { get; set; }
 
     public Settings(Difficulty difficulty, HashSet<Operation> operations, int exerciseCount)
     {
