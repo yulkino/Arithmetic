@@ -36,7 +36,7 @@ public sealed class SettingsController : ControllerBase
     public async Task<ActionResult<SettingsDto>> EditUserSettings([FromRoute] Guid userId, [FromBody] EditSettingsDto settings, 
         CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(//TODO mapping
+        var response = await _mediator.Send(
                 new EditSettingsCommand(
                     userId, 
                     _mapper.Map<List<OperationIdDto>, List<OperationIdItemDto>>(settings.Operations), 

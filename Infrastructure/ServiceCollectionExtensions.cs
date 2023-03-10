@@ -11,8 +11,8 @@ public static class ServiceCollectionExtensions
     public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         var databaseConnectionOptions = configuration
-            .GetSection(DatabaseConnectionOptions.SectionName)
-            .Get<DatabaseConnectionOptions>();
+            .GetRequiredSection(DatabaseConnectionOptions.SectionName)
+            .Get<DatabaseConnectionOptions>()!;
         services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(databaseConnectionOptions.ArithmeticDatabase));
         //TODO repositories DI
     }

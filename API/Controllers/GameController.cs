@@ -1,4 +1,5 @@
 ﻿using API.DTOs.GameDtos;
+using API.DTOs.ResolvedGameDtos;
 using Application.Mediators.GameMediator.Add;
 using Application.Mediators.GameMediator.GetExercise;
 using Application.Mediators.GameMediator.SaveExercise;
@@ -42,12 +43,12 @@ public sealed class GameController : ControllerBase
     }
 
     [HttpPost("User/{userId}/Game/{gameId}/Exercise/{exerciseId}")]
-    public async Task<ActionResult<ExerciseDto>> SaveAnswer([FromRoute] Guid userId, [FromRoute] Guid gameId, 
-        [FromQuery] double? answer, CancellationToken cancellationToken)
+    public async Task<ActionResult<ResolvedExerciseDto>> SaveAnswer([FromRoute] Guid userId, [FromRoute] Guid gameId, [FromRoute] Guid exerciseId,
+        [FromQuery] double answer, CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(new SaveExerciseCommand(userId, gameId, answer), cancellationToken);
+        var response = await _mediator.Send(new SaveExerciseCommand(userId, gameId, exerciseId, answer), cancellationToken);
         //TODO error catch
-        var result = _mapper.Map<Exercise, ExerciseDto>(response.Value);
+        var result = _mapper.Map<ResolvedExercise, ResolvedExerciseDto>(response.Value);
         return result;
     }
 }

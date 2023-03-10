@@ -4,5 +4,5 @@ namespace Application.ServiceContracts.Repositories.Write.ResolvedGameWriteRepos
 
 public interface IResolvedExerciseWriteRepository : IWriteRepository<ResolvedExercise>
 {
-    ValueTask<ResolvedExercise?> SaveResolvedExerciseAsync(double userAnswer, TimeSpan elapsedTime, Exercise exercise, CancellationToken cancellationToken);
+    ValueTask<ResolvedExercise> SaveResolvedExerciseAsync(ResolvedExercise resolvedExercise, CancellationToken cancellationToken);
 }

@@ -1,4 +1,5 @@
-﻿using Domain.Entity.SettingsEntities;
+﻿using System.Diagnostics;
+using Domain.Entity.SettingsEntities;
 
 namespace Domain.Entity.ExerciseEntities;
 
@@ -9,6 +10,7 @@ public  class Exercise : IEntity
     public double RightOperand { get; init; }
     public Operation Operation { get; init; }
     public double Answer { get; }
+    private DateTime _startTime; 
 
     public Exercise(double leftOperand, double rightOperand, Operation operation)
     {
@@ -17,9 +19,11 @@ public  class Exercise : IEntity
         RightOperand = rightOperand;
         Operation = operation;
 
+       _startTime = DateTime.Now;
+
         Answer = Operation.Act(leftOperand, rightOperand);
     }
 
-    public ResolvedExercise Resolve(double userAnswer, TimeSpan elapsedTime)
-        => new(userAnswer, elapsedTime, this);
+    public ResolvedExercise Resolve(double userAnswer)
+        => new(userAnswer, DateTime.Now - _startTime, this);
 }

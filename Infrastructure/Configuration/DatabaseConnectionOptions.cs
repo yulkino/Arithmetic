@@ -3,5 +3,5 @@
 public class DatabaseConnectionOptions
 {
     public const string SectionName = "ConnectionStrings";
-    public string ArithmeticDatabase { get; init; }
+    public string ArithmeticDatabase { get; set; } = string.Empty;
 }

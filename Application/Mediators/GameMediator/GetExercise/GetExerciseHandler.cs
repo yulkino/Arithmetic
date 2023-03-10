@@ -1,22 +1,37 @@
-﻿using Application.Validators.GameValidators;
+﻿using Application.ServiceContracts.Repositories.Read;
+using Application.ServiceContracts.Repositories.Read.GameReadRepositories;
+using Application.ServiceContracts.Repositories.Write.GameWriteRepositories;
 using Domain.Entity.ExerciseEntities;
 using ErrorOr;
-using FluentValidation;
 using MediatR;
 
 namespace Application.Mediators.GameMediator.GetExercise;
 
 public class GetExerciseHandler : IRequestHandler<GetExerciseQuery, ErrorOr<Exercise>>
 {
-    private readonly IValidator<GetExerciseQuery> _validator;
+    private readonly IGameReadRepository _gameReadRepository;
+    private readonly IUserReadRepository _userReadRepository;
+    private readonly IExerciseWriteRepository _exerciseWriteRepository;
 
-    public GetExerciseHandler(IValidator<GetExerciseQuery> validator)
+    public GetExerciseHandler(IGameReadRepository gameReadRepository, IUserReadRepository userReadRepository, IExerciseWriteRepository exerciseWriteRepository)
     {
-        _validator = validator;
+        _gameReadRepository = gameReadRepository;
+        _userReadRepository = userReadRepository;
+        _exerciseWriteRepository = exerciseWriteRepository;
     }
 
-    public Task<ErrorOr<Exercise>> Handle(GetExerciseQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<Exercise>> Handle(GetExerciseQuery request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var (userId, gameId) = request;
+
+        if (await _userReadRepository.GetUserByIdAsync(userId, cancellationToken) is null)
+            return Error.NotFound("General.NotFound", "User does not exist.");
+
+        var game = await _gameReadRepository.GetGameByIdAsync(gameId, userId, cancellationToken);
+        if (game is null)
+            return Error.NotFound("General.NotFound", "Game does not exist.");
+
+        var nextExercise = game.GiveNextExercise();
+        return await _exerciseWriteRepository.SaveNextExerciseAsync(userId, gameId, nextExercise, cancellationToken);
     }
 }

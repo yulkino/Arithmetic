@@ -19,7 +19,7 @@ public class GetUserHandler : IRequestHandler<GetUserQuery, ErrorOr<User>>
         var (login, password) = request;
 
         if (await _userReadRepository.GetUserByLoginAsync(login, cancellationToken) is null)
-            return Error.NotFound("General.NotFound", "User is not exists.");
+            return Error.NotFound("General.NotFound", "User does not exists.");
 
         var user = await _userReadRepository.LoginUserAsync(login, password, cancellationToken);
         if (user is null)

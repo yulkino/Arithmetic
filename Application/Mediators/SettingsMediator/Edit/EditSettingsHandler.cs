@@ -34,7 +34,7 @@ public class EditSettingsHandler : IRequestHandler<EditSettingsCommand, ErrorOr<
         var (userId, operations, difficulty, exerciseCount) = request;
 
         if (await _userReadRepository.GetUserByIdAsync(userId, cancellationToken) is null)
-            return Error.NotFound("General.NotFound", "User is not exists.");
+            return Error.NotFound("General.NotFound", "User does not exists.");
 
         var settings = await _settingsReadRepository.GetSettingsAsync(userId, cancellationToken);
         if(settings is null)
