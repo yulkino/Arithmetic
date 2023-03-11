@@ -1,5 +1,6 @@
 ﻿using Application.ServiceContracts.Repositories.Read;
 using Application.ServiceContracts.Repositories.Write.GameWriteRepositories;
+using Application.ServiceContracts.Repositories.Write.ResolvedGameWriteRepositories;
 using Domain.Entity.GameEntities;
 using ErrorOr;
 using MediatR;
@@ -10,11 +11,14 @@ public class AddGameHandler : IRequestHandler<AddGameCommand, ErrorOr<Game>>
 {
     private readonly IGameWriteRepository _gameWriteRepository;
     private readonly IUserReadRepository _userReadRepository;
+    private readonly IResolvedGameWriteRepository _resolvedGameWriteRepository;
 
-    public AddGameHandler(IGameWriteRepository gameWriteRepository, IUserReadRepository userReadRepository)
+    public AddGameHandler(IGameWriteRepository gameWriteRepository, IUserReadRepository userReadRepository,
+        IResolvedGameWriteRepository resolvedGameWriteRepository)
     {
         _gameWriteRepository = gameWriteRepository;
         _userReadRepository = userReadRepository;
+        _resolvedGameWriteRepository = resolvedGameWriteRepository;
     }
 
     public async Task<ErrorOr<Game>> Handle(AddGameCommand request, CancellationToken cancellationToken)
@@ -23,6 +27,9 @@ public class AddGameHandler : IRequestHandler<AddGameCommand, ErrorOr<Game>>
 
         if (await _userReadRepository.GetUserByIdAsync(userId, cancellationToken) is null)
             return Error.NotFound("General.NotFound", "User does not exist.");
-        return await _gameWriteRepository.CreateAsync(userId, cancellationToken);
+
+        var game = await _gameWriteRepository.CreateAsync(userId, cancellationToken);
+        await _resolvedGameWriteRepository.CreateResolvedGameAsync(game, cancellationToken);
+        return game;
     }
 }

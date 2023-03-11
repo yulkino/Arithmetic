@@ -4,7 +4,6 @@ using Application.ServiceContracts.Repositories.Write.GameWriteRepositories;
 using Application.ServiceContracts.Repositories.Write.ResolvedGameWriteRepositories;
 using Domain.Entity.ExerciseEntities;
 using ErrorOr;
-using FluentValidation;
 using MediatR;
 
 namespace Application.Mediators.GameMediator.SaveExercise;
@@ -14,16 +13,18 @@ public class SaveExerciseHandler : IRequestHandler<SaveExerciseCommand, ErrorOr<
     private readonly IExerciseReadRepository _exerciseReadRepository;
     private readonly IUserReadRepository _userReadRepository;
     private readonly IGameReadRepository _gameReadRepository;
-    private readonly IResolvedExerciseWriteRepository _resolvedExerciseWriteRepository;
+    private readonly IResolvedGameWriteRepository _resolvedGameWriteRepository;
+    private readonly IResolvedGameReadRepository _resolvedGameReadRepository;
 
     public SaveExerciseHandler(IExerciseReadRepository exerciseReadRepository, IExerciseWriteRepository exerciseWriteRepository,
-        IUserReadRepository userReadRepository, IGameReadRepository gameReadRepository, 
-        IResolvedExerciseWriteRepository resolvedExerciseWriteRepository)
+        IUserReadRepository userReadRepository, IGameReadRepository gameReadRepository, IResolvedGameWriteRepository resolvedGameWriteRepository,
+        IResolvedGameReadRepository resolvedGameReadRepository)
     {
         _exerciseReadRepository = exerciseReadRepository;
         _userReadRepository = userReadRepository;
         _gameReadRepository = gameReadRepository;
-        _resolvedExerciseWriteRepository = resolvedExerciseWriteRepository;
+        _resolvedGameWriteRepository = resolvedGameWriteRepository;
+        _resolvedGameReadRepository = resolvedGameReadRepository;
     }
 
     public async Task<ErrorOr<ResolvedExercise>> Handle(SaveExerciseCommand request, CancellationToken cancellationToken)
@@ -41,7 +42,13 @@ public class SaveExerciseHandler : IRequestHandler<SaveExerciseCommand, ErrorOr<
         if(exercise is null)
             return Error.NotFound("General.NotFound", "Exercise does not exist.");
 
+        var resolvedGame = await _resolvedGameReadRepository.GetResolvedGameAsync(userId, gameId, cancellationToken);
+
         var resolvedExercise = exercise.Resolve(answer);
-        return await _resolvedExerciseWriteRepository.SaveResolvedExerciseAsync(resolvedExercise, cancellationToken);
+        resolvedGame.ResolvedExercises.Add(resolvedExercise);
+
+        await _resolvedGameWriteRepository.UpdateResolvedGameAsync(resolvedGame, cancellationToken);
+
+        return resolvedExercise;
     }
 }

@@ -6,17 +6,27 @@ public class ResolvedGame : IEntity
 {
     public Guid Id { get; init; }
     public Game Game { get; init; }
-    public int CorrectAnswerCount { get; }
-    public TimeSpan ElapsedTime { get; init; }
-    public List<ResolvedExercise> ResolvedExercises { get; init; }
+    public int CorrectAnswerCount { get; private set; }
+    public TimeSpan ElapsedTime { get; private set; }
+    public List<ResolvedExercise> ResolvedExercises { get; set; } = new List<ResolvedExercise>();
 
-    public ResolvedGame(Game game, TimeSpan elapsedTime, List<ResolvedExercise> resolvedExercises)
+    public ResolvedGame(Game game)
     {
         Id = Guid.NewGuid();
         Game = game;
+    }
+
+    public ResolvedGame ProcessGameResult()
+    {
+        var elapsedTime = new TimeSpan();
+        ResolvedExercises.ForEach(r =>
+        {
+            elapsedTime += r.ElapsedTime;
+        });
         ElapsedTime = elapsedTime;
-        ResolvedExercises = resolvedExercises;
 
         CorrectAnswerCount = ResolvedExercises.Count(r => r.IsCorrect);
+
+        return this;
     }
 }
