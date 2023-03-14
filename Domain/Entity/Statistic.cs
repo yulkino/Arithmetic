@@ -8,9 +8,9 @@ public class Statistic : IEntity
 {
     public Guid Id { get; }
     public User User { get; }
-    public List<GameStatistic> GameStatisticList { get; }
-    public Diagram<OperationsStatistic, Operation, double> OperationsStatisticList { get; }
-    public Diagram<ExerciseProgressStatistic, DateTime, double> ExerciseProgressStatisticList { get; }
+    public List<GameStatistic>? GameStatisticList { get; set; }
+    public Diagram<OperationsStatistic, Operation, TimeOnly>? OperationsStatisticList { get; set; }
+    public Diagram<ExerciseProgressStatistic, DateTime, TimeOnly>? ExerciseProgressStatisticList { get; set; }
     public List<ResolvedGame> ResolvedGame { get; }
 
     public Statistic(User user, List<ResolvedGame> resolvedResolvedGame)
@@ -18,8 +18,5 @@ public class Statistic : IEntity
         Id = Guid.NewGuid();
         User = user;
         ResolvedGame = resolvedResolvedGame;
-        GameStatisticList = new List<GameStatistic>();
-        OperationsStatisticList = new Diagram<OperationsStatistic, Operation, double>();
-        ExerciseProgressStatisticList = new Diagram<ExerciseProgressStatistic, DateTime, double>();
     }
 }

@@ -2,4 +2,4 @@
 
 public sealed record ExerciseProgressStatisticDto(
     DateTime ExercisesResolveDate,
-    double ExercisesResolveAverageDuration);
+    TimeOnly ExercisesResolveAverageDuration);

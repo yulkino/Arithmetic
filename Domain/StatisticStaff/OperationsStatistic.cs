@@ -7,4 +7,4 @@ namespace Domain.StatisticStaff;
 /// </summary>
 /// <param name="X">Exercises operation</param>
 /// <param name="Y">Exercises resolve average duration with exercises that use an operation <seealso cref="X"/></param>
-public sealed record OperationsStatistic(Operation X, double Y) : IStatisticElement<Operation, double>;
+public sealed record OperationsStatistic(Operation X, TimeOnly Y) : IStatisticElement<Operation, TimeOnly>;

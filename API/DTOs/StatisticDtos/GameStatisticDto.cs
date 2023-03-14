@@ -6,5 +6,5 @@ public sealed record GameStatisticDto(
     Guid Id,
     DateTime GameDate,
     int ExerciseCount,
-    double GameDuration,
+    TimeOnly GameDuration,
     double CorrectAnswersPercentage) : GameDto(Id);
