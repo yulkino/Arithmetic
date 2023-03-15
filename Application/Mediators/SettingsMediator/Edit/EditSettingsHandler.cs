@@ -34,19 +34,19 @@ public class EditSettingsHandler : IRequestHandler<EditSettingsCommand, ErrorOr<
         var (userId, operations, difficulty, exerciseCount) = request;
 
         if (await _userReadRepository.GetUserByIdAsync(userId, cancellationToken) is null)
-            return Error.NotFound("General.NotFound", "User does not exists.");
+            return Error.NotFound("User.NotFound", "User does not exists.");
 
         var settings = await _settingsReadRepository.GetSettingsAsync(userId, cancellationToken);
-        if(settings is null)
-            return Error.NotFound("General.NotFound", "User settings do not exist.");
+        if (settings is null)
+            return Error.NotFound("Settings.NotFound", "User settings do not exist.");
 
         var settingsOperations = await _operationsReadRepository.GetOperationsByIdsAsync(_mapper.Map<List<Guid>>(operations), cancellationToken);
-        if(settingsOperations.Count is 0)
-            return Error.NotFound("General.NotFound", "One or more operations do not exist.");
+        if (settingsOperations.Count is 0)
+            return Error.NotFound("Operations.NotFound", "One or more operations do not exist.");
 
         var settingsDifficulty = await _difficultiesReadRepository.GetDifficultyByIdAsync(_mapper.Map<Guid>(difficulty), cancellationToken);
-        if(settingsDifficulty is null)
-            return Error.NotFound("General.NotFound", "Difficulty does not exist.");
+        if (settingsDifficulty is null)
+            return Error.NotFound("Difficulty.NotFound", "Difficulty does not exist.");
 
         settings.Operations = settingsOperations;
         settings.Difficulty = settingsDifficulty;

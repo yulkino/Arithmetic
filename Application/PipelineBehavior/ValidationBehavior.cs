@@ -1,6 +1,5 @@
 ﻿using Application.Mediators;
 using AutoMapper;
-using Domain.Entity;
 using ErrorOr;
 using FluentValidation;
 using MediatR;
@@ -24,7 +23,7 @@ public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<
         var context = new ValidationContext<TRequest>(request);
         var validationResult = await _validator.ValidateAsync(context, cancellationToken);
 
-        if (validationResult.IsValid) 
+        if (validationResult.IsValid)
             return await next();
 
         return ErrorOr<TResponse>.From(_mapper.Map<List<Error>>(validationResult.Errors));

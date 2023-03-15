@@ -14,6 +14,6 @@ public class GetDifficultiesHandler : IRequestHandler<GetDifficultiesQuery, Erro
         _difficultiesReadRepository = difficultiesReadRepository;
     }
 
-    public async Task<ErrorOr<List<Difficulty>>> Handle(GetDifficultiesQuery request, CancellationToken cancellationToken) 
+    public async Task<ErrorOr<List<Difficulty>>> Handle(GetDifficultiesQuery request, CancellationToken cancellationToken)
         => await _difficultiesReadRepository.GetDifficultiesAsync(cancellationToken);
 }

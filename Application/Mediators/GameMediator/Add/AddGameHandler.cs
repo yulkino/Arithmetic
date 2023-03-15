@@ -26,7 +26,7 @@ public class AddGameHandler : IRequestHandler<AddGameCommand, ErrorOr<Game>>
         var userId = request.UserId;
 
         if (await _userReadRepository.GetUserByIdAsync(userId, cancellationToken) is null)
-            return Error.NotFound("General.NotFound", "User does not exist.");
+            return Error.NotFound("User.NotFound", "User does not exist.");
 
         var game = await _gameWriteRepository.CreateAsync(userId, cancellationToken);
         await _resolvedGameWriteRepository.CreateResolvedGameAsync(game, cancellationToken);

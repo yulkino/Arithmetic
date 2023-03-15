@@ -25,11 +25,11 @@ public class GetExerciseHandler : IRequestHandler<GetExerciseQuery, ErrorOr<Exer
         var (userId, gameId) = request;
 
         if (await _userReadRepository.GetUserByIdAsync(userId, cancellationToken) is null)
-            return Error.NotFound("General.NotFound", "User does not exist.");
+            return Error.NotFound("User.NotFound", "User does not exist.");
 
         var game = await _gameReadRepository.GetGameByIdAsync(gameId, userId, cancellationToken);
         if (game is null)
-            return Error.NotFound("General.NotFound", "Game does not exist.");
+            return Error.NotFound("Game.NotFound", "Game does not exist.");
 
         var nextExercise = game.GiveNextExercise();
         return await _exerciseWriteRepository.SaveNextExerciseAsync(userId, gameId, nextExercise, cancellationToken);

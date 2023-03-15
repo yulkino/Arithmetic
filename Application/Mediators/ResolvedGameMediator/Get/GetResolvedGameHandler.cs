@@ -1,11 +1,8 @@
-﻿using Application.Mediators.SettingsMediator.Edit;
-using Application.ServiceContracts.Repositories.Read;
+﻿using Application.ServiceContracts.Repositories.Read;
 using Application.ServiceContracts.Repositories.Read.GameReadRepositories;
 using Application.ServiceContracts.Repositories.Write.ResolvedGameWriteRepositories;
-using Application.Validators.ResolvedGameValidators;
 using Domain.Entity.GameEntities;
 using ErrorOr;
-using FluentValidation;
 using MediatR;
 
 namespace Application.Mediators.ResolvedGameMediator.Get;
@@ -31,11 +28,11 @@ public class GetResolvedGameHandler : IRequestHandler<GetResolvedGameQuery, Erro
         var (userId, gameId) = request;
 
         if (await _userReadRepository.GetUserByIdAsync(userId, cancellationToken) is null)
-            return Error.NotFound("General.NotFound", "User does not exist.");
+            return Error.NotFound("User.NotFound", "User does not exist.");
 
         var game = await _gameReadRepository.GetGameByIdAsync(gameId, userId, cancellationToken);
         if (game is null)
-            return Error.NotFound("General.NotFound", "Game does not exist.");
+            return Error.NotFound("Game.NotFound", "Game does not exist.");
 
         var resolvedGame = await _resolvedGameReadRepository.GetResolvedGameAsync(userId, gameId, cancellationToken);
         resolvedGame.ProcessGameResult();
