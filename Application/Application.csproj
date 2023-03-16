@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Services\StatisticServices\2amanoab.vo1~" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Mediators\GameMediator\Add\" />
     <Folder Include="Mediators\GameMediator\GetExercise\" />
     <Folder Include="Mediators\GameMediator\SaveExercise\" />

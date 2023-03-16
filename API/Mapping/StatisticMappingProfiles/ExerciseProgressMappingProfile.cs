@@ -10,6 +10,6 @@ public class ExerciseProgressMappingProfile : Profile
     {
         CreateMap<ExerciseProgressStatistic, ExerciseProgressStatisticDto>()
             .ForMember(dto => dto.ExercisesResolveDate, o => o.MapFrom(eps => eps.X))
-            .ForMember(dto => dto.ExercisesResolveAverageDuration, o => o.MapFrom(eps => eps.Y));
+            .ForMember(dto => dto.ExercisesResolveAverageDuration, o => o.MapFrom(eps => TimeOnly.FromTimeSpan(eps.Y)));
     }
 }

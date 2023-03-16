@@ -6,4 +6,5 @@ namespace Application.Services.StatisticServices;
 public interface IStatisticCollector
 {
     Statistic CollectStatistics(User user, List<ResolvedGame> resolvedGames);
+    Statistic UpdateStatistics(User user, List<ResolvedGame> resolvedGames, Statistic userStatistic);
 }

@@ -1,4 +1,5 @@
-﻿using Domain.Entity.GameEntities;
+﻿using Domain.Entity;
+using Domain.Entity.GameEntities;
 using Domain.StatisticStaff;
 
 namespace Application.Services.StatisticServices;
@@ -24,5 +25,12 @@ public class GameStatisticCalculator : IStatisticCalculator<List<GameStatistic>>
                 });
         });
         return gameStatistics;
+    }
+
+    public List<GameStatistic> UpdateCalculations(List<ResolvedGame> newResolvedGames, List<GameStatistic> gameStatistic)
+    {
+        var newGameStatistic = Calculate(newResolvedGames);
+        gameStatistic.AddRange(newGameStatistic);
+        return gameStatistic;
     }
 }

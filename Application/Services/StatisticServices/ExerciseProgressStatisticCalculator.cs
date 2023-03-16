@@ -3,11 +3,11 @@ using Domain.StatisticStaff;
 
 namespace Application.Services.StatisticServices;
 
-public class ExerciseProgressStatisticCalculator : IStatisticCalculator<Diagram<ExerciseProgressStatistic, DateTime, TimeOnly>>
+public class ExerciseProgressStatisticCalculator : IStatisticCalculator<Diagram<ExerciseProgressStatistic, DateTime, TimeSpan>>
 {
-    public Diagram<ExerciseProgressStatistic, DateTime, TimeOnly> Calculate(List<ResolvedGame> resolvedGames)
+    public Diagram<ExerciseProgressStatistic, DateTime, TimeSpan> Calculate(List<ResolvedGame> resolvedGames)
     {
-        var exerciseProgressStatistic = new Diagram<ExerciseProgressStatistic, DateTime, TimeOnly>();
+        var exerciseProgressStatistic = new Diagram<ExerciseProgressStatistic, DateTime, TimeSpan>();
         var resolvedGameDate = resolvedGames
             .Select(g => g.Game.Date.Date)
             .Distinct()
@@ -20,10 +20,19 @@ public class ExerciseProgressStatisticCalculator : IStatisticCalculator<Diagram<
                 .SelectMany(e => e.ResolvedExercises)
                 .ToList();
 
-            var averageTimeElapsed = resolvedExercises.CalculateAverageTimeSpanFromResolvedExercises();
+            var averageTimeElapsed = resolvedExercises.CalculateAverageTimeSpan();
 
-            exerciseProgressStatistic.AddNode(new ExerciseProgressStatistic(dateTime, TimeOnly.FromTimeSpan(averageTimeElapsed)));
+            exerciseProgressStatistic.AddNode(new ExerciseProgressStatistic(
+                dateTime, 
+                averageTimeElapsed, 
+                resolvedExercises.Count));
         }
         return exerciseProgressStatistic;
+    }
+
+    public Diagram<ExerciseProgressStatistic, DateTime, TimeSpan> UpdateCalculations(List<ResolvedGame> newResolvedGames, 
+        Diagram<ExerciseProgressStatistic, DateTime, TimeSpan> exerciseProgressStatistic)
+    {
+        throw new NotImplementedException();
     }
 }

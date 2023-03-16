@@ -5,4 +5,4 @@
 /// </summary>
 /// <param name="X">Exercises resolve date</param>
 /// <param name="Y">Exercises resolve average duration on date <seealso cref="X"/></param>
-public sealed record ExerciseProgressStatistic(DateTime X, TimeOnly Y) : IStatisticElement<DateTime, TimeOnly>;
+public sealed record ExerciseProgressStatistic(DateTime X, TimeSpan Y, int ResolvedExercisesCount) : IStatisticElement<DateTime, TimeSpan>;

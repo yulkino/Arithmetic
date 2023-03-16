@@ -42,14 +42,6 @@ public class GetStatisticHandler : IRequestHandler<GetStatisticQuery, ErrorOr<St
         if (userStatistic is null)
             return await _statisticWriteRepository.CreateUserStatistic(_statisticCollector.CollectStatistics(user, userResolvedGames), cancellationToken);
 
-        var doNotNeedToUpdate = userStatistic.ResolvedGame
-            .OrderBy(g => g.Id)
-            .SequenceEqual(userResolvedGames
-                .OrderBy(g => g.Id));
-        if (doNotNeedToUpdate)
-            return userStatistic;
-
-        //TODO implement really update statistic
-        return await _statisticWriteRepository.UpdateUserStatistic(_statisticCollector.CollectStatistics(user, userResolvedGames), userStatistic, cancellationToken);
+        return await _statisticWriteRepository.UpdateUserStatistic(_statisticCollector.UpdateStatistics(user, userResolvedGames, userStatistic), cancellationToken);
     }
 }
