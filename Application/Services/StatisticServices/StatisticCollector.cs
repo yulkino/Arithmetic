@@ -39,6 +39,8 @@ public class StatisticCollector : IStatisticCollector
             newResolvedGames, userStatistic.GameStatisticList!);
         userStatistic.OperationsStatisticList = _operationStatisticCalculator.UpdateCalculations(
             newResolvedGames, userStatistic.OperationsStatisticList!);
+        userStatistic.ExerciseProgressStatisticList = _exerciseProgressStatisticsCalculator.UpdateCalculations(
+            newResolvedGames, userStatistic.ExerciseProgressStatisticList!);
 
         return userStatistic;
     }
