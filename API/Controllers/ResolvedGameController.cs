@@ -20,7 +20,7 @@ public sealed class ResolvedGameController : ControllerBase
     }
 
     [HttpGet("User/{userId}/Game/{gameId}/Result")]
-    public async Task<ActionResult<ResolvedGameDto>> GetGameResult([FromRoute] Guid userId, [FromRoute] Guid gameId, 
+    public async Task<ActionResult<ResolvedGameDto>> GetGameResult([FromRoute] Guid userId, [FromRoute] Guid gameId,
         CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(new GetResolvedGameQuery(userId, gameId), cancellationToken);

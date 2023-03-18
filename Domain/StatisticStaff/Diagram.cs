@@ -6,7 +6,14 @@ public class Diagram<TElement, TX, TY> : IEnumerable<TElement>
     where TElement : IStatisticElement<TX, TY>
 {
     public IReadOnlyCollection<TElement> Elements => _elements.AsReadOnly();
-    private readonly List<TElement> _elements = new();
+    private List<TElement> _elements = new();
+
+    public Diagram() { }
+
+    internal Diagram(IEnumerable<TElement> elements)
+    {
+        _elements = elements.ToList();
+    }
 
     public void AddNode(TElement element)
     {
@@ -22,4 +29,11 @@ public class Diagram<TElement, TX, TY> : IEnumerable<TElement>
     {
         return GetEnumerator();
     }
+}
+
+public static class EnumerableExtensions
+{
+    public static Diagram<TElement, TX, TY> ToDiagram<TElement, TX, TY>(this IEnumerable<TElement> elements)
+        where TElement : IStatisticElement<TX, TY>
+        => new(elements);
 }

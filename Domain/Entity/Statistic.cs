@@ -1,6 +1,6 @@
 ﻿using Domain.Entity.GameEntities;
-using Domain.StatisticStaff;
 using Domain.Entity.SettingsEntities;
+using Domain.StatisticStaff;
 
 namespace Domain.Entity;
 

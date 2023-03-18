@@ -2,7 +2,6 @@
 using Domain.Entity.GameEntities;
 using Domain.Entity.SettingsEntities;
 using Domain.StatisticStaff;
-using System.Linq;
 
 namespace Application.Services.StatisticServices;
 
@@ -24,13 +23,13 @@ public class StatisticCollector : IStatisticCollector
     public Statistic CollectStatistics(User user, List<ResolvedGame> resolvedGames)
         => new(user, resolvedGames)
         {
-            GameStatisticList = _gameStatisticCalculator.Calculate(resolvedGames), 
+            GameStatisticList = _gameStatisticCalculator.Calculate(resolvedGames),
             OperationsStatisticList = _operationStatisticCalculator.Calculate(resolvedGames),
             ExerciseProgressStatisticList = _exerciseProgressStatisticsCalculator.Calculate(resolvedGames)
         };
 
     public Statistic UpdateStatistics(User user, List<ResolvedGame> resolvedGames, Statistic userStatistic)
-    { 
+    {
         var newResolvedGames = resolvedGames.Except(userStatistic.ResolvedGame).ToList();
 
         if (!newResolvedGames.Any())

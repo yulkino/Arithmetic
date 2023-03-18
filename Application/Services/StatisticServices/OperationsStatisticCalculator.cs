@@ -1,5 +1,4 @@
-﻿using Domain.Entity;
-using Domain.Entity.ExerciseEntities;
+﻿using Domain.Entity.ExerciseEntities;
 using Domain.Entity.GameEntities;
 using Domain.Entity.SettingsEntities;
 using Domain.StatisticStaff;
@@ -42,12 +41,17 @@ public class OperationsStatisticCalculator : IStatisticCalculator<Diagram<Operat
         foreach (var operationStatistic in operationsStatistic)
         {
             var newOperationStatistic = newOperationsStatistic.First(s => s.X == operationStatistic.X);
-
-            var newAverageTimeSpan = operationStatistic.RecalculateAverageTimeSpanWith(newOperationStatistic);
-            updatedStatistic.AddNode(new OperationsStatistic(
-                operationStatistic.X, 
-                newAverageTimeSpan, 
-                operationStatistic.ResolvedExercisesCount + newOperationStatistic.ResolvedExercisesCount));
+            if (newOperationStatistic.ElementCountStatistic > 0 && newOperationStatistic.Y > TimeSpan.Zero)
+            {
+                var newAverageTimeSpan = operationStatistic
+                    .RecalculateAverageTimeSpanWith<OperationsStatistic, Operation, TimeSpan>(newOperationStatistic);
+                updatedStatistic.AddNode(new OperationsStatistic(
+                    operationStatistic.X,
+                    newAverageTimeSpan,
+                    operationStatistic.ElementCountStatistic + newOperationStatistic.ElementCountStatistic));
+            }
+            else
+                updatedStatistic.AddNode(operationStatistic);
         }
         return updatedStatistic;
     }

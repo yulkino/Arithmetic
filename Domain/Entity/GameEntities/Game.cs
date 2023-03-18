@@ -24,13 +24,13 @@ public class Game : IEntity, IEquatable<Game>
     public Exercise GiveNextExercise()
     {
         var operation = Settings.Operations.PickRandom();
-        var max = (int) Math.Pow(10, Settings.Difficulty.MaxDigitCount);
+        var max = (int)Math.Pow(10, Settings.Difficulty.MaxDigitCount);
         var first = Pick(max);
         var second = Pick(max);
 
         return new(first, second, operation);
-        
-        int Pick(int value) 
+
+        int Pick(int value)
             => Random.Shared.Next(-value + 1, value);
     }
 

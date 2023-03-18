@@ -1,5 +1,4 @@
 ﻿using API.DTOs.SettingsDtos.EditSettingsDtos;
-using API.DTOs.SettingsDtos.GetSettingsDtos;
 using Application.Mediators.SettingsMediator.Edit;
 using AutoMapper;
 

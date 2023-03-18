@@ -7,4 +7,5 @@ namespace Domain.StatisticStaff;
 /// </summary>
 /// <param name="X">Exercises operation</param>
 /// <param name="Y">Exercises resolve average duration with exercises that use an operation <seealso cref="X"/></param>
-public sealed record OperationsStatistic(Operation X, TimeSpan Y, int ResolvedExercisesCount) : IStatisticElement<Operation, TimeSpan>;
+/// <param name="ElementCountStatistic">The number of elements that participated in the calculation of this node/></param>
+public sealed record OperationsStatistic(Operation X, TimeSpan Y, int ElementCountStatistic) : IStatisticElement<Operation, TimeSpan>;

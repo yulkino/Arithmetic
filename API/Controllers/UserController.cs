@@ -34,7 +34,7 @@ public sealed class UserController : ControllerBase
     public async Task<ActionResult<UserDto>> Register([FromBody] RegisterDto registerData, CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(
-            new AddUserCommand(registerData.Login, registerData.Password, registerData.PasswordConfirmation), 
+            new AddUserCommand(registerData.Login, registerData.Password, registerData.PasswordConfirmation),
             cancellationToken);
         //TODO error catch
         var result = _mapper.Map<User, UserDto>(response.Value);

@@ -33,7 +33,7 @@ public sealed class GameController : ControllerBase
     }
 
     [HttpGet("User/{userId}/Game/{gameId}")]
-    public async Task<ActionResult<ExerciseDto>> GetNextExercise([FromRoute] Guid userId, [FromRoute] Guid gameId, 
+    public async Task<ActionResult<ExerciseDto>> GetNextExercise([FromRoute] Guid userId, [FromRoute] Guid gameId,
         CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(new GetExerciseQuery(userId, gameId), cancellationToken);

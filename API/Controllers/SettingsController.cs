@@ -33,14 +33,14 @@ public sealed class SettingsController : ControllerBase
     }
 
     [HttpPut("User/{userId}/Settings")]
-    public async Task<ActionResult<SettingsDto>> EditUserSettings([FromRoute] Guid userId, [FromBody] EditSettingsDto settings, 
+    public async Task<ActionResult<SettingsDto>> EditUserSettings([FromRoute] Guid userId, [FromBody] EditSettingsDto settings,
         CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(
                 new EditSettingsCommand(
-                    userId, 
-                    _mapper.Map<List<OperationIdDto>, List<OperationIdItemDto>>(settings.Operations), 
-                    _mapper.Map<DifficultyIdDto, DifficultyIdItemDto>(settings.Difficulty), 
+                    userId,
+                    _mapper.Map<List<OperationIdDto>, List<OperationIdItemDto>>(settings.Operations),
+                    _mapper.Map<DifficultyIdDto, DifficultyIdItemDto>(settings.Difficulty),
                     settings.ExerciseCount),
                 cancellationToken);
         //TODO error catch

@@ -1,7 +1,6 @@
 ﻿using API.DTOs.StatisticDtos;
 using AutoMapper;
 using Domain.StatisticStaff;
-using Domain.Entity.SettingsEntities;
 
 namespace API.Mapping.StatisticMappingProfiles;
 

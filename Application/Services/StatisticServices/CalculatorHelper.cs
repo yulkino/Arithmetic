@@ -1,5 +1,4 @@
 ﻿using Domain.Entity.ExerciseEntities;
-using Domain.Entity.SettingsEntities;
 using Domain.StatisticStaff;
 
 namespace Application.Services.StatisticServices;
@@ -21,21 +20,16 @@ public static class CalculatorHelper
         return averageTimeElapsed;
     }
 
-    public static TimeSpan RecalculateAverageTimeSpanWith(this OperationsStatistic operationsStatistics, 
-        OperationsStatistic newOperationsStatistics)
+    public static TimeSpan RecalculateAverageTimeSpanWith<TElement, TX, TY>(
+        this TElement statisticsElement, TElement newStatisticsElement)
+        where TElement : IStatisticElement<TX, TimeSpan>
     {
-        TimeSpan averageTimeElapsed;
+        var totalStatisticsTimeElapsed = statisticsElement.Y * statisticsElement.ElementCountStatistic;
+        var totalNewStatisticsTimeElapsed = newStatisticsElement.Y * newStatisticsElement.ElementCountStatistic;
 
-        var totalOperationsStatisticsTimeElapsed = operationsStatistics.Y * operationsStatistics.ResolvedExercisesCount;
-        var totalNewOperationsStatisticsTimeElapsed = newOperationsStatistics.Y * newOperationsStatistics.ResolvedExercisesCount;
-
-        var totalTimeElapsed = totalOperationsStatisticsTimeElapsed + totalNewOperationsStatisticsTimeElapsed;
-        var totalResolvedExercisesCount = operationsStatistics.ResolvedExercisesCount + newOperationsStatistics.ResolvedExercisesCount;
-
-        if (newOperationsStatistics.ResolvedExercisesCount > 0 && newOperationsStatistics.Y > TimeSpan.Zero)
-            averageTimeElapsed = totalTimeElapsed / totalResolvedExercisesCount;
-        else
-            averageTimeElapsed = operationsStatistics.Y;
+        var totalTimeElapsed = totalStatisticsTimeElapsed + totalNewStatisticsTimeElapsed;
+        var totalResolvedExercisesCount = statisticsElement.ElementCountStatistic + newStatisticsElement.ElementCountStatistic;
+        var averageTimeElapsed = totalTimeElapsed / totalResolvedExercisesCount;
 
         return averageTimeElapsed;
     }
