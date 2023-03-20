@@ -45,36 +45,47 @@ public class ExerciseProgressStatisticCalculator : IStatisticCalculator<Diagram<
             .Select(e => e.X.Date)
             .ToList()
             .Contains(earliestResolvedGameDate);
-        if (containsIntersectingDate)
-        {
-            var oldStatisticOfIntersectingDate =
-                exerciseProgressStatistic.First(e => e.X.Date == earliestResolvedGameDate);
-            var newStatisticOfIntersectingDate =
-                newExerciseProgressStatistic.First(e => e.X.Date == earliestResolvedGameDate);
 
-            var newAverageTimeSpan = oldStatisticOfIntersectingDate
-                .RecalculateAverageTimeSpanWith<ExerciseProgressStatistic, DateTime, TimeSpan>(
-                    newStatisticOfIntersectingDate);
-            var newStatisticElement = new ExerciseProgressStatistic(
-                oldStatisticOfIntersectingDate.X,
-                newAverageTimeSpan,
-                oldStatisticOfIntersectingDate.ElementCountStatistic +
-                newStatisticOfIntersectingDate.ElementCountStatistic);
+        if (!containsIntersectingDate)
+            return exerciseProgressStatistic
+                .Concat(newExerciseProgressStatistic)
+                .ToDiagram<ExerciseProgressStatistic, DateTime, TimeSpan>();
 
-            var oldStatisticList = exerciseProgressStatistic.ToList();
+        return UpdateStatisticIncludingIntersectingDate(
+            exerciseProgressStatistic,
+            newExerciseProgressStatistic,
+            earliestResolvedGameDate);
+    }
 
-            oldStatisticList.Remove(oldStatisticOfIntersectingDate);
+    private Diagram<ExerciseProgressStatistic, DateTime, TimeSpan> UpdateStatisticIncludingIntersectingDate(
+        Diagram<ExerciseProgressStatistic, DateTime, TimeSpan> exerciseProgressStatistic,
+        Diagram<ExerciseProgressStatistic, DateTime, TimeSpan> newExerciseProgressStatistic,
+        DateTime earliestResolvedGameDate)
+    {
+        var oldStatisticOfIntersectingDate =
+            exerciseProgressStatistic.First(e => e.X.Date == earliestResolvedGameDate);
+        var newStatisticOfIntersectingDate =
+            newExerciseProgressStatistic.First(e => e.X.Date == earliestResolvedGameDate);
 
-            var newStatistic = newExerciseProgressStatistic.ToList();
-            newStatistic.Remove(newStatisticOfIntersectingDate);
+        var newAverageTimeSpan = oldStatisticOfIntersectingDate
+            .RecalculateAverageTimeSpanWith<ExerciseProgressStatistic, DateTime, TimeSpan>(
+                newStatisticOfIntersectingDate);
+        var newStatisticElement = new ExerciseProgressStatistic(
+            oldStatisticOfIntersectingDate.X,
+            newAverageTimeSpan,
+            oldStatisticOfIntersectingDate.ElementCountStatistic +
+            newStatisticOfIntersectingDate.ElementCountStatistic);
 
-            oldStatisticList.Add(newStatisticElement);
-            oldStatisticList.AddRange(newStatistic);
+        var oldStatisticList = exerciseProgressStatistic.ToList();
 
-            return oldStatisticList.ToDiagram<ExerciseProgressStatistic, DateTime, TimeSpan>();
-        }
-        return exerciseProgressStatistic
-            .Concat(newExerciseProgressStatistic)
-            .ToDiagram<ExerciseProgressStatistic, DateTime, TimeSpan>();
+        oldStatisticList.Remove(oldStatisticOfIntersectingDate);
+
+        var newStatistic = newExerciseProgressStatistic.ToList();
+        newStatistic.Remove(newStatisticOfIntersectingDate);
+
+        oldStatisticList.Add(newStatisticElement);
+        oldStatisticList.AddRange(newStatistic);
+
+        return oldStatisticList.ToDiagram<ExerciseProgressStatistic, DateTime, TimeSpan>();
     }
 }
