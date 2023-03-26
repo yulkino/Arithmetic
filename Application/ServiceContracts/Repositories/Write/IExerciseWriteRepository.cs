@@ -1,6 +1,6 @@
 ﻿using Domain.Entity.ExerciseEntities;
 
-namespace Application.ServiceContracts.Repositories.Write.GameWriteRepositories;
+namespace Application.ServiceContracts.Repositories.Write;
 
 public interface IExerciseWriteRepository : IWriteRepository<Exercise>
 {

@@ -4,18 +4,19 @@ namespace Domain.Entity.GameEntities;
 
 public class ResolvedGame : IEntity, IEquatable<ResolvedGame>
 {
-    public Guid Id { get; init; }
-    public Game Game { get; init; }
+    public Guid Id { get; }
+    public Game Game { get; }
     public int CorrectAnswerCount { get; private set; }
     public TimeSpan ElapsedTime { get; private set; }
-    public List<ResolvedExercise> ResolvedExercises { get; set; }
+    public List<ResolvedExercise> ResolvedExercises { get; } = new();
 
     public ResolvedGame(Game game)
     {
         Id = Guid.NewGuid();
         Game = game;
-        ResolvedExercises = new List<ResolvedExercise>();
     }
+
+    private ResolvedGame() {}
 
     public ResolvedGame ProcessGameResult()
     {

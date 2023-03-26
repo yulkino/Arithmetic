@@ -1,6 +1,5 @@
 ﻿using Application.ServiceContracts.Repositories.Read;
-using Application.ServiceContracts.Repositories.Read.GameReadRepositories;
-using Application.ServiceContracts.Repositories.Write.GameWriteRepositories;
+using Application.ServiceContracts.Repositories.Write;
 using Domain.Entity.ExerciseEntities;
 using ErrorOr;
 using MediatR;

@@ -1,5 +1,10 @@
-﻿using Infrastructure.Configuration;
+﻿using Application.ServiceContracts.Repositories.Read;
+using Application.ServiceContracts.Repositories.Read.SettingsReadRepositories;
+using Application.ServiceContracts.Repositories.Write;
+using Infrastructure.Configuration;
 using Infrastructure.Data;
+using Infrastructure.Repositories;
+using Infrastructure.Repositories.SettingsRepositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +19,26 @@ public static class ServiceCollectionExtensions
             .GetRequiredSection(DatabaseConnectionOptions.SectionName)
             .Get<DatabaseConnectionOptions>()!;
         services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(databaseConnectionOptions.ArithmeticDatabase));
-        //TODO repositories DI
+
+        services.AddScoped<IUserReadRepository, UserRepository>();
+        services.AddScoped<IUserWriteRepository, UserRepository>();
+
+        services.AddScoped<IStatisticReadRepository, StatisticRepository>();
+        services.AddScoped<IStatisticWriteRepository, StatisticRepository>();
+
+        services.AddScoped<IGameReadRepository, GameRepository>();
+        services.AddScoped<IGameWriteRepository, GameRepository>();
+
+        services.AddScoped<IResolvedGameReadRepository, ResolvedGameRepository>();
+        services.AddScoped<IResolvedGameWriteRepository, ResolvedGameRepository>();
+
+        services.AddScoped<IExerciseReadRepository, ExerciseRepository>();
+        services.AddScoped<IExerciseWriteRepository, ExerciseRepository>();
+
+        services.AddScoped<ISettingsReadRepository, SettingsRepository>();
+        services.AddScoped<ISettingsWriteRepository, SettingsRepository>();
+
+        services.AddScoped<IOperationsReadRepository, OperationsRepository>();
+        services.AddScoped<IDifficultiesReadRepository, DifficultiesRepository>();
     }
 }

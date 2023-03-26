@@ -1,6 +1,6 @@
 ﻿using Domain.Entity.GameEntities;
 
-namespace Application.ServiceContracts.Repositories.Write.GameWriteRepositories;
+namespace Application.ServiceContracts.Repositories.Write;
 
 public interface IGameWriteRepository : IWriteRepository<Game>
 {

@@ -11,18 +11,18 @@ namespace Application.Mediators.SettingsMediator.Edit;
 public class EditSettingsHandler : IRequestHandler<EditSettingsCommand, ErrorOr<Settings>>
 {
     private readonly ISettingsReadRepository _settingsReadRepository;
-    private readonly ISettingWriteRepository _settingWriteRepository;
+    private readonly ISettingsWriteRepository _settingsWriteRepository;
     private readonly IUserReadRepository _userReadRepository;
     private readonly IOperationsReadRepository _operationsReadRepository;
     private readonly IDifficultiesReadRepository _difficultiesReadRepository;
     private readonly IMapper _mapper;
 
-    public EditSettingsHandler(ISettingsReadRepository settingsReadRepository, ISettingWriteRepository settingWriteRepository,
+    public EditSettingsHandler(ISettingsReadRepository settingsReadRepository, ISettingsWriteRepository settingsWriteRepository,
         IUserReadRepository userReadRepository, IOperationsReadRepository operationsReadRepository,
         IDifficultiesReadRepository difficultiesReadRepository, IMapper mapper)
     {
         _settingsReadRepository = settingsReadRepository;
-        _settingWriteRepository = settingWriteRepository;
+        _settingsWriteRepository = settingsWriteRepository;
         _userReadRepository = userReadRepository;
         _operationsReadRepository = operationsReadRepository;
         _difficultiesReadRepository = difficultiesReadRepository;
@@ -52,7 +52,7 @@ public class EditSettingsHandler : IRequestHandler<EditSettingsCommand, ErrorOr<
         settings.Difficulty = settingsDifficulty;
         settings.ExerciseCount = exerciseCount;
 
-        return await _settingWriteRepository.UpdateSettingsAsync(settings, cancellationToken);
+        return await _settingsWriteRepository.UpdateSettingsAsync(settings, cancellationToken);
 
     }
 }

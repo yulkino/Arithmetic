@@ -1,6 +1,6 @@
 ﻿using Domain.Entity.ExerciseEntities;
 
-namespace Application.ServiceContracts.Repositories.Read.GameReadRepositories;
+namespace Application.ServiceContracts.Repositories.Read;
 
 public interface IExerciseReadRepository : IReadRepository<Exercise>
 {

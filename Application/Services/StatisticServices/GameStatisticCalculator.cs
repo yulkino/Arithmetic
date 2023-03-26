@@ -20,7 +20,7 @@ public class GameStatisticCalculator : IStatisticCalculator<List<GameStatistic>>
                             (double)resolvedGame.CorrectAnswerCount * 100 /
                             resolvedGame.ResolvedExercises.Count,
                             2),
-                    GameDuration = TimeOnly.FromTimeSpan(resolvedGame.ElapsedTime)
+                    GameDuration = resolvedGame.ElapsedTime
                 });
         });
         return gameStatistics;

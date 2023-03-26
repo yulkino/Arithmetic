@@ -4,12 +4,12 @@ namespace Domain.Entity.ExerciseEntities;
 
 public class Exercise : IEntity
 {
-    public Guid Id { get; init; }
-    public double LeftOperand { get; init; }
-    public double RightOperand { get; init; }
-    public Operation Operation { get; init; }
+    public Guid Id { get; }
+    public double LeftOperand { get; }
+    public double RightOperand { get; }
+    public Operation Operation { get; }
     public double Answer { get; }
-    private DateTime _startTime;
+    public DateTime StartTime { get; }
 
     public Exercise(double leftOperand, double rightOperand, Operation operation)
     {
@@ -18,11 +18,13 @@ public class Exercise : IEntity
         RightOperand = rightOperand;
         Operation = operation;
 
-        _startTime = DateTime.Now;
+        StartTime = DateTime.Now;
 
         Answer = Operation.Act(leftOperand, rightOperand);
     }
 
+    private Exercise() { }
+
     public ResolvedExercise Resolve(double userAnswer)
-        => new(userAnswer, DateTime.Now - _startTime, this);
+        => new(userAnswer, DateTime.Now - StartTime, this);
 }

@@ -23,8 +23,6 @@
     <Folder Include="Mediators\UserMediator\Add\" />
     <Folder Include="Mapping\" />
     <Folder Include="PipelineBehavior\" />
-    <Folder Include="ServiceContracts\Repositories\Read\GameReadRepositories\" />
-    <Folder Include="ServiceContracts\Repositories\Write\GameWriteRepositories\" />
     <Folder Include="Validators\GameValidators\" />
     <Folder Include="Validators\StatisticValidators\" />
     <Folder Include="Validators\ResolvedGameValidators\" />

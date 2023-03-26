@@ -6,11 +6,11 @@ namespace Domain.Entity.GameEntities;
 
 public class Game : IEntity, IEquatable<Game>
 {
-    public Guid Id { get; init; }
-    public User User { get; init; }
-    public Settings Settings { get; init; }
-    public List<Exercise> Exercises { get; init; }
-    public DateTime Date { get; init; }
+    public Guid Id { get; }
+    public User User { get; }
+    public Settings Settings { get; }
+    public List<Exercise> Exercises { get; }    
+    public DateTime Date { get; }
 
     public Game(User user, Settings settings)
     {
@@ -20,6 +20,8 @@ public class Game : IEntity, IEquatable<Game>
         Exercises = new();
         Date = DateTime.Now;
     }
+
+    private Game() {}
 
     public Exercise GiveNextExercise()
     {

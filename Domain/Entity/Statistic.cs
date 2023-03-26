@@ -19,4 +19,6 @@ public class Statistic : IEntity
         User = user;
         ResolvedGame = resolvedResolvedGame;
     }
+
+    private Statistic() { }
 }

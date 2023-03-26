@@ -1,6 +1,6 @@
 ﻿using Domain.Entity.GameEntities;
 
-namespace Application.ServiceContracts.Repositories.Read.GameReadRepositories;
+namespace Application.ServiceContracts.Repositories.Read;
 
 public interface IGameReadRepository : IReadRepository<Game>
 {

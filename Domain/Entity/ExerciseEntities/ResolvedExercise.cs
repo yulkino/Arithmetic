@@ -2,11 +2,11 @@
 
 public class ResolvedExercise : IEntity
 {
-    public Guid Id { get; init; }
-    public double UserAnswer { get; init; }
-    public TimeSpan ElapsedTime { get; init; }
+    public Guid Id { get; }
+    public double UserAnswer { get; }
+    public TimeSpan ElapsedTime { get; }
     public bool IsCorrect { get; }
-    public Exercise Exercise { get; init; }
+    public Exercise Exercise { get; }
 
     internal ResolvedExercise(double userAnswer, TimeSpan elapsedTime, Exercise exercise)
     {
@@ -17,4 +17,6 @@ public class ResolvedExercise : IEntity
 
         IsCorrect = Math.Abs(Exercise.Answer - userAnswer) < 0.01;
     }
+
+    private ResolvedExercise() { }
 }

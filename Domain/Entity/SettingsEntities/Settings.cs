@@ -2,7 +2,7 @@
 
 public class Settings : IEntity
 {
-    public Guid Id { get; init; }
+    public Guid Id { get; }
     public Difficulty Difficulty { get; set; }
     public HashSet<Operation> Operations { get; set; }
     public int ExerciseCount { get; set; }
@@ -14,4 +14,6 @@ public class Settings : IEntity
         Operations = operations;
         ExerciseCount = exerciseCount;
     }
+
+    private Settings(){ }
 }

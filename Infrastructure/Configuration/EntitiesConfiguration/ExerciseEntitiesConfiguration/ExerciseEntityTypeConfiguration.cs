@@ -16,8 +16,7 @@ public class ExerciseEntityTypeConfiguration : IEntityTypeConfiguration<Exercise
             .Property(exercise => exercise.RightOperand)
             .IsRequired();
         builder
-            .Property(exercise => exercise.Operation)
-            .IsRequired();
+            .HasOne(exercise => exercise.Operation);
         builder
             .Property(exercise => exercise.Answer)
             .IsRequired();

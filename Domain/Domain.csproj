@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Entity\SettingsEntities\Operation.cs~RF1e653b1e.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 

@@ -10,6 +10,7 @@ services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
+services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 services.AddApplication();
 services.AddInfrastructure(builder.Configuration);
 
