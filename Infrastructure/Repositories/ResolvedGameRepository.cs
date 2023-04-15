@@ -9,10 +9,7 @@ public class ResolvedGameRepository : IResolvedGameReadRepository, IResolvedGame
 {
     private readonly ApplicationDbContext _dbContext;
 
-    public ResolvedGameRepository(ApplicationDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    public ResolvedGameRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
 
     public ValueTask<ResolvedGame> GetResolvedGameAsync(Guid userId, Guid gameId, CancellationToken cancellationToken)
     {

@@ -13,7 +13,7 @@ public sealed class ExerciseProgressStatistic : IStatisticElement<DateTime, Time
         ElementCountStatistic = elementCountStatistic;
     }
 
-    private ExerciseProgressStatistic(){ }
+    private ExerciseProgressStatistic() { }
 
     public Guid Id { get; }
 

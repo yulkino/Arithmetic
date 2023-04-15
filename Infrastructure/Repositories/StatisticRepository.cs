@@ -9,10 +9,7 @@ public class StatisticRepository : IStatisticReadRepository, IStatisticWriteRepo
 {
     private readonly ApplicationDbContext _dbContext;
 
-    public StatisticRepository(ApplicationDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    public StatisticRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
 
     public ValueTask<Statistic?> GetUserStatisticAsync(Guid userId, CancellationToken cancellationToken)
     {

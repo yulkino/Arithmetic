@@ -10,10 +10,7 @@ public class Diagram<TElement, TX, TY> : IEnumerable<TElement>
 
     public Diagram() { }
 
-    internal Diagram(IEnumerable<TElement> elements)
-    {
-        _elements = elements.ToList();
-    }
+    internal Diagram(IEnumerable<TElement> elements) => _elements = elements.ToList();
 
     public void AddNode(TElement element)
     {
@@ -35,5 +32,7 @@ public static class EnumerableExtensions
 {
     public static Diagram<TElement, TX, TY> ToDiagram<TElement, TX, TY>(this IEnumerable<TElement> elements)
         where TElement : IStatisticElement<TX, TY>
-        => new(elements);
+    {
+        return new(elements);
+    }
 }

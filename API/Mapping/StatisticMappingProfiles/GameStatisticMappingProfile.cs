@@ -6,8 +6,5 @@ namespace API.Mapping.StatisticMappingProfiles;
 
 public class GameStatisticMappingProfile : Profile
 {
-    public GameStatisticMappingProfile()
-    {
-        CreateMap<GameStatistic, GameStatisticDto>();
-    }
+    public GameStatisticMappingProfile() => CreateMap<GameStatistic, GameStatisticDto>();
 }

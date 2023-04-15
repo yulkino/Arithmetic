@@ -27,7 +27,7 @@ public class SaveExerciseHandler : IRequestHandler<SaveExerciseCommand, ErrorOr<
 
     public async Task<ErrorOr<ResolvedExercise>> Handle(SaveExerciseCommand request, CancellationToken cancellationToken)
     {
-        var (userId, gameId, exerciseId, answer) = request;
+        (var userId, var gameId, var exerciseId, var answer) = request;
 
         if (await _userReadRepository.GetUserByIdAsync(userId, cancellationToken) is null)
             return Error.NotFound("User.NotFound", "User does not exist.");

@@ -15,7 +15,7 @@ public sealed class OperationsStatistic : IStatisticElement<Operation, TimeSpan>
         ElementCountStatistic = elementCountStatistic;
     }
 
-    private OperationsStatistic(){}
+    private OperationsStatistic() { }
 
     public Guid Id { get; }
 

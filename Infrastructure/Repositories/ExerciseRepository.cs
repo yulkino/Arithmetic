@@ -9,10 +9,7 @@ public class ExerciseRepository : IExerciseReadRepository, IExerciseWriteReposit
 {
     private readonly ApplicationDbContext _dbContext;
 
-    public ExerciseRepository(ApplicationDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    public ExerciseRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
 
     public ValueTask<Exercise?> GetExerciseByIdAsync(Guid exerciseId, CancellationToken cancellationToken)
     {

@@ -6,8 +6,5 @@ namespace API.Mapping.StatisticMappingProfiles;
 
 public class StatisticMappingProfile : Profile
 {
-    public StatisticMappingProfile()
-    {
-        CreateMap<Statistic, StatisticDto>();
-    }
+    public StatisticMappingProfile() => CreateMap<Statistic, StatisticDto>();
 }

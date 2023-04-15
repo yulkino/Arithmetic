@@ -18,10 +18,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<ResolvedGame> ResolvedGames { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
-    {
-        Database.EnsureCreated();
-    }
+        : base(options) => Database.EnsureCreated();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

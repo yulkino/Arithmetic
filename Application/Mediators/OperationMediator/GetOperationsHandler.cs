@@ -9,11 +9,10 @@ public class GetOperationsHandler : IRequestHandler<GetOperationsQuery, ErrorOr<
 {
     private readonly IOperationsReadRepository _operationsReadRepository;
 
-    public GetOperationsHandler(IOperationsReadRepository operationsReadRepository)
-    {
-        _operationsReadRepository = operationsReadRepository;
-    }
+    public GetOperationsHandler(IOperationsReadRepository operationsReadRepository) => _operationsReadRepository = operationsReadRepository;
 
     public async Task<ErrorOr<List<Operation>>> Handle(GetOperationsQuery request, CancellationToken cancellationToken)
-        => await _operationsReadRepository.GetOperationsAsync(cancellationToken);
+    {
+        return await _operationsReadRepository.GetOperationsAsync(cancellationToken);
+    }
 }

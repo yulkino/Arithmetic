@@ -26,5 +26,7 @@ public class Exercise : IEntity
     private Exercise() { }
 
     public ResolvedExercise Resolve(double userAnswer)
-        => new(userAnswer, DateTime.Now - StartTime, this);
+    {
+        return new(userAnswer, DateTime.Now - StartTime, this);
+    }
 }

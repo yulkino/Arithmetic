@@ -4,9 +4,6 @@ namespace Application.Mediators.SettingsMediator.Edit;
 
 public record EditSettingsCommand(
     Guid UserId,
-    List<OperationIdItemDto> Operations,
-    DifficultyIdItemDto Difficulty,
+    List<Guid> OperationIds,
+    Guid DifficultyId,
     int ExerciseCount) : IOperationRequest<Settings>;
-
-public sealed record OperationIdItemDto(Guid Id);
-public sealed record DifficultyIdItemDto(Guid Id);

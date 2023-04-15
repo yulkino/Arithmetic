@@ -23,6 +23,7 @@
     <Folder Include="Mediators\UserMediator\Add\" />
     <Folder Include="Mapping\" />
     <Folder Include="PipelineBehavior\" />
+    <Folder Include="Services\SettingsProvider\" />
     <Folder Include="Validators\GameValidators\" />
     <Folder Include="Validators\StatisticValidators\" />
     <Folder Include="Validators\ResolvedGameValidators\" />

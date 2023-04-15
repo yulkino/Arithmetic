@@ -19,7 +19,7 @@ public class AddUserHandler : IRequestHandler<AddUserCommand, ErrorOr<User>>
 
     public async Task<ErrorOr<User>> Handle(AddUserCommand request, CancellationToken cancellationToken)
     {
-        var (login, password, passwordConfirmation) = request;
+        (var login, var password, var passwordConfirmation) = request;
 
         if (await _userReadRepository.GetUserByLoginAsync(login, cancellationToken) is not null)
             return Error.Conflict("User.Conflict", $"User with Login {login} already exists.");

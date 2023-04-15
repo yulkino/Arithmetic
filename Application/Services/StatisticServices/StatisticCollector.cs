@@ -21,12 +21,14 @@ public class StatisticCollector : IStatisticCollector
     }
 
     public Statistic CollectStatistics(User user, List<ResolvedGame> resolvedGames)
-        => new(user, resolvedGames)
+    {
+        return new(user, resolvedGames)
         {
             GameStatisticList = _gameStatisticCalculator.Calculate(resolvedGames),
             OperationsStatisticList = _operationStatisticCalculator.Calculate(resolvedGames),
             ExerciseProgressStatisticList = _exerciseProgressStatisticsCalculator.Calculate(resolvedGames)
         };
+    }
 
     public Statistic UpdateStatistics(User user, List<ResolvedGame> resolvedGames, Statistic userStatistic)
     {

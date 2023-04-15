@@ -9,10 +9,7 @@ public class UserRepository : IUserReadRepository, IUserWriteRepository
 {
     private readonly ApplicationDbContext _dbContext;
 
-    public UserRepository(ApplicationDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    public UserRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
 
     public ValueTask<User?> GetUserByLoginAsync(string login, CancellationToken cancellationToken)
     {

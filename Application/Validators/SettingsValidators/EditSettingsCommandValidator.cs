@@ -7,10 +7,15 @@ public class EditSettingsCommandValidator : AbstractValidator<EditSettingsComman
 {
     public EditSettingsCommandValidator()
     {
-        RuleFor(s => s.UserId).NotEmpty();
-        RuleFor(s => s.ExerciseCount).NotEmpty();
-        RuleFor(s => s.Difficulty.Id).NotEmpty();
-        RuleFor(s => s.Operations).NotEmpty();
-        RuleForEach(s => s.Operations).NotEmpty();
+        RuleFor(s => s.UserId)
+            .NotEmpty();
+        RuleFor(s => s.ExerciseCount)
+            .NotEmpty();
+        RuleFor(s => s.DifficultyId)
+            .NotEmpty();
+        RuleFor(s => s.OperationIds)
+            .NotEmpty();
+        RuleForEach(s => s.OperationIds)
+            .NotEmpty();
     }
 }

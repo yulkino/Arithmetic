@@ -1,4 +1,5 @@
 ﻿using Application.PipelineBehavior;
+using Application.Services.SettingsProvider;
 using Application.Services.StatisticServices;
 using Domain.Entity.SettingsEntities;
 using Domain.StatisticStaff;
@@ -19,5 +20,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IStatisticCalculator<Diagram<OperationsStatistic, Operation, TimeSpan>>, OperationsStatisticCalculator>();
         services.AddScoped<IStatisticCalculator<Diagram<ExerciseProgressStatistic, DateTime, TimeSpan>>, ExerciseProgressStatisticCalculator>();
         services.AddScoped<IStatisticCollector, StatisticCollector>();
+        services.AddSingleton<IDefaultSettingsProvider, DefaultSettingsProvider>();
     }
 }

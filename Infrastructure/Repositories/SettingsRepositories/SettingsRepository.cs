@@ -9,10 +9,7 @@ public class SettingsRepository : ISettingsReadRepository, ISettingsWriteReposit
 {
     private readonly ApplicationDbContext _dbContext;
 
-    public SettingsRepository(ApplicationDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    public SettingsRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
 
     public ValueTask<Settings?> GetSettingsAsync(Guid userId, CancellationToken cancellationToken)
     {

@@ -24,7 +24,7 @@ public class GetResolvedGameHandler : IRequestHandler<GetResolvedGameQuery, Erro
 
     public async Task<ErrorOr<ResolvedGame>> Handle(GetResolvedGameQuery request, CancellationToken cancellationToken)
     {
-        var (userId, gameId) = request;
+        (var userId, var gameId) = request;
 
         if (await _userReadRepository.GetUserByIdAsync(userId, cancellationToken) is null)
             return Error.NotFound("User.NotFound", "User does not exist.");

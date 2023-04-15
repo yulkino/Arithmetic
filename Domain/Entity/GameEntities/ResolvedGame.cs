@@ -16,7 +16,7 @@ public class ResolvedGame : IEntity, IEquatable<ResolvedGame>
         Game = game;
     }
 
-    private ResolvedGame() {}
+    private ResolvedGame() { }
 
     public ResolvedGame ProcessGameResult()
     {

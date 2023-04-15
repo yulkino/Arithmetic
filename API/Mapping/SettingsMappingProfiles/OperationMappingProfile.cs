@@ -6,8 +6,5 @@ namespace API.Mapping.SettingsMappingProfiles;
 
 public class OperationMappingProfile : Profile
 {
-    public OperationMappingProfile()
-    {
-        CreateMap<Operation, OperationDto>();
-    }
+    public OperationMappingProfile() => CreateMap<Operation, OperationDto>();
 }

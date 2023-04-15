@@ -39,8 +39,8 @@ public sealed class SettingsController : ControllerBase
         var response = await _mediator.Send(
                 new EditSettingsCommand(
                     userId,
-                    _mapper.Map<List<OperationIdDto>, List<OperationIdItemDto>>(settings.Operations),
-                    _mapper.Map<DifficultyIdDto, DifficultyIdItemDto>(settings.Difficulty),
+                    settings.OperationIds,
+                    settings.DifficultyId,
                     settings.ExerciseCount),
                 cancellationToken);
         //TODO error catch

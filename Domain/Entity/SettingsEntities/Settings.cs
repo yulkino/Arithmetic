@@ -15,5 +15,5 @@ public class Settings : IEntity
         ExerciseCount = exerciseCount;
     }
 
-    private Settings(){ }
+    private Settings() { }
 }

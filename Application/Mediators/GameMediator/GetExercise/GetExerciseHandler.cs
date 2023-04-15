@@ -21,7 +21,7 @@ public class GetExerciseHandler : IRequestHandler<GetExerciseQuery, ErrorOr<Exer
 
     public async Task<ErrorOr<Exercise>> Handle(GetExerciseQuery request, CancellationToken cancellationToken)
     {
-        var (userId, gameId) = request;
+        (var userId, var gameId) = request;
 
         if (await _userReadRepository.GetUserByIdAsync(userId, cancellationToken) is null)
             return Error.NotFound("User.NotFound", "User does not exist.");

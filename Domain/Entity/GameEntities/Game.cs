@@ -9,7 +9,7 @@ public class Game : IEntity, IEquatable<Game>
     public Guid Id { get; }
     public User User { get; }
     public Settings Settings { get; }
-    public List<Exercise> Exercises { get; }    
+    public List<Exercise> Exercises { get; }
     public DateTime Date { get; }
 
     public Game(User user, Settings settings)
@@ -21,7 +21,7 @@ public class Game : IEntity, IEquatable<Game>
         Date = DateTime.Now;
     }
 
-    private Game() {}
+    private Game() { }
 
     public Exercise GiveNextExercise()
     {

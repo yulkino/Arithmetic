@@ -8,10 +8,7 @@ public class OperationsRepository : IOperationsReadRepository
 {
     private readonly ApplicationDbContext _dbContext;
 
-    public OperationsRepository(ApplicationDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    public OperationsRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
 
     public Task<List<Operation>> GetOperationsAsync(CancellationToken cancellationToken)
     {

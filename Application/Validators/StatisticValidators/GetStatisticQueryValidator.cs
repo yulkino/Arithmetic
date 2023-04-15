@@ -5,8 +5,5 @@ namespace Application.Validators.StatisticValidators;
 
 public class GetStatisticQueryValidator : AbstractValidator<GetStatisticQuery>
 {
-    public GetStatisticQueryValidator()
-    {
-        RuleFor(s => s.UserId).NotEmpty();
-    }
+    public GetStatisticQueryValidator() => RuleFor(s => s.UserId).NotEmpty();
 }

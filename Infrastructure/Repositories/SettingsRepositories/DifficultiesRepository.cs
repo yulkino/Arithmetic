@@ -8,10 +8,7 @@ public class DifficultiesRepository : IDifficultiesReadRepository
 {
     private readonly ApplicationDbContext _dbContext;
 
-    public DifficultiesRepository(ApplicationDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    public DifficultiesRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
 
     public Task<List<Difficulty>> GetDifficultiesAsync(CancellationToken cancellationToken)
     {

@@ -6,8 +6,5 @@ namespace API.Mapping.ResolvedGameMappingProfiles;
 
 public class ResolvedGameMappingProfile : Profile
 {
-    public ResolvedGameMappingProfile()
-    {
-        CreateMap<ResolvedGame, ResolvedGameDto>();
-    }
+    public ResolvedGameMappingProfile() => CreateMap<ResolvedGame, ResolvedGameDto>();
 }

@@ -6,8 +6,5 @@ namespace API.Mapping.GameMappingProfiles;
 
 public class GameMappingProfile : Profile
 {
-    public GameMappingProfile()
-    {
-        CreateMap<Game, GameDto>();
-    }
+    public GameMappingProfile() => CreateMap<Game, GameDto>();
 }
