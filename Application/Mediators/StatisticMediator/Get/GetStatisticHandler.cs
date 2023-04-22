@@ -12,9 +12,9 @@ public class GetStatisticHandler : IRequestHandler<GetStatisticQuery, ErrorOr<St
 {
     private readonly IResolvedGameReadRepository _resolvedGameReadRepository;
     private readonly IStatisticCollector _statisticCollector;
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IStatisticReadRepository _statisticReadRepository;
     private readonly IStatisticWriteRepository _statisticWriteRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IUserReadRepository _userReadRepository;
 
     public GetStatisticHandler(IUserReadRepository userReadRepository, IStatisticReadRepository statisticReadRepository,
@@ -48,13 +48,13 @@ public class GetStatisticHandler : IRequestHandler<GetStatisticQuery, ErrorOr<St
         var userStatistic = await _statisticReadRepository.GetUserStatisticAsync(userId, cancellationToken);
         if (userStatistic is null)
         {
-            var statistic =  await _statisticWriteRepository.CreateUserStatistic(
+            var statistic = await _statisticWriteRepository.CreateUserStatistic(
                 _statisticCollector.CollectStatistics(user, userResolvedGames), cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             return statistic;
         }
 
-        var updatedUserStatistic =  await _statisticWriteRepository.UpdateUserStatistic(
+        var updatedUserStatistic = await _statisticWriteRepository.UpdateUserStatistic(
             _statisticCollector.UpdateStatistics(user, userResolvedGames, userStatistic), cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         return updatedUserStatistic;

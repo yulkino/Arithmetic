@@ -1,5 +1,4 @@
 ﻿using Application.ServiceContracts.Repositories.Read.SettingsReadRepositories;
-using Application.ServiceContracts.Repositories.Write;
 using Domain.Entity.SettingsEntities;
 using Infrastructure.Data;
 

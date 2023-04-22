@@ -1,6 +1,5 @@
 ﻿using Application.ServiceContracts;
 using Application.ServiceContracts.Repositories.Read;
-using Application.ServiceContracts.Repositories.Write;
 using Domain.Entity.ExerciseEntities;
 using ErrorOr;
 using MediatR;
@@ -10,8 +9,8 @@ namespace Application.Mediators.GameMediator.GetExercise;
 public class GetExerciseHandler : IRequestHandler<GetExerciseQuery, ErrorOr<Exercise>>
 {
     private readonly IGameReadRepository _gameReadRepository;
-    private readonly IUserReadRepository _userReadRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IUserReadRepository _userReadRepository;
 
     public GetExerciseHandler(IGameReadRepository gameReadRepository, IUserReadRepository userReadRepository,
         IUnitOfWork unitOfWork)

@@ -1,5 +1,4 @@
 ﻿using Application.ServiceContracts.Repositories.Read;
-using Application.ServiceContracts.Repositories.Write;
 using Domain.Entity.ExerciseEntities;
 using Infrastructure.Data;
 

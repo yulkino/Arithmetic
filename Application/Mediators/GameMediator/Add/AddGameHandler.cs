@@ -11,9 +11,9 @@ namespace Application.Mediators.GameMediator.Add;
 public class AddGameHandler : IRequestHandler<AddGameCommand, ErrorOr<Game>>
 {
     private readonly IDefaultSettingsProvider _defaultSettingsProvider;
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IGameWriteRepository _gameWriteRepository;
     private readonly IResolvedGameWriteRepository _resolvedGameWriteRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IUserReadRepository _userReadRepository;
 
     public AddGameHandler(IGameWriteRepository gameWriteRepository, IUserReadRepository userReadRepository,

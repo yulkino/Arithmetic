@@ -9,8 +9,8 @@ namespace Application.Mediators.UserMediator.Add;
 
 public class AddUserHandler : IRequestHandler<AddUserCommand, ErrorOr<User>>
 {
-    private readonly IUserReadRepository _userReadRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IUserReadRepository _userReadRepository;
     private readonly IUserWriteRepository _userWriteRepository;
 
     public AddUserHandler(IUserWriteRepository userWriteRepository, IUserReadRepository userReadRepository,

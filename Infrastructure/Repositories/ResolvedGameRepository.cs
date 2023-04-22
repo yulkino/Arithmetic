@@ -11,7 +11,8 @@ public class ResolvedGameRepository : IResolvedGameReadRepository, IResolvedGame
 
     public ResolvedGameRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
 
-    public ValueTask<ResolvedGame> GetResolvedGameAsync(Guid userId, Guid gameId, CancellationToken cancellationToken = default)
+    public ValueTask<ResolvedGame> GetResolvedGameAsync(Guid userId, Guid gameId,
+        CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
