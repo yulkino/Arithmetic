@@ -8,12 +8,13 @@ namespace Application.Mediators.ResolvedGameMediator.Get;
 
 public class GetResolvedGameHandler : IRequestHandler<GetResolvedGameQuery, ErrorOr<ResolvedGame>>
 {
-    private readonly IResolvedGameReadRepository _resolvedGameReadRepository;
-    private readonly IUserReadRepository _userReadRepository;
     private readonly IGameReadRepository _gameReadRepository;
+    private readonly IResolvedGameReadRepository _resolvedGameReadRepository;
     private readonly IResolvedGameWriteRepository _resolvedGameWriteRepository;
+    private readonly IUserReadRepository _userReadRepository;
 
-    public GetResolvedGameHandler(IResolvedGameReadRepository resolvedGameReadRepository, IUserReadRepository userReadRepository,
+    public GetResolvedGameHandler(IResolvedGameReadRepository resolvedGameReadRepository,
+        IUserReadRepository userReadRepository,
         IGameReadRepository gameReadRepository, IResolvedGameWriteRepository resolvedGameWriteRepository)
     {
         _resolvedGameReadRepository = resolvedGameReadRepository;
@@ -24,14 +25,18 @@ public class GetResolvedGameHandler : IRequestHandler<GetResolvedGameQuery, Erro
 
     public async Task<ErrorOr<ResolvedGame>> Handle(GetResolvedGameQuery request, CancellationToken cancellationToken)
     {
-        (var userId, var gameId) = request;
+        var (userId, gameId) = request;
 
         if (await _userReadRepository.GetUserByIdAsync(userId, cancellationToken) is null)
+        {
             return Error.NotFound("User.NotFound", "User does not exist.");
+        }
 
         var game = await _gameReadRepository.GetGameByIdAsync(gameId, userId, cancellationToken);
         if (game is null)
+        {
             return Error.NotFound("Game.NotFound", "Game does not exist.");
+        }
 
         var resolvedGame = await _resolvedGameReadRepository.GetResolvedGameAsync(userId, gameId, cancellationToken);
         resolvedGame.ProcessGameResult();

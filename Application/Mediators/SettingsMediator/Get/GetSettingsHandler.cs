@@ -22,11 +22,16 @@ public class GetSettingsHandler : IRequestHandler<GetSettingsQuery, ErrorOr<Sett
         var userId = request.UserId;
 
         if (await _userReadRepository.GetUserByIdAsync(userId, cancellationToken) is null)
+        {
             return Error.NotFound("User.NotFound", "User does not exists.");
+        }
 
         var settings = await _settingsReadRepository.GetSettingsAsync(userId, cancellationToken);
         if (settings is null)
+        {
             return Error.NotFound("Settings.NotFound", "Settings for the user do not exist.");
+        }
+
         return settings;
     }
 }

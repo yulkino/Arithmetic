@@ -9,10 +9,10 @@ namespace Application.Mediators.GameMediator.Add;
 
 public class AddGameHandler : IRequestHandler<AddGameCommand, ErrorOr<Game>>
 {
-    private readonly IGameWriteRepository _gameWriteRepository;
-    private readonly IUserReadRepository _userReadRepository;
-    private readonly IResolvedGameWriteRepository _resolvedGameWriteRepository;
     private readonly IDefaultSettingsProvider _defaultSettingsProvider;
+    private readonly IGameWriteRepository _gameWriteRepository;
+    private readonly IResolvedGameWriteRepository _resolvedGameWriteRepository;
+    private readonly IUserReadRepository _userReadRepository;
 
     public AddGameHandler(IGameWriteRepository gameWriteRepository, IUserReadRepository userReadRepository,
         IResolvedGameWriteRepository resolvedGameWriteRepository, IDefaultSettingsProvider defaultSettingsProvider)
@@ -28,9 +28,12 @@ public class AddGameHandler : IRequestHandler<AddGameCommand, ErrorOr<Game>>
         var userId = request.UserId;
 
         if (await _userReadRepository.GetUserByIdAsync(userId, cancellationToken) is null)
+        {
             return Error.NotFound("User.NotFound", "User does not exist.");
+        }
 
-        var game = await _gameWriteRepository.CreateAsync(userId, _defaultSettingsProvider.GetDefaultSettings(), cancellationToken);
+        var game = await _gameWriteRepository.CreateAsync(userId, _defaultSettingsProvider.GetDefaultSettings(),
+            cancellationToken);
         await _resolvedGameWriteRepository.CreateResolvedGameAsync(game, cancellationToken);
         return game;
     }

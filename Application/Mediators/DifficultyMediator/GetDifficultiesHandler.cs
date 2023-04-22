@@ -9,9 +9,11 @@ public class GetDifficultiesHandler : IRequestHandler<GetDifficultiesQuery, Erro
 {
     private readonly IDifficultiesReadRepository _difficultiesReadRepository;
 
-    public GetDifficultiesHandler(IDifficultiesReadRepository difficultiesReadRepository) => _difficultiesReadRepository = difficultiesReadRepository;
+    public GetDifficultiesHandler(IDifficultiesReadRepository difficultiesReadRepository) =>
+        _difficultiesReadRepository = difficultiesReadRepository;
 
-    public async Task<ErrorOr<List<Difficulty>>> Handle(GetDifficultiesQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<List<Difficulty>>> Handle(GetDifficultiesQuery request,
+        CancellationToken cancellationToken)
     {
         return await _difficultiesReadRepository.GetDifficultiesAsync(cancellationToken);
     }

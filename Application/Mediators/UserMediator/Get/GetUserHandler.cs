@@ -13,14 +13,19 @@ public class GetUserHandler : IRequestHandler<GetUserQuery, ErrorOr<User>>
 
     public async Task<ErrorOr<User>> Handle(GetUserQuery request, CancellationToken cancellationToken)
     {
-        (var login, var password) = request;
+        var (login, password) = request;
 
         if (await _userReadRepository.GetUserByLoginAsync(login, cancellationToken) is null)
+        {
             return Error.NotFound("User.NotFound", "User does not exists.");
+        }
 
         var user = await _userReadRepository.LoginUserAsync(login, password, cancellationToken);
         if (user is null)
+        {
             return Error.Failure("User.Failure", "Failed login attempt.");
+        }
+
         return user;
     }
 }
