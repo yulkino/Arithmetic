@@ -1,4 +1,5 @@
-﻿using Application.ServiceContracts.Repositories.Read;
+﻿using Application.ServiceContracts;
+using Application.ServiceContracts.Repositories.Read;
 using Application.ServiceContracts.Repositories.Write;
 using Domain.Entity.ExerciseEntities;
 using ErrorOr;
@@ -8,16 +9,16 @@ namespace Application.Mediators.GameMediator.GetExercise;
 
 public class GetExerciseHandler : IRequestHandler<GetExerciseQuery, ErrorOr<Exercise>>
 {
-    private readonly IExerciseWriteRepository _exerciseWriteRepository;
     private readonly IGameReadRepository _gameReadRepository;
     private readonly IUserReadRepository _userReadRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
     public GetExerciseHandler(IGameReadRepository gameReadRepository, IUserReadRepository userReadRepository,
-        IExerciseWriteRepository exerciseWriteRepository)
+        IUnitOfWork unitOfWork)
     {
         _gameReadRepository = gameReadRepository;
         _userReadRepository = userReadRepository;
-        _exerciseWriteRepository = exerciseWriteRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<Exercise>> Handle(GetExerciseQuery request, CancellationToken cancellationToken)
@@ -36,6 +37,9 @@ public class GetExerciseHandler : IRequestHandler<GetExerciseQuery, ErrorOr<Exer
         }
 
         var nextExercise = game.GiveNextExercise();
-        return await _exerciseWriteRepository.SaveNextExerciseAsync(userId, gameId, nextExercise, cancellationToken);
+        game.Exercises.Add(nextExercise);
+
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        return nextExercise;
     }
 }

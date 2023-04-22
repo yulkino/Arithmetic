@@ -5,5 +5,5 @@ namespace Application.ServiceContracts.Repositories.Write;
 
 public interface IGameWriteRepository : IWriteRepository<Game>
 {
-    ValueTask<Game> CreateAsync(Guid userId, Settings settings, CancellationToken cancellationToken);
+    ValueTask<Game> CreateAsync(Guid userId, Settings settings, CancellationToken cancellationToken = default);
 }

@@ -10,8 +10,8 @@ namespace API.Controllers;
 [ApiController]
 public sealed class StatisticController : ControllerBase
 {
-    private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
     public StatisticController(IMediator mediator, IMapper mapper)
     {
@@ -20,7 +20,8 @@ public sealed class StatisticController : ControllerBase
     }
 
     [HttpGet("User/{userId}/Statistic")]
-    public async Task<ActionResult<StatisticDto>> GetStatisticForGame([FromRoute] Guid userId, CancellationToken cancellationToken)
+    public async Task<ActionResult<StatisticDto>> GetStatisticForGame([FromRoute] Guid userId,
+        CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(new GetStatisticQuery(userId), cancellationToken);
         //TODO error catch

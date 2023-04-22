@@ -7,13 +7,18 @@ namespace Application.Services.StatisticServices;
 
 public class StatisticCollector : IStatisticCollector
 {
+    private readonly IStatisticCalculator<Diagram<ExerciseProgressStatistic, DateTime, TimeSpan>>
+        _exerciseProgressStatisticsCalculator;
+
     private readonly IStatisticCalculator<List<GameStatistic>> _gameStatisticCalculator;
-    private readonly IStatisticCalculator<Diagram<OperationsStatistic, Operation, TimeSpan>> _operationStatisticCalculator;
-    private readonly IStatisticCalculator<Diagram<ExerciseProgressStatistic, DateTime, TimeSpan>> _exerciseProgressStatisticsCalculator;
+
+    private readonly IStatisticCalculator<Diagram<OperationsStatistic, Operation, TimeSpan>>
+        _operationStatisticCalculator;
 
     public StatisticCollector(IStatisticCalculator<List<GameStatistic>> gameStatisticCalculator,
         IStatisticCalculator<Diagram<OperationsStatistic, Operation, TimeSpan>> operationStatisticCalculator,
-        IStatisticCalculator<Diagram<ExerciseProgressStatistic, DateTime, TimeSpan>> exerciseProgressStatisticsCalculator)
+        IStatisticCalculator<Diagram<ExerciseProgressStatistic, DateTime, TimeSpan>>
+            exerciseProgressStatisticsCalculator)
     {
         _gameStatisticCalculator = gameStatisticCalculator;
         _operationStatisticCalculator = operationStatisticCalculator;
@@ -22,7 +27,7 @@ public class StatisticCollector : IStatisticCollector
 
     public Statistic CollectStatistics(User user, List<ResolvedGame> resolvedGames)
     {
-        return new(user, resolvedGames)
+        return new Statistic(user, resolvedGames)
         {
             GameStatisticList = _gameStatisticCalculator.Calculate(resolvedGames),
             OperationsStatisticList = _operationStatisticCalculator.Calculate(resolvedGames),
@@ -35,7 +40,9 @@ public class StatisticCollector : IStatisticCollector
         var newResolvedGames = resolvedGames.Except(userStatistic.ResolvedGame).ToList();
 
         if (!newResolvedGames.Any())
+        {
             return userStatistic;
+        }
 
         userStatistic.GameStatisticList = _gameStatisticCalculator.UpdateCalculations(
             newResolvedGames, userStatistic.GameStatisticList!);

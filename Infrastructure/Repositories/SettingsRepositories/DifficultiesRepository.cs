@@ -10,12 +10,12 @@ public class DifficultiesRepository : IDifficultiesReadRepository
 
     public DifficultiesRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
 
-    public Task<List<Difficulty>> GetDifficultiesAsync(CancellationToken cancellationToken)
+    public Task<List<Difficulty>> GetDifficultiesAsync(CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
-    public ValueTask<Difficulty?> GetDifficultyByIdAsync(Guid id, CancellationToken cancellationToken)
+    public ValueTask<Difficulty?> GetDifficultyByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

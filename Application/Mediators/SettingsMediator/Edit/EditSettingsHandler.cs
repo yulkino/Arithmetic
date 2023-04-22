@@ -1,4 +1,5 @@
-﻿using Application.ServiceContracts.Repositories.Read;
+﻿using Application.ServiceContracts;
+using Application.ServiceContracts.Repositories.Read;
 using Application.ServiceContracts.Repositories.Read.SettingsReadRepositories;
 using Application.ServiceContracts.Repositories.Write;
 using AutoMapper;
@@ -11,23 +12,20 @@ namespace Application.Mediators.SettingsMediator.Edit;
 public class EditSettingsHandler : IRequestHandler<EditSettingsCommand, ErrorOr<Settings>>
 {
     private readonly IDifficultiesReadRepository _difficultiesReadRepository;
-    private readonly IMapper _mapper;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IOperationsReadRepository _operationsReadRepository;
     private readonly ISettingsReadRepository _settingsReadRepository;
-    private readonly ISettingsWriteRepository _settingsWriteRepository;
     private readonly IUserReadRepository _userReadRepository;
 
     public EditSettingsHandler(ISettingsReadRepository settingsReadRepository,
-        ISettingsWriteRepository settingsWriteRepository,
         IUserReadRepository userReadRepository, IOperationsReadRepository operationsReadRepository,
-        IDifficultiesReadRepository difficultiesReadRepository, IMapper mapper)
+        IDifficultiesReadRepository difficultiesReadRepository, IUnitOfWork unitOfWork)
     {
         _settingsReadRepository = settingsReadRepository;
-        _settingsWriteRepository = settingsWriteRepository;
         _userReadRepository = userReadRepository;
         _operationsReadRepository = operationsReadRepository;
         _difficultiesReadRepository = difficultiesReadRepository;
-        _mapper = mapper;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<Settings>> Handle(EditSettingsCommand request, CancellationToken cancellationToken)
@@ -51,8 +49,7 @@ public class EditSettingsHandler : IRequestHandler<EditSettingsCommand, ErrorOr<
             return Error.NotFound("Operations.NotFound", "One or more operations do not exist.");
         }
 
-        var settingsDifficulty =
-            await _difficultiesReadRepository.GetDifficultyByIdAsync(difficulty, cancellationToken);
+        var settingsDifficulty = await _difficultiesReadRepository.GetDifficultyByIdAsync(difficulty, cancellationToken);
         if (settingsDifficulty is null)
         {
             return Error.NotFound("Difficulty.NotFound", "Difficulty does not exist.");
@@ -62,6 +59,7 @@ public class EditSettingsHandler : IRequestHandler<EditSettingsCommand, ErrorOr<
         settings.Difficulty = settingsDifficulty;
         settings.ExerciseCount = exerciseCount;
 
-        return await _settingsWriteRepository.UpdateSettingsAsync(settings, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        return settings;
     }
 }

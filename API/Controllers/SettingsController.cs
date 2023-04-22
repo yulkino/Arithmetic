@@ -14,8 +14,8 @@ namespace API.Controllers;
 [ApiController]
 public sealed class SettingsController : ControllerBase
 {
-    private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
     public SettingsController(IMediator mediator, IMapper mapper)
     {
@@ -24,7 +24,8 @@ public sealed class SettingsController : ControllerBase
     }
 
     [HttpGet("User/{userId}/Settings")]
-    public async Task<ActionResult<SettingsDto>> GetUserSetting([FromRoute] Guid userId, CancellationToken cancellationToken)
+    public async Task<ActionResult<SettingsDto>> GetUserSetting([FromRoute] Guid userId,
+        CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(new GetSettingsQuery(userId), cancellationToken);
         //TODO error catch
@@ -33,16 +34,17 @@ public sealed class SettingsController : ControllerBase
     }
 
     [HttpPut("User/{userId}/Settings")]
-    public async Task<ActionResult<SettingsDto>> EditUserSettings([FromRoute] Guid userId, [FromBody] EditSettingsDto settings,
+    public async Task<ActionResult<SettingsDto>> EditUserSettings([FromRoute] Guid userId,
+        [FromBody] EditSettingsDto settings,
         CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(
-                new EditSettingsCommand(
-                    userId,
-                    settings.OperationIds,
-                    settings.DifficultyId,
-                    settings.ExerciseCount),
-                cancellationToken);
+            new EditSettingsCommand(
+                userId,
+                settings.OperationIds,
+                settings.DifficultyId,
+                settings.ExerciseCount),
+            cancellationToken);
         //TODO error catch
         var result = _mapper.Map<Settings, SettingsDto>(response.Value);
         return result;

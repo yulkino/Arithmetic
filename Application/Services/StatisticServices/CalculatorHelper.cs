@@ -15,7 +15,9 @@ public static class CalculatorHelper
 
         var averageTimeElapsed = TimeSpan.Zero;
         if (totalTimeElapsed != TimeSpan.Zero && resolvedExercises.Count != 0)
+        {
             averageTimeElapsed = totalTimeElapsed / resolvedExercises.Count;
+        }
 
         return averageTimeElapsed;
     }
@@ -28,7 +30,8 @@ public static class CalculatorHelper
         var totalNewStatisticsTimeElapsed = newStatisticsElement.Y * newStatisticsElement.ElementCountStatistic;
 
         var totalTimeElapsed = totalStatisticsTimeElapsed + totalNewStatisticsTimeElapsed;
-        var totalResolvedExercisesCount = statisticsElement.ElementCountStatistic + newStatisticsElement.ElementCountStatistic;
+        var totalResolvedExercisesCount =
+            statisticsElement.ElementCountStatistic + newStatisticsElement.ElementCountStatistic;
         var averageTimeElapsed = totalTimeElapsed / totalResolvedExercisesCount;
 
         return averageTimeElapsed;

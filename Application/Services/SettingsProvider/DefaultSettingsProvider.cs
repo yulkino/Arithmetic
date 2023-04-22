@@ -6,12 +6,8 @@ public class DefaultSettingsProvider : IDefaultSettingsProvider
 {
     public Settings GetDefaultSettings()
     {
-        return new(Difficulty.Easy,
-                new HashSet<Operation>()
-                {
-                Operation.Addition,
-                Operation.Subtraction
-                },
-                10);
+        return new Settings(Difficulty.Easy,
+            new HashSet<Operation> { Operation.Addition, Operation.Subtraction },
+            10);
     }
 }

@@ -10,8 +10,8 @@ namespace API.Controllers;
 [ApiController]
 public sealed class ResolvedGameController : ControllerBase
 {
-    private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
     public ResolvedGameController(IMediator mediator, IMapper mapper)
     {

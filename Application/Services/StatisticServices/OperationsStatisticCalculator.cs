@@ -21,16 +21,6 @@ public class OperationsStatisticCalculator : IStatisticCalculator<Diagram<Operat
         return operationsStatistic;
     }
 
-    private OperationsStatistic CalculateOperationStatistic(List<ResolvedExercise> resolvedExercises,
-        Operation operation)
-    {
-        var resolvedOperationExercises = resolvedExercises
-            .Where(e => e.Exercise.Operation == operation)
-            .ToList();
-
-        return new OperationsStatistic(operation, resolvedOperationExercises.CalculateAverageTimeSpan(), resolvedOperationExercises.Count);
-    }
-
     public Diagram<OperationsStatistic, Operation, TimeSpan> UpdateCalculations(List<ResolvedGame> newResolvedGames,
         Diagram<OperationsStatistic, Operation, TimeSpan> operationsStatistic)
     {
@@ -51,8 +41,22 @@ public class OperationsStatisticCalculator : IStatisticCalculator<Diagram<Operat
                     operationStatistic.ElementCountStatistic + newOperationStatistic.ElementCountStatistic));
             }
             else
+            {
                 updatedStatistic.AddNode(operationStatistic);
+            }
         }
+
         return updatedStatistic;
+    }
+
+    private OperationsStatistic CalculateOperationStatistic(List<ResolvedExercise> resolvedExercises,
+        Operation operation)
+    {
+        var resolvedOperationExercises = resolvedExercises
+            .Where(e => e.Exercise.Operation == operation)
+            .ToList();
+
+        return new OperationsStatistic(operation, resolvedOperationExercises.CalculateAverageTimeSpan(),
+            resolvedOperationExercises.Count);
     }
 }

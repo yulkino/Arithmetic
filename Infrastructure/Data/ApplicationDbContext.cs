@@ -8,6 +8,9 @@ namespace Infrastructure.Data;
 
 public class ApplicationDbContext : DbContext
 {
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        : base(options) => Database.EnsureCreated();
+
     public DbSet<User> Users { get; set; }
     public DbSet<Difficulty> Difficulties { get; set; }
     public DbSet<Operation> Operations { get; set; }
@@ -16,9 +19,6 @@ public class ApplicationDbContext : DbContext
     public DbSet<ResolvedExercise> ResolvedExercises { get; set; }
     public DbSet<Game> Games { get; set; }
     public DbSet<ResolvedGame> ResolvedGames { get; set; }
-
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options) => Database.EnsureCreated();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

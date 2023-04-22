@@ -7,5 +7,5 @@ namespace API.Mapping.ResolvedGameMappingProfiles;
 public class ResolvedExerciseMappingProfile : Profile
 {
     public ResolvedExerciseMappingProfile() => CreateMap<ResolvedExercise, ResolvedExerciseDto>()
-            .ForMember(dto => dto.CorrectAnswer, o => o.MapFrom(r => r.Exercise.Answer));
+        .ForMember(dto => dto.CorrectAnswer, o => o.MapFrom(r => r.Exercise.Answer));
 }

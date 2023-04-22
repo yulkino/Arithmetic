@@ -1,7 +1,7 @@
 ﻿namespace Domain.StatisticStaff;
 
 /// <summary>
-/// Represents a node of progress in exercises resolve duration
+///     Represents a node of progress in exercises resolve duration
 /// </summary>
 public sealed class ExerciseProgressStatistic : IStatisticElement<DateTime, TimeSpan>
 {
@@ -20,7 +20,7 @@ public sealed class ExerciseProgressStatistic : IStatisticElement<DateTime, Time
     /// <summary>Exercises resolve date</summary>
     public DateTime X { get; init; }
 
-    /// <summary>Exercises resolve average duration on date <seealso cref="X"/></summary>
+    /// <summary>Exercises resolve average duration on date <seealso cref="X" /></summary>
     public TimeSpan Y { get; init; }
 
     /// <summary>The number of elements that participated in the calculation of this node/></summary>

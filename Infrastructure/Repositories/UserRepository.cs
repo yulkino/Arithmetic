@@ -11,22 +11,22 @@ public class UserRepository : IUserReadRepository, IUserWriteRepository
 
     public UserRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
 
-    public ValueTask<User?> GetUserByLoginAsync(string login, CancellationToken cancellationToken)
+    public ValueTask<User?> GetUserByLoginAsync(string login, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
-    public ValueTask<User?> GetUserByIdAsync(Guid userId, CancellationToken cancellationToken)
+    public ValueTask<User?> GetUserByIdAsync(Guid userId, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
-    public ValueTask<User?> LoginUserAsync(string login, string password, CancellationToken cancellationToken)
+    public ValueTask<User?> LoginUserAsync(string login, string password, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
-    public ValueTask<User> AddUserAsync(string login, string password, CancellationToken cancellationToken)
+    public ValueTask<User> AddUserAsync(string login, string password, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

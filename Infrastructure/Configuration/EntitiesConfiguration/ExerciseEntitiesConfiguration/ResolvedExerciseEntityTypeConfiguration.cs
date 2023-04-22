@@ -8,7 +8,6 @@ public class ResolvedExerciseEntityTypeConfiguration : IEntityTypeConfiguration<
 {
     public void Configure(EntityTypeBuilder<ResolvedExercise> builder)
     {
-
         builder.HasKey(resolvedExercise => resolvedExercise.Id);
         builder
             .Property(resolvedExercise => resolvedExercise.UserAnswer)
@@ -20,6 +19,5 @@ public class ResolvedExerciseEntityTypeConfiguration : IEntityTypeConfiguration<
             .Property(resolvedExercise => resolvedExercise.ElapsedTime)
             .IsRequired();
         builder.HasOne(resolvedExercise => resolvedExercise.Exercise);
-
     }
 }

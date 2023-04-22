@@ -1,4 +1,5 @@
-﻿using Application.ServiceContracts.Repositories.Read;
+﻿using Application.ServiceContracts;
+using Application.ServiceContracts.Repositories.Read;
 using Application.ServiceContracts.Repositories.Write;
 using Domain.Entity.GameEntities;
 using ErrorOr;
@@ -10,17 +11,17 @@ public class GetResolvedGameHandler : IRequestHandler<GetResolvedGameQuery, Erro
 {
     private readonly IGameReadRepository _gameReadRepository;
     private readonly IResolvedGameReadRepository _resolvedGameReadRepository;
-    private readonly IResolvedGameWriteRepository _resolvedGameWriteRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IUserReadRepository _userReadRepository;
 
     public GetResolvedGameHandler(IResolvedGameReadRepository resolvedGameReadRepository,
-        IUserReadRepository userReadRepository,
-        IGameReadRepository gameReadRepository, IResolvedGameWriteRepository resolvedGameWriteRepository)
+        IUserReadRepository userReadRepository, IGameReadRepository gameReadRepository,
+        IUnitOfWork unitOfWork)
     {
         _resolvedGameReadRepository = resolvedGameReadRepository;
         _userReadRepository = userReadRepository;
         _gameReadRepository = gameReadRepository;
-        _resolvedGameWriteRepository = resolvedGameWriteRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<ResolvedGame>> Handle(GetResolvedGameQuery request, CancellationToken cancellationToken)
@@ -40,6 +41,8 @@ public class GetResolvedGameHandler : IRequestHandler<GetResolvedGameQuery, Erro
 
         var resolvedGame = await _resolvedGameReadRepository.GetResolvedGameAsync(userId, gameId, cancellationToken);
         resolvedGame.ProcessGameResult();
-        return await _resolvedGameWriteRepository.UpdateResolvedGameAsync(resolvedGame, cancellationToken);
+
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        return resolvedGame;
     }
 }

@@ -2,12 +2,6 @@
 
 public class ResolvedExercise : IEntity
 {
-    public Guid Id { get; }
-    public double UserAnswer { get; }
-    public TimeSpan ElapsedTime { get; }
-    public bool IsCorrect { get; }
-    public Exercise Exercise { get; }
-
     internal ResolvedExercise(double userAnswer, TimeSpan elapsedTime, Exercise exercise)
     {
         Id = Guid.NewGuid();
@@ -19,4 +13,9 @@ public class ResolvedExercise : IEntity
     }
 
     private ResolvedExercise() { }
+    public double UserAnswer { get; }
+    public TimeSpan ElapsedTime { get; }
+    public bool IsCorrect { get; }
+    public Exercise Exercise { get; }
+    public Guid Id { get; }
 }

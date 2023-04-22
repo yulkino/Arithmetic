@@ -11,17 +11,17 @@ public class StatisticRepository : IStatisticReadRepository, IStatisticWriteRepo
 
     public StatisticRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
 
-    public ValueTask<Statistic?> GetUserStatisticAsync(Guid userId, CancellationToken cancellationToken)
+    public ValueTask<Statistic?> GetUserStatisticAsync(Guid userId, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
-    public ValueTask<Statistic> CreateUserStatistic(Statistic statistic, CancellationToken cancellationToken)
+    public ValueTask<Statistic> CreateUserStatistic(Statistic statistic, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
-    public ValueTask<Statistic> UpdateUserStatistic(Statistic statistic, CancellationToken cancellationToken)
+    public ValueTask<Statistic> UpdateUserStatistic(Statistic statistic, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

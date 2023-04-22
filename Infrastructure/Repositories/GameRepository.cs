@@ -12,12 +12,12 @@ public class GameRepository : IGameReadRepository, IGameWriteRepository
 
     public GameRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
 
-    public ValueTask<Game?> GetGameByIdAsync(Guid gameId, Guid userId, CancellationToken cancellationToken)
+    public ValueTask<Game?> GetGameByIdAsync(Guid gameId, Guid userId, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
-    public ValueTask<Game> CreateAsync(Guid userId, Settings settings, CancellationToken cancellationToken)
+    public ValueTask<Game> CreateAsync(Guid userId, Settings settings, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

@@ -2,6 +2,7 @@
 using FluentValidation;
 
 namespace Application.Validators.UserValidators;
+
 internal class GetUserQueryValidator : AbstractValidator<GetUserQuery>
 {
     public GetUserQueryValidator()

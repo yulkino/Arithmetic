@@ -4,7 +4,7 @@ namespace Application.ServiceContracts.Repositories.Read.SettingsReadRepositorie
 
 public interface IOperationsReadRepository : IReadRepository<Operation>
 {
-    Task<List<Operation>> GetOperationsAsync(CancellationToken cancellationToken);
+    Task<List<Operation>> GetOperationsAsync(CancellationToken cancellationToken = default);
 
-    Task<HashSet<Operation>> GetOperationsByIdsAsync(List<Guid> id, CancellationToken cancellationToken);
+    Task<HashSet<Operation>> GetOperationsByIdsAsync(List<Guid> id, CancellationToken cancellationToken = default);
 }

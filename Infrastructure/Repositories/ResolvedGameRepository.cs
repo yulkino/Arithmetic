@@ -11,22 +11,17 @@ public class ResolvedGameRepository : IResolvedGameReadRepository, IResolvedGame
 
     public ResolvedGameRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
 
-    public ValueTask<ResolvedGame> GetResolvedGameAsync(Guid userId, Guid gameId, CancellationToken cancellationToken)
+    public ValueTask<ResolvedGame> GetResolvedGameAsync(Guid userId, Guid gameId, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
-    public Task<List<ResolvedGame>> GetUsersGamesAsync(Guid userId, CancellationToken cancellationToken)
+    public Task<List<ResolvedGame>> GetUsersGamesAsync(Guid userId, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
-    public ValueTask<ResolvedGame> CreateResolvedGameAsync(Game game, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    public ValueTask<ResolvedGame> UpdateResolvedGameAsync(ResolvedGame game, CancellationToken cancellationToken)
+    public ValueTask<ResolvedGame> CreateResolvedGameAsync(Game game, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

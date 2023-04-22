@@ -4,5 +4,5 @@ namespace Application.ServiceContracts.Repositories.Read.SettingsReadRepositorie
 
 public interface ISettingsReadRepository : IReadRepository<Settings>
 {
-    ValueTask<Settings?> GetSettingsAsync(Guid userId, CancellationToken cancellationToken);
+    ValueTask<Settings?> GetSettingsAsync(Guid userId, CancellationToken cancellationToken = default);
 }

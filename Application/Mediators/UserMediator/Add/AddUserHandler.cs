@@ -1,4 +1,5 @@
-﻿using Application.ServiceContracts.Repositories.Read;
+﻿using Application.ServiceContracts;
+using Application.ServiceContracts.Repositories.Read;
 using Application.ServiceContracts.Repositories.Write;
 using Domain.Entity;
 using ErrorOr;
@@ -9,12 +10,15 @@ namespace Application.Mediators.UserMediator.Add;
 public class AddUserHandler : IRequestHandler<AddUserCommand, ErrorOr<User>>
 {
     private readonly IUserReadRepository _userReadRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IUserWriteRepository _userWriteRepository;
 
-    public AddUserHandler(IUserWriteRepository userWriteRepository, IUserReadRepository userReadRepository)
+    public AddUserHandler(IUserWriteRepository userWriteRepository, IUserReadRepository userReadRepository,
+        IUnitOfWork unitOfWork)
     {
         _userWriteRepository = userWriteRepository;
         _userReadRepository = userReadRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<User>> Handle(AddUserCommand request, CancellationToken cancellationToken)
@@ -26,6 +30,8 @@ public class AddUserHandler : IRequestHandler<AddUserCommand, ErrorOr<User>>
             return Error.Conflict("User.Conflict", $"User with Login {login} already exists.");
         }
 
-        return await _userWriteRepository.AddUserAsync(login, password, cancellationToken);
+        var user = await _userWriteRepository.AddUserAsync(login, password, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        return user;
     }
 }

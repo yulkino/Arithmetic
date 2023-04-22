@@ -1,4 +1,5 @@
-﻿using Application.ServiceContracts.Repositories.Read;
+﻿using Application.ServiceContracts;
+using Application.ServiceContracts.Repositories.Read;
 using Application.ServiceContracts.Repositories.Read.SettingsReadRepositories;
 using Application.ServiceContracts.Repositories.Write;
 using Infrastructure.Configuration;
@@ -18,7 +19,8 @@ public static class ServiceCollectionExtensions
         var databaseConnectionOptions = configuration
             .GetRequiredSection(DatabaseConnectionOptions.SectionName)
             .Get<DatabaseConnectionOptions>()!;
-        services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(databaseConnectionOptions.ArithmeticDatabase));
+        services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(databaseConnectionOptions.ArithmeticDatabase));
 
         services.AddScoped<IUserReadRepository, UserRepository>();
         services.AddScoped<IUserWriteRepository, UserRepository>();
@@ -40,5 +42,7 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IOperationsReadRepository, OperationsRepository>();
         services.AddScoped<IDifficultiesReadRepository, DifficultiesRepository>();
+
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 }

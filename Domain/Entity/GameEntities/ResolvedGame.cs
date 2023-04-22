@@ -4,12 +4,6 @@ namespace Domain.Entity.GameEntities;
 
 public class ResolvedGame : IEntity, IEquatable<ResolvedGame>
 {
-    public Guid Id { get; }
-    public Game Game { get; }
-    public int CorrectAnswerCount { get; private set; }
-    public TimeSpan ElapsedTime { get; private set; }
-    public List<ResolvedExercise> ResolvedExercises { get; } = new();
-
     public ResolvedGame(Game game)
     {
         Id = Guid.NewGuid();
@@ -17,6 +11,26 @@ public class ResolvedGame : IEntity, IEquatable<ResolvedGame>
     }
 
     private ResolvedGame() { }
+    public Game Game { get; }
+    public int CorrectAnswerCount { get; private set; }
+    public TimeSpan ElapsedTime { get; private set; }
+    public List<ResolvedExercise> ResolvedExercises { get; } = new();
+    public Guid Id { get; }
+
+    public bool Equals(ResolvedGame? other)
+    {
+        if (ReferenceEquals(null, other))
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+
+        return Id.Equals(other.Id);
+    }
 
     public ResolvedGame ProcessGameResult()
     {
@@ -32,18 +46,23 @@ public class ResolvedGame : IEntity, IEquatable<ResolvedGame>
         return this;
     }
 
-    public bool Equals(ResolvedGame? other)
-    {
-        if (ReferenceEquals(null, other)) return false;
-        if (ReferenceEquals(this, other)) return true;
-        return Id.Equals(other.Id);
-    }
-
     public override bool Equals(object? obj)
     {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != this.GetType()) return false;
+        if (ReferenceEquals(null, obj))
+        {
+            return false;
+        }
+
+        if (ReferenceEquals(this, obj))
+        {
+            return true;
+        }
+
+        if (obj.GetType() != GetType())
+        {
+            return false;
+        }
+
         return Equals((ResolvedGame)obj);
     }
 

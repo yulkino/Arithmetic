@@ -1,4 +1,5 @@
-﻿using Application.ServiceContracts.Repositories.Read;
+﻿using Application.ServiceContracts;
+using Application.ServiceContracts.Repositories.Read;
 using Application.ServiceContracts.Repositories.Write;
 using Domain.Entity.ExerciseEntities;
 using ErrorOr;
@@ -11,20 +12,19 @@ public class SaveExerciseHandler : IRequestHandler<SaveExerciseCommand, ErrorOr<
     private readonly IExerciseReadRepository _exerciseReadRepository;
     private readonly IGameReadRepository _gameReadRepository;
     private readonly IResolvedGameReadRepository _resolvedGameReadRepository;
-    private readonly IResolvedGameWriteRepository _resolvedGameWriteRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IUserReadRepository _userReadRepository;
 
     public SaveExerciseHandler(IExerciseReadRepository exerciseReadRepository,
-        IExerciseWriteRepository exerciseWriteRepository,
         IUserReadRepository userReadRepository, IGameReadRepository gameReadRepository,
-        IResolvedGameWriteRepository resolvedGameWriteRepository,
-        IResolvedGameReadRepository resolvedGameReadRepository)
+        IResolvedGameReadRepository resolvedGameReadRepository,
+        IUnitOfWork unitOfWork)
     {
         _exerciseReadRepository = exerciseReadRepository;
         _userReadRepository = userReadRepository;
         _gameReadRepository = gameReadRepository;
-        _resolvedGameWriteRepository = resolvedGameWriteRepository;
         _resolvedGameReadRepository = resolvedGameReadRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<ResolvedExercise>> Handle(SaveExerciseCommand request,
@@ -54,8 +54,7 @@ public class SaveExerciseHandler : IRequestHandler<SaveExerciseCommand, ErrorOr<
         var resolvedExercise = exercise.Resolve(answer);
         resolvedGame.ResolvedExercises.Add(resolvedExercise);
 
-        await _resolvedGameWriteRepository.UpdateResolvedGameAsync(resolvedGame, cancellationToken);
-
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
         return resolvedExercise;
     }
 }

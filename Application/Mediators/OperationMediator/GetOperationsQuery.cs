@@ -2,4 +2,4 @@
 
 namespace Application.Mediators.OperationMediator;
 
-public record GetOperationsQuery() : IOperationRequest<List<Operation>>;
+public record GetOperationsQuery : IOperationRequest<List<Operation>>;

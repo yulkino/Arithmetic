@@ -3,7 +3,8 @@ using Domain.StatisticStaff;
 
 namespace Application.Services.StatisticServices;
 
-public class ExerciseProgressStatisticCalculator : IStatisticCalculator<Diagram<ExerciseProgressStatistic, DateTime, TimeSpan>>
+public class
+    ExerciseProgressStatisticCalculator : IStatisticCalculator<Diagram<ExerciseProgressStatistic, DateTime, TimeSpan>>
 {
     public Diagram<ExerciseProgressStatistic, DateTime, TimeSpan> Calculate(List<ResolvedGame> resolvedGames)
     {
@@ -27,10 +28,12 @@ public class ExerciseProgressStatisticCalculator : IStatisticCalculator<Diagram<
                 averageTimeElapsed,
                 resolvedExercises.Count));
         }
+
         return exerciseProgressStatistic;
     }
 
-    public Diagram<ExerciseProgressStatistic, DateTime, TimeSpan> UpdateCalculations(List<ResolvedGame> newResolvedGames,
+    public Diagram<ExerciseProgressStatistic, DateTime, TimeSpan> UpdateCalculations(
+        List<ResolvedGame> newResolvedGames,
         Diagram<ExerciseProgressStatistic, DateTime, TimeSpan> exerciseProgressStatistic)
     {
         var newResolvedGameDates = newResolvedGames
@@ -47,9 +50,11 @@ public class ExerciseProgressStatisticCalculator : IStatisticCalculator<Diagram<
             .Contains(earliestResolvedGameDate);
 
         if (!containsIntersectingDate)
+        {
             return exerciseProgressStatistic
                 .Concat(newExerciseProgressStatistic)
                 .ToDiagram<ExerciseProgressStatistic, DateTime, TimeSpan>();
+        }
 
         return UpdateStatisticIncludingIntersectingDate(
             exerciseProgressStatistic,

@@ -26,7 +26,8 @@ public class GameStatisticCalculator : IStatisticCalculator<List<GameStatistic>>
         return gameStatistics;
     }
 
-    public List<GameStatistic> UpdateCalculations(List<ResolvedGame> newResolvedGames, List<GameStatistic> gameStatistic)
+    public List<GameStatistic> UpdateCalculations(List<ResolvedGame> newResolvedGames,
+        List<GameStatistic> gameStatistic)
     {
         var newGameStatistic = Calculate(newResolvedGames);
         gameStatistic.AddRange(newGameStatistic);

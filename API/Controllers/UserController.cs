@@ -12,8 +12,8 @@ namespace API.Controllers;
 [Route("[controller]")]
 public sealed class UserController : ControllerBase
 {
-    private readonly IMediator _mediator;
     private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
 
     public UserController(IMediator mediator, IMapper mapper)
     {
@@ -31,7 +31,8 @@ public sealed class UserController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<UserDto>> Register([FromBody] RegisterDto registerData, CancellationToken cancellationToken)
+    public async Task<ActionResult<UserDto>> Register([FromBody] RegisterDto registerData,
+        CancellationToken cancellationToken)
     {
         var response = await _mediator.Send(
             new AddUserCommand(registerData.Login, registerData.Password, registerData.PasswordConfirmation),

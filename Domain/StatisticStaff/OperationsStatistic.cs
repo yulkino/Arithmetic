@@ -3,7 +3,7 @@
 namespace Domain.StatisticStaff;
 
 /// <summary>
-/// Represents a node of progress in exercises that use specific operation
+///     Represents a node of progress in exercises that use specific operation
 /// </summary>
 public sealed class OperationsStatistic : IStatisticElement<Operation, TimeSpan>
 {
@@ -22,7 +22,7 @@ public sealed class OperationsStatistic : IStatisticElement<Operation, TimeSpan>
     /// <summary>Exercises operation</summary>
     public Operation X { get; init; }
 
-    /// <summary>Exercises resolve average duration with exercises that use an operation <seealso cref="X"/></summary>
+    /// <summary>Exercises resolve average duration with exercises that use an operation <seealso cref="X" /></summary>
     public TimeSpan Y { get; init; }
 
     /// <summary>The number of elements that participated in the calculation of this node/></summary>
