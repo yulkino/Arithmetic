@@ -1,4 +1,5 @@
-﻿using Application.ServiceContracts;
+﻿using Application.ClientErrors.Errors;
+using Application.ServiceContracts;
 using Application.ServiceContracts.Repositories.Read;
 using Application.ServiceContracts.Repositories.Write;
 using Domain.Entity;
@@ -26,9 +27,7 @@ public class AddUserHandler : IRequestHandler<AddUserCommand, ErrorOr<User>>
         var (login, password, passwordConfirmation) = request;
 
         if (await _userReadRepository.GetUserByLoginAsync(login, cancellationToken) is not null)
-        {
-            return Error.Conflict("User.Conflict", $"User with Login {login} already exists.");
-        }
+            return Errors.UserErrors.Conflict(login);
 
         var user = await _userWriteRepository.AddUserAsync(login, password, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

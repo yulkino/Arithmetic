@@ -1,4 +1,5 @@
-﻿using Application.ServiceContracts;
+﻿using Application.ClientErrors.Errors;
+using Application.ServiceContracts;
 using Application.ServiceContracts.Repositories.Read;
 using Domain.Entity.ExerciseEntities;
 using ErrorOr;
@@ -32,21 +33,15 @@ public class SaveExerciseHandler : IRequestHandler<SaveExerciseCommand, ErrorOr<
         var (userId, gameId, exerciseId, answer) = request;
 
         if (await _userReadRepository.GetUserByIdAsync(userId, cancellationToken) is null)
-        {
-            return Error.NotFound("User.NotFound", "User does not exist.");
-        }
+            return Errors.UserErrors.NotFound;
 
         var game = await _gameReadRepository.GetGameByIdAsync(gameId, userId, cancellationToken);
         if (game is null)
-        {
-            return Error.NotFound("Game.NotFound", "Game does not exist.");
-        }
+            return Errors.GameErrors.NotFound;
 
         var exercise = await _exerciseReadRepository.GetExerciseByIdAsync(exerciseId, cancellationToken);
         if (exercise is null)
-        {
-            return Error.NotFound("Exercise.NotFound", "Exercise does not exist.");
-        }
+            return Errors.ExerciseErrors.NotFound;
 
         var resolvedGame = await _resolvedGameReadRepository.GetResolvedGameAsync(userId, gameId, cancellationToken);
 

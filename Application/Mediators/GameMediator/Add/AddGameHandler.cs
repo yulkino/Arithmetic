@@ -1,4 +1,5 @@
-﻿using Application.ServiceContracts;
+﻿using Application.ClientErrors.Errors;
+using Application.ServiceContracts;
 using Application.ServiceContracts.Repositories.Read;
 using Application.ServiceContracts.Repositories.Write;
 using Application.Services.SettingsProvider;
@@ -32,9 +33,7 @@ public class AddGameHandler : IRequestHandler<AddGameCommand, ErrorOr<Game>>
         var userId = request.UserId;
 
         if (await _userReadRepository.GetUserByIdAsync(userId, cancellationToken) is null)
-        {
-            return Error.NotFound("User.NotFound", "User does not exist.");
-        }
+            return Errors.UserErrors.NotFound;
 
         var game = await _gameWriteRepository.CreateAsync(userId, _defaultSettingsProvider.GetDefaultSettings(),
             cancellationToken);

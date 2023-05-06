@@ -1,4 +1,5 @@
-﻿using Application.ServiceContracts;
+﻿using Application.ClientErrors.Errors;
+using Application.ServiceContracts;
 using Application.ServiceContracts.Repositories.Read;
 using Domain.Entity.GameEntities;
 using ErrorOr;
@@ -28,15 +29,11 @@ public class GetResolvedGameHandler : IRequestHandler<GetResolvedGameQuery, Erro
         var (userId, gameId) = request;
 
         if (await _userReadRepository.GetUserByIdAsync(userId, cancellationToken) is null)
-        {
-            return Error.NotFound("User.NotFound", "User does not exist.");
-        }
+            return Errors.UserErrors.NotFound;
 
         var game = await _gameReadRepository.GetGameByIdAsync(gameId, userId, cancellationToken);
         if (game is null)
-        {
-            return Error.NotFound("Game.NotFound", "Game does not exist.");
-        }
+            return Errors.GameErrors.NotFound;
 
         var resolvedGame = await _resolvedGameReadRepository.GetResolvedGameAsync(userId, gameId, cancellationToken);
         resolvedGame.ProcessGameResult();

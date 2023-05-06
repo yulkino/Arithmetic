@@ -1,4 +1,5 @@
-﻿using Application.ServiceContracts.Repositories.Read;
+﻿using Application.ClientErrors.Errors;
+using Application.ServiceContracts.Repositories.Read;
 using Domain.Entity;
 using ErrorOr;
 using MediatR;
@@ -16,15 +17,11 @@ public class GetUserHandler : IRequestHandler<GetUserQuery, ErrorOr<User>>
         var (login, password) = request;
 
         if (await _userReadRepository.GetUserByLoginAsync(login, cancellationToken) is null)
-        {
-            return Error.NotFound("User.NotFound", "User does not exists.");
-        }
+            return Errors.UserErrors.NotFound;
 
         var user = await _userReadRepository.LoginUserAsync(login, password, cancellationToken);
         if (user is null)
-        {
-            return Error.Failure("User.Failure", "Failed login attempt.");
-        }
+            return Errors.UserErrors.Failure;
 
         return user;
     }

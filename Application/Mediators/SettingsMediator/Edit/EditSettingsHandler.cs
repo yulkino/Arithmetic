@@ -1,4 +1,5 @@
-﻿using Application.ServiceContracts;
+﻿using Application.ClientErrors.Errors;
+using Application.ServiceContracts;
 using Application.ServiceContracts.Repositories.Read;
 using Application.ServiceContracts.Repositories.Read.SettingsReadRepositories;
 using Domain.Entity.SettingsEntities;
@@ -31,28 +32,20 @@ public class EditSettingsHandler : IRequestHandler<EditSettingsCommand, ErrorOr<
         var (userId, operations, difficulty, exerciseCount) = request;
 
         if (await _userReadRepository.GetUserByIdAsync(userId, cancellationToken) is null)
-        {
-            return Error.NotFound("User.NotFound", "User does not exists.");
-        }
+            return Errors.UserErrors.NotFound;
 
         var settings = await _settingsReadRepository.GetSettingsAsync(userId, cancellationToken);
         if (settings is null)
-        {
-            return Error.NotFound("Settings.NotFound", "User settings do not exist.");
-        }
+            return Errors.SettingsErrors.NotFound;
 
         var settingsOperations = await _operationsReadRepository.GetOperationsByIdsAsync(operations, cancellationToken);
         if (settingsOperations.Count is 0)
-        {
-            return Error.NotFound("Operations.NotFound", "One or more operations do not exist.");
-        }
+            return Errors.SettingsErrors.Operations.NotFound;
 
         var settingsDifficulty =
             await _difficultiesReadRepository.GetDifficultyByIdAsync(difficulty, cancellationToken);
         if (settingsDifficulty is null)
-        {
-            return Error.NotFound("Difficulty.NotFound", "Difficulty does not exist.");
-        }
+            return Errors.SettingsErrors.Difficulty.NotFound;
 
         settings.Operations = settingsOperations;
         settings.Difficulty = settingsDifficulty;

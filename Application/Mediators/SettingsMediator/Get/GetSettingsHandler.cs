@@ -1,4 +1,5 @@
-﻿using Application.ServiceContracts.Repositories.Read;
+﻿using Application.ClientErrors.Errors;
+using Application.ServiceContracts.Repositories.Read;
 using Application.ServiceContracts.Repositories.Read.SettingsReadRepositories;
 using Domain.Entity.SettingsEntities;
 using ErrorOr;
@@ -22,15 +23,11 @@ public class GetSettingsHandler : IRequestHandler<GetSettingsQuery, ErrorOr<Sett
         var userId = request.UserId;
 
         if (await _userReadRepository.GetUserByIdAsync(userId, cancellationToken) is null)
-        {
-            return Error.NotFound("User.NotFound", "User does not exists.");
-        }
+            return Errors.UserErrors.NotFound;
 
         var settings = await _settingsReadRepository.GetSettingsAsync(userId, cancellationToken);
         if (settings is null)
-        {
-            return Error.NotFound("Settings.NotFound", "Settings for the user do not exist.");
-        }
+            return Errors.SettingsErrors.NotFound;
 
         return settings;
     }

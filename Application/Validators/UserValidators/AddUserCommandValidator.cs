@@ -11,6 +11,7 @@ public class AddUserCommandValidator : AbstractValidator<AddUserCommand>
         RuleFor(u => u.Password).NotEmpty();
         RuleFor(u => u.PasswordConfirmation)
             .NotEmpty()
-            .Equal(u => u.Password);
+            .Equal(u => u.Password)
+            .WithMessage("Password doesn't match.");
     }
 }

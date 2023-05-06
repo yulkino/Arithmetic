@@ -1,4 +1,5 @@
-﻿using Application.ServiceContracts;
+﻿using Application.ClientErrors.Errors;
+using Application.ServiceContracts;
 using Application.ServiceContracts.Repositories.Read;
 using Application.ServiceContracts.Repositories.Write;
 using Application.Services.StatisticServices;
@@ -35,15 +36,11 @@ public class GetStatisticHandler : IRequestHandler<GetStatisticQuery, ErrorOr<St
 
         var user = await _userReadRepository.GetUserByIdAsync(userId, cancellationToken);
         if (user is null)
-        {
-            return Error.NotFound("User.NotFound", "User does not exist.");
-        }
+            return Errors.UserErrors.NotFound;
 
         var userResolvedGames = await _resolvedGameReadRepository.GetUsersGamesAsync(userId, cancellationToken);
         if (userResolvedGames.Count == 0)
-        {
-            return Error.Custom(204, "ResolvedGame.Empty", "User has not any games.");
-        }
+            return new Statistic(user, userResolvedGames);
 
         var userStatistic = await _statisticReadRepository.GetUserStatisticAsync(userId, cancellationToken);
         if (userStatistic is null)

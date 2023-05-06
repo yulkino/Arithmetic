@@ -1,10 +1,12 @@
 ﻿using API.DTOs.UserDtos;
+using Application.ClientErrors.ErrorCodes;
 using Application.Mediators.UserMediator.Add;
 using Application.Mediators.UserMediator.Get;
 using AutoMapper;
 using Domain.Entity;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.AspNetCore.Http.StatusCodes;
 
 namespace API.Controllers;
 
@@ -31,14 +33,22 @@ public sealed class UserController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<UserDto>> Register([FromBody] RegisterDto registerData,
+    [ProducesResponseType(Status200OK)]
+    [ProducesResponseType(Status400BadRequest)]
+    [ProducesResponseType(Status404NotFound)]
+    public async Task<IResult> Register([FromBody] RegisterDto registerData,
         CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(
+        var result = await _mediator.Send(
             new AddUserCommand(registerData.Login, registerData.Password, registerData.PasswordConfirmation),
             cancellationToken);
-        //TODO error catch
-        var result = _mapper.Map<User, UserDto>(response.Value);
-        return result;
+        return result.MatchToHttpResponse<User>(
+            response => Results.CreatedAtRoute(nameof(Register), _mapper.Map<User, UserDto>(response)), 
+            error => error.Code switch
+            {
+                GeneralErrorCodes.Validation => Results.BadRequest(error.Description),
+                UserErrorCodes.Conflict => Results.Conflict(error.Description),
+                _ => throw new InvalidOperationException()
+            });
     }
 }

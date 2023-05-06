@@ -35,10 +35,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IResolvedGameWriteRepository, ResolvedGameRepository>();
 
         services.AddScoped<IExerciseReadRepository, ExerciseRepository>();
-        services.AddScoped<IExerciseWriteRepository, ExerciseRepository>();
 
         services.AddScoped<ISettingsReadRepository, SettingsRepository>();
-        services.AddScoped<ISettingsWriteRepository, SettingsRepository>();
 
         services.AddScoped<IOperationsReadRepository, OperationsRepository>();
         services.AddScoped<IDifficultiesReadRepository, DifficultiesRepository>();
