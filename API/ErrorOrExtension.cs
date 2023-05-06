@@ -1,9 +1,4 @@
-﻿using API.DTOs.UserDtos;
-using Azure;
-using Domain.Entity;
-using ErrorOr;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using ErrorOr;
 
 namespace API;
 

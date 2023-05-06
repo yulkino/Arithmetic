@@ -4,6 +4,7 @@ using Application.Mediators.UserMediator.Add;
 using Application.Mediators.UserMediator.Get;
 using AutoMapper;
 using Domain.Entity;
+using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using static Microsoft.AspNetCore.Http.StatusCodes;
@@ -24,12 +25,21 @@ public sealed class UserController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<UserDto>> Login([FromBody] LoginDto loginData, CancellationToken cancellationToken)
+    [ProducesResponseType(Status200OK)]
+    [ProducesResponseType(Status400BadRequest)]
+    [ProducesResponseType(Status404NotFound)]
+    public async Task<IResult> Login([FromBody] LoginDto loginData, CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(new GetUserQuery(loginData.Login, loginData.Password), cancellationToken);
-        //TODO error catch
-        var result = _mapper.Map<User, UserDto>(response.Value);
-        return result;
+        var result = await _mediator.Send(new GetUserQuery(loginData.Login, loginData.Password), cancellationToken);
+        return result.MatchToHttpResponse(
+            response => Results.CreatedAtRoute(nameof(Register), _mapper.Map<User, UserDto>(response)),
+            error => error.Code switch
+            {
+                GeneralErrorCodes.Validation => Results.BadRequest(error.Description),
+                UserErrorCodes.NotFound => Results.NotFound(error.Description),
+                UserErrorCodes.Failure => Results.BadRequest(error.Description),
+                _ => throw new InvalidOperationException()
+            });
     }
 
     [HttpPost("register")]
@@ -42,7 +52,7 @@ public sealed class UserController : ControllerBase
         var result = await _mediator.Send(
             new AddUserCommand(registerData.Login, registerData.Password, registerData.PasswordConfirmation),
             cancellationToken);
-        return result.MatchToHttpResponse<User>(
+        return result.MatchToHttpResponse(
             response => Results.CreatedAtRoute(nameof(Register), _mapper.Map<User, UserDto>(response)), 
             error => error.Code switch
             {
