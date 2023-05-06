@@ -11,7 +11,7 @@ public static partial class Errors
         public static Error Validation(ValidationFailure v)
         {
             return Error.Validation(GeneralErrorCodes.Validation,
-            $"Property: {v.PropertyName} caused Error Code: {v.ErrorCode} with Error Message: {v.ErrorMessage}.");
+            $"Field: {v.PropertyName} caused Error Code: {v.ErrorCode} with Error Message: {v.ErrorMessage}");
         }
     }
 }

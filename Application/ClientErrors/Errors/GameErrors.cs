@@ -7,6 +7,6 @@ public static partial class Errors
 {
     public static class GameErrors
     {
-        public static Error NotFound = Error.NotFound(GameErrorCodes.NotFound, "Game does not exist.");
+        public static Error NotFound = Error.NotFound(GameErrorCodes.NotFound, "Game does not exist");
     }
 }

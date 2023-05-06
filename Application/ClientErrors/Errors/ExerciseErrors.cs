@@ -7,6 +7,6 @@ public static partial class Errors
 {
     public static class ExerciseErrors
     {
-        public static Error NotFound = Error.NotFound(ExerciseErrorCodes.NotFound, "Exercise does not exist.");
+        public static Error NotFound = Error.NotFound(ExerciseErrorCodes.NotFound, "Exercise does not exist");
     }
 }

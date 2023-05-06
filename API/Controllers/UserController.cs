@@ -4,7 +4,6 @@ using Application.Mediators.UserMediator.Add;
 using Application.Mediators.UserMediator.Get;
 using AutoMapper;
 using Domain.Entity;
-using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using static Microsoft.AspNetCore.Http.StatusCodes;
@@ -32,7 +31,7 @@ public sealed class UserController : ControllerBase
     {
         var result = await _mediator.Send(new GetUserQuery(loginData.Login, loginData.Password), cancellationToken);
         return result.MatchToHttpResponse(
-            response => Results.CreatedAtRoute(nameof(Register), _mapper.Map<User, UserDto>(response)),
+            response => Results.Ok(_mapper.Map<User, UserDto>(response)),
             error => error.Code switch
             {
                 GeneralErrorCodes.Validation => Results.BadRequest(error.Description),
@@ -53,7 +52,7 @@ public sealed class UserController : ControllerBase
             new AddUserCommand(registerData.Login, registerData.Password, registerData.PasswordConfirmation),
             cancellationToken);
         return result.MatchToHttpResponse(
-            response => Results.CreatedAtRoute(nameof(Register), _mapper.Map<User, UserDto>(response)), 
+            response => Results.Ok(_mapper.Map<User, UserDto>(response)),
             error => error.Code switch
             {
                 GeneralErrorCodes.Validation => Results.BadRequest(error.Description),

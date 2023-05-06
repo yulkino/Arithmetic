@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Application.Validators.GameValidators;
 
-public class SaveExerciseCommandValidator : AbstractValidator<SaveExerciseCommand>
+internal class SaveExerciseCommandValidator : AbstractValidator<SaveExerciseCommand>
 {
     public SaveExerciseCommandValidator()
     {

@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Application.Validators.StatisticValidators;
 
-public class GetStatisticQueryValidator : AbstractValidator<GetStatisticQuery>
+internal class GetStatisticQueryValidator : AbstractValidator<GetStatisticQuery>
 {
     public GetStatisticQueryValidator() => RuleFor(s => s.UserId).NotEmpty();
 }

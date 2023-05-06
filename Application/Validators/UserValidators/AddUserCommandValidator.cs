@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Application.Validators.UserValidators;
 
-public class AddUserCommandValidator : AbstractValidator<AddUserCommand>
+internal class AddUserCommandValidator : AbstractValidator<AddUserCommand>
 {
     public AddUserCommandValidator()
     {
@@ -12,6 +12,6 @@ public class AddUserCommandValidator : AbstractValidator<AddUserCommand>
         RuleFor(u => u.PasswordConfirmation)
             .NotEmpty()
             .Equal(u => u.Password)
-            .WithMessage("Password doesn't match.");
+            .WithMessage("Password doesn't match");
     }
 }

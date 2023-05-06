@@ -14,7 +14,7 @@ public class UserRepository : IUserReadRepository, IUserWriteRepository
 
     public async ValueTask<User?> GetUserByLoginAsync(string login, CancellationToken cancellationToken = default)
     {
-       return await _dbContext.Users.SingleOrDefaultAsync(u => u.Login == login, cancellationToken);
+        return await _dbContext.Users.SingleOrDefaultAsync(u => u.Login == login, cancellationToken);
     }
 
     public async ValueTask<User?> GetUserByIdAsync(Guid userId, CancellationToken cancellationToken = default)

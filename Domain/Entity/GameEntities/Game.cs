@@ -46,10 +46,7 @@ public class Game : IEntity, IEquatable<Game>
 
         return new Exercise(first, second, operation);
 
-        int Pick(int value)
-        {
-            return Random.Shared.Next(-value + 1, value);
-        }
+        int Pick(int value) => Random.Shared.Next(-value + 1, value);
     }
 
     public override bool Equals(object? obj)

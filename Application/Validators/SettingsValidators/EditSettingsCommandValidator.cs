@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Application.Validators.SettingsValidators;
 
-public class EditSettingsCommandValidator : AbstractValidator<EditSettingsCommand>
+internal class EditSettingsCommandValidator : AbstractValidator<EditSettingsCommand>
 {
     public EditSettingsCommandValidator()
     {

@@ -1,4 +1,5 @@
 using Application;
+using FluentValidation;
 using Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,8 @@ services.AddSwaggerGen();
 services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 services.AddApplication();
 services.AddInfrastructure(builder.Configuration);
+
+ValidatorOptions.Global.LanguageManager.Enabled = false;
 
 var app = builder.Build();
 

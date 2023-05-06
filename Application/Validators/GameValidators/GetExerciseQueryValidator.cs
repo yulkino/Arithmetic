@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Application.Validators.GameValidators;
 
-public class GetExerciseQueryValidator : AbstractValidator<GetExerciseQuery>
+internal class GetExerciseQueryValidator : AbstractValidator<GetExerciseQuery>
 {
     public GetExerciseQueryValidator()
     {
