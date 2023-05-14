@@ -10,6 +10,9 @@ public class GameEntityTypeConfiguration : IEntityTypeConfiguration<Game>
     {
         builder.HasKey(game => game.Id);
         builder
+            .Property(game => game.Id)
+            .ValueGeneratedNever();
+        builder
             .Property(game => game.Date)
             .IsRequired();
         builder.HasOne(game => game.Settings);

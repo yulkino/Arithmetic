@@ -38,7 +38,7 @@ public class GetStatisticHandler : IRequestHandler<GetStatisticQuery, ErrorOr<St
         if (user is null)
             return Errors.UserErrors.NotFound;
 
-        var userResolvedGames = await _resolvedGameReadRepository.GetUsersGamesAsync(userId, cancellationToken);
+        var userResolvedGames = await _resolvedGameReadRepository.GetUsersGamesAsync(user, cancellationToken);
         if (userResolvedGames.Count == 0)
             return new Statistic(user, userResolvedGames);
 

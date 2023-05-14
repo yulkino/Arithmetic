@@ -1,8 +1,9 @@
-﻿using Domain.Entity.GameEntities;
+﻿using Domain.Entity;
+using Domain.Entity.GameEntities;
 
 namespace Application.ServiceContracts.Repositories.Read;
 
 public interface IGameReadRepository : IReadRepository<Game>
 {
-    ValueTask<Game?> GetGameByIdAsync(Guid gameId, Guid userId, CancellationToken cancellationToken = default);
+    ValueTask<Game?> GetGameByIdAsync(Guid gameId, CancellationToken cancellationToken = default);
 }

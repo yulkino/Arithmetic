@@ -28,14 +28,21 @@ public class GetResolvedGameHandler : IRequestHandler<GetResolvedGameQuery, Erro
     {
         var (userId, gameId) = request;
 
-        if (await _userReadRepository.GetUserByIdAsync(userId, cancellationToken) is null)
+        var user = await _userReadRepository.GetUserByIdAsync(userId, cancellationToken);
+        if (user is null)
             return Errors.UserErrors.NotFound;
 
-        var game = await _gameReadRepository.GetGameByIdAsync(gameId, userId, cancellationToken);
+        var game = await _gameReadRepository.GetGameByIdAsync(gameId, cancellationToken);
         if (game is null)
             return Errors.GameErrors.NotFound;
 
-        var resolvedGame = await _resolvedGameReadRepository.GetResolvedGameAsync(userId, gameId, cancellationToken);
+        if (game.Exercises.Count != game.Settings.ExerciseCount)
+            return Errors.GameErrors.NotOver;
+
+        var resolvedGame = await _resolvedGameReadRepository.GetResolvedGameAsync(game, cancellationToken);
+        if(resolvedGame is null)
+            return Errors.ResolvedGameErrors.NotFound;
+
         resolvedGame.ProcessGameResult();
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);

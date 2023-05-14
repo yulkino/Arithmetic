@@ -10,6 +10,9 @@ public class ExerciseEntityTypeConfiguration : IEntityTypeConfiguration<Exercise
     {
         builder.HasKey(exercise => exercise.Id);
         builder
+            .Property(exercise => exercise.Id)
+            .ValueGeneratedNever();
+        builder
             .Property(exercise => exercise.LeftOperand)
             .IsRequired();
         builder
@@ -19,6 +22,8 @@ public class ExerciseEntityTypeConfiguration : IEntityTypeConfiguration<Exercise
             .HasOne(exercise => exercise.Operation);
         builder
             .Property(exercise => exercise.Answer)
+            .IsRequired();
+        builder.Property(exercise => exercise.StartTime)
             .IsRequired();
     }
 }

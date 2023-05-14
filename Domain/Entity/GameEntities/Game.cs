@@ -24,17 +24,10 @@ public class Game : IEntity, IEquatable<Game>
 
     public bool Equals(Game? other)
     {
-        if (ReferenceEquals(null, other))
-        {
+        if (other is null)
             return false;
-        }
 
-        if (ReferenceEquals(this, other))
-        {
-            return true;
-        }
-
-        return Id.Equals(other.Id);
+        return ReferenceEquals(this, other) || Id.Equals(other.Id);
     }
 
     public Exercise GiveNextExercise()
@@ -44,33 +37,23 @@ public class Game : IEntity, IEquatable<Game>
         var first = Pick(max);
         var second = Pick(max);
 
-        return new Exercise(first, second, operation);
+        var exercise = new Exercise(first, second, operation);
+        Exercises.Add(exercise);
+        return exercise;
 
         int Pick(int value) => Random.Shared.Next(-value + 1, value);
     }
 
     public override bool Equals(object? obj)
     {
-        if (ReferenceEquals(null, obj))
-        {
+        if (obj is null)
             return false;
-        }
 
         if (ReferenceEquals(this, obj))
-        {
             return true;
-        }
 
-        if (obj.GetType() != GetType())
-        {
-            return false;
-        }
-
-        return Equals((Game)obj);
+        return obj.GetType() == GetType() && Equals((Game)obj);
     }
 
-    public override int GetHashCode()
-    {
-        return Id.GetHashCode();
-    }
+    public override int GetHashCode() => Id.GetHashCode();
 }

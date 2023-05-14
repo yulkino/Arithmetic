@@ -11,6 +11,9 @@ public class OperationEntityTypeConfiguration : IEntityTypeConfiguration<Operati
     {
         builder.HasKey(operation => operation.Id);
         builder
+            .Property(operation => operation.Id)
+            .ValueGeneratedNever();
+        builder
             .Property(operation => operation.Name)
             .IsRequired();
         builder.HasData(Addition, Division, Multiplication, Subtraction);

@@ -32,10 +32,13 @@ public class AddGameHandler : IRequestHandler<AddGameCommand, ErrorOr<Game>>
     {
         var userId = request.UserId;
 
-        if (await _userReadRepository.GetUserByIdAsync(userId, cancellationToken) is null)
+        var user = await _userReadRepository.GetUserByIdAsync(userId, cancellationToken);
+        if (user is null)
             return Errors.UserErrors.NotFound;
 
-        var game = await _gameWriteRepository.CreateAsync(userId, _defaultSettingsProvider.GetDefaultSettings(),
+        var settings = await _defaultSettingsProvider.GetDefaultSettingsAsync(cancellationToken);
+        var game = await _gameWriteRepository.CreateAsync(user, 
+            settings,
             cancellationToken);
         await _resolvedGameWriteRepository.CreateResolvedGameAsync(game, cancellationToken);
 

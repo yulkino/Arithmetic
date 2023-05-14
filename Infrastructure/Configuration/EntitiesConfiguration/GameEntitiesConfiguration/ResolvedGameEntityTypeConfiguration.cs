@@ -10,6 +10,9 @@ public class ResolvedGameEntityTypeConfiguration : IEntityTypeConfiguration<Reso
     {
         builder.HasKey(resolvedGame => resolvedGame.Id);
         builder
+            .Property(resolvedGame => resolvedGame.Id)
+            .ValueGeneratedNever();
+        builder
             .Property(resolvedGame => resolvedGame.CorrectAnswerCount)
             .IsRequired();
         builder

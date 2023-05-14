@@ -8,15 +8,18 @@ public class ExerciseProgressStatisticEntityTypeConfiguration : IEntityTypeConfi
 {
     public void Configure(EntityTypeBuilder<ExerciseProgressStatistic> builder)
     {
-        builder.HasKey(x => x.Id);
+        builder.HasKey(exerciseProgressStatistic => exerciseProgressStatistic.Id); 
         builder
-            .Property(e => e.ElementCountStatistic)
+            .Property(exerciseProgressStatistic => exerciseProgressStatistic.Id)
+            .ValueGeneratedNever();
+        builder
+            .Property(exerciseProgressStatistic => exerciseProgressStatistic.ElementCountStatistic)
             .IsRequired();
         builder
-            .Property(e => e.X)
+            .Property(exerciseProgressStatistic => exerciseProgressStatistic.X)
             .IsRequired();
         builder
-            .Property(e => e.Y)
+            .Property(exerciseProgressStatistic => exerciseProgressStatistic.Y)
             .IsRequired();
     }
 }

@@ -11,21 +11,29 @@ public class GetSettingsHandler : IRequestHandler<GetSettingsQuery, ErrorOr<Sett
 {
     private readonly ISettingsReadRepository _settingsReadRepository;
     private readonly IUserReadRepository _userReadRepository;
+    private readonly IGameReadRepository _gameReadRepository;
 
-    public GetSettingsHandler(ISettingsReadRepository settingsReadRepository, IUserReadRepository userReadRepository)
+    public GetSettingsHandler(ISettingsReadRepository settingsReadRepository, IUserReadRepository userReadRepository,
+        IGameReadRepository gameReadRepository)
     {
         _settingsReadRepository = settingsReadRepository;
         _userReadRepository = userReadRepository;
+        _gameReadRepository = gameReadRepository;
     }
 
     public async Task<ErrorOr<Settings>> Handle(GetSettingsQuery request, CancellationToken cancellationToken)
     {
-        var userId = request.UserId;
+        var (userId, gameId) = request;
 
-        if (await _userReadRepository.GetUserByIdAsync(userId, cancellationToken) is null)
+        var user = await _userReadRepository.GetUserByIdAsync(userId, cancellationToken);
+        if (user is null)
             return Errors.UserErrors.NotFound;
 
-        var settings = await _settingsReadRepository.GetSettingsAsync(userId, cancellationToken);
+        var game = await _gameReadRepository.GetGameByIdAsync(gameId, cancellationToken);
+        if (game is null)
+            return Errors.GameErrors.NotFound;
+
+        var settings = await _settingsReadRepository.GetSettingsAsync(game, cancellationToken);
         if (settings is null)
             return Errors.SettingsErrors.NotFound;
 

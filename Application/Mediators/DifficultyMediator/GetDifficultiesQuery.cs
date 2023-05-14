@@ -2,4 +2,4 @@
 
 namespace Application.Mediators.DifficultyMediator;
 
-public record GetDifficultiesQuery : IOperationRequest<List<Difficulty>>;
+public record GetDifficultiesQuery : IOperationRequest<HashSet<Difficulty>>;

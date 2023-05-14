@@ -3,8 +3,8 @@
 namespace API.DTOs.StatisticDtos;
 
 public sealed record GameStatisticDto(
-    Guid Id,
+    Guid GameId,
     DateTime GameDate,
     int ExerciseCount,
     TimeOnly GameDuration,
-    double CorrectAnswersPercentage) : GameDto(Id);
+    double CorrectAnswersPercentage);

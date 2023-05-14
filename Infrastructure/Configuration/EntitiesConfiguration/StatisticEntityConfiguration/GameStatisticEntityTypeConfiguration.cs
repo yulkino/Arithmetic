@@ -8,18 +8,21 @@ public class GameStatisticEntityTypeConfiguration : IEntityTypeConfiguration<Gam
 {
     public void Configure(EntityTypeBuilder<GameStatistic> builder)
     {
-        builder.HasKey(g => g.Id);
+        builder.HasKey(gameStatistic => gameStatistic.Id);
         builder
-            .Property(g => g.ExerciseCount)
+            .Property(gameStatistic => gameStatistic.Id)
+            .ValueGeneratedNever();
+        builder
+            .Property(gameStatistic => gameStatistic.ExerciseCount)
             .IsRequired();
         builder
-            .Property(g => g.CorrectAnswersPercentage)
+            .Property(gameStatistic => gameStatistic.CorrectAnswersPercentage)
             .IsRequired();
         builder
-            .Property(g => g.GameDuration)
+            .Property(gameStatistic => gameStatistic.GameDuration)
             .IsRequired();
         builder
-            .Property(g => g.GameDate)
+            .Property(gameStatistic => gameStatistic.GameDate)  
             .IsRequired();
     }
 }

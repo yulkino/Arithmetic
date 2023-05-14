@@ -4,5 +4,5 @@ namespace Application.Services.SettingsProvider;
 
 public interface IDefaultSettingsProvider
 {
-    Settings GetDefaultSettings();
+    Task<Settings> GetDefaultSettingsAsync(CancellationToken cancellationToken = default);
 }

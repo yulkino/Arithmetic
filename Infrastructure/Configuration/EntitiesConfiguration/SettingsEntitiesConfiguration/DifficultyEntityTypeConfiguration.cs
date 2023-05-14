@@ -11,6 +11,9 @@ public class DifficultyEntityTypeConfiguration : IEntityTypeConfiguration<Diffic
     {
         builder.HasKey(difficulty => difficulty.Id);
         builder
+            .Property(difficulty => difficulty.Id)
+            .ValueGeneratedNever();
+        builder
             .Property(difficulty => difficulty.Name)
             .IsRequired();
         builder

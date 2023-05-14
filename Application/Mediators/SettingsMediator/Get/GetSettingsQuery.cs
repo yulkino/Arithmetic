@@ -2,4 +2,4 @@
 
 namespace Application.Mediators.SettingsMediator.Get;
 
-public record GetSettingsQuery(Guid UserId) : IOperationRequest<Settings>;
+public record GetSettingsQuery(Guid UserId, Guid GameId) : IOperationRequest<Settings>;

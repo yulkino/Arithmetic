@@ -10,6 +10,9 @@ public class ResolvedExerciseEntityTypeConfiguration : IEntityTypeConfiguration<
     {
         builder.HasKey(resolvedExercise => resolvedExercise.Id);
         builder
+            .Property(resolvedExercise => resolvedExercise.Id)
+            .ValueGeneratedNever();
+        builder
             .Property(resolvedExercise => resolvedExercise.UserAnswer)
             .IsRequired();
         builder

@@ -10,9 +10,15 @@ public class SettingsEntityTypeConfiguration : IEntityTypeConfiguration<Settings
     {
         builder.HasKey(settings => settings.Id);
         builder
+            .Property(settings => settings.Id)
+            .ValueGeneratedNever();
+        builder
             .Property(settings => settings.ExerciseCount)
             .IsRequired();
-        builder.HasMany(settings => settings.Operations);
+        builder
+            .HasMany(settings => settings.Operations)
+            .WithMany()
+            .UsingEntity("SettingsOperations");
         builder.HasOne(settings => settings.Difficulty);
     }
 }

@@ -1,9 +1,11 @@
 ﻿using API.DTOs.GameDtos;
 using API.DTOs.ResolvedGameDtos;
+using Application.ClientErrors.ErrorCodes;
 using Application.Mediators.GameMediator.Add;
 using Application.Mediators.GameMediator.GetExercise;
 using Application.Mediators.GameMediator.SaveExercise;
 using AutoMapper;
+using Azure;
 using Domain.Entity.ExerciseEntities;
 using Domain.Entity.GameEntities;
 using MediatR;
@@ -24,33 +26,53 @@ public sealed class GameController : ControllerBase
     }
 
     [HttpPost("User/{userId}/Game")]
-    public async Task<ActionResult<GameDto>> StartGame([FromRoute] Guid userId, CancellationToken cancellationToken)
+    public async Task<IResult> StartGame([FromRoute] Guid userId, CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(new AddGameCommand(userId), cancellationToken);
-        //TODO error catch
-        var result = _mapper.Map<Game, GameDto>(response.Value);
-        return result;
+        var result = await _mediator.Send(new AddGameCommand(userId), cancellationToken);
+
+        return result.MatchToHttpResponse(
+            game => Results.Ok(_mapper.Map<Game, GameDto>(game)),
+            error => error.Code switch
+            {
+                UserErrorCodes.NotFound => Results.NotFound(error.Description),
+                GameErrorCodes.NotFound => Results.NotFound(error.Description),
+                _ => throw new InvalidOperationException()
+            });
     }
 
     [HttpGet("User/{userId}/Game/{gameId}")]
-    public async Task<ActionResult<ExerciseDto>> GetNextExercise([FromRoute] Guid userId, [FromRoute] Guid gameId,
+    public async Task<IResult> GetNextExercise([FromRoute] Guid userId, [FromRoute] Guid gameId,
         CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(new GetExerciseQuery(userId, gameId), cancellationToken);
-        //TODO error catch
-        var result = _mapper.Map<Exercise, ExerciseDto>(response.Value);
-        return result;
+        var result = await _mediator.Send(new GetExerciseQuery(userId, gameId), cancellationToken);
+
+        return result.MatchToHttpResponse(
+            exercise => Results.Ok(_mapper.Map<Exercise, ExerciseDto>(exercise)),
+            error => error.Code switch
+            {
+                UserErrorCodes.NotFound => Results.NotFound(error.Description),
+                GameErrorCodes.NotFound => Results.NotFound(error.Description),
+                ExerciseErrorCodes.BeyondAmountSettings => Results.BadRequest(error.Description),
+                _ => throw new InvalidOperationException()
+            });
     }
 
     [HttpPost("User/{userId}/Game/{gameId}/Exercise/{exerciseId}")]
-    public async Task<ActionResult<ResolvedExerciseDto>> SaveAnswer([FromRoute] Guid userId, [FromRoute] Guid gameId,
-        [FromRoute] Guid exerciseId,
-        [FromQuery] double answer, CancellationToken cancellationToken)
+    public async Task<IResult> SaveAnswer([FromRoute] Guid userId, [FromRoute] Guid gameId,
+        [FromRoute] Guid exerciseId, [FromQuery] double answer, CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(new SaveExerciseCommand(userId, gameId, exerciseId, answer),
+        var result = await _mediator.Send(new SaveExerciseCommand(userId, gameId, exerciseId, answer),
             cancellationToken);
-        //TODO error catch
-        var result = _mapper.Map<ResolvedExercise, ResolvedExerciseDto>(response.Value);
-        return result;
+
+        return result.MatchToHttpResponse(
+            resolvedExercise => Results.Ok(_mapper.Map<ResolvedExercise, ResolvedExerciseDto>(resolvedExercise)),
+            error => error.Code switch
+            {
+                UserErrorCodes.NotFound => Results.NotFound(error.Description),
+                GameErrorCodes.NotFound => Results.NotFound(error.Description),
+                ExerciseErrorCodes.NotFound => Results.NotFound(error.Description),
+                ResolvedGameErrorCodes.NotFound => Results.NotFound(error.Description),
+                _ => throw new InvalidOperationException()
+            });
     }
 }

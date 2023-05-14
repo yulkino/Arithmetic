@@ -10,6 +10,9 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
     {
         builder.HasKey(user => user.Id);
         builder
+            .Property(user => user.Id)
+            .ValueGeneratedNever();
+        builder
             .Property(user => user.Login)
             .IsRequired();
         builder

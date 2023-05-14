@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Repositories\SettingsRepositories\OperationsRepository.cs~RF879a70ca.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Configuration\EntitiesConfiguration\ExerciseEntitiesConfiguration\" />
     <Folder Include="Data\" />
   </ItemGroup>

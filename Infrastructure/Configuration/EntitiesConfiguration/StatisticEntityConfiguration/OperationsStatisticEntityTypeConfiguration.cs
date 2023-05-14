@@ -8,13 +8,16 @@ public class OperationsStatisticEntityTypeConfiguration : IEntityTypeConfigurati
 {
     public void Configure(EntityTypeBuilder<OperationsStatistic> builder)
     {
-        builder.HasKey(o => o.Id);
+        builder.HasKey(operationsStatistic => operationsStatistic.Id);
         builder
-            .Property(o => o.ElementCountStatistic)
+            .Property(operationsStatistic => operationsStatistic.Id)
+            .ValueGeneratedNever();
+        builder
+            .Property(operationsStatistic => operationsStatistic.ElementCountStatistic)
             .IsRequired();
         builder
-            .Property(o => o.Y)
+            .Property(operationsStatistic => operationsStatistic.Y)
             .IsRequired();
-        builder.HasOne(o => o.X);
+        builder.HasOne(operationsStatistic => operationsStatistic.X);
     }
 }

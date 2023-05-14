@@ -1,4 +1,5 @@
 ﻿using API.DTOs.ResolvedGameDtos;
+using Application.ClientErrors.ErrorCodes;
 using Application.Mediators.ResolvedGameMediator.Get;
 using AutoMapper;
 using Domain.Entity.GameEntities;
@@ -20,12 +21,20 @@ public sealed class ResolvedGameController : ControllerBase
     }
 
     [HttpGet("User/{userId}/Game/{gameId}/Result")]
-    public async Task<ActionResult<ResolvedGameDto>> GetGameResult([FromRoute] Guid userId, [FromRoute] Guid gameId,
+    public async Task<IResult> GetGameResult([FromRoute] Guid userId, [FromRoute] Guid gameId,
         CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(new GetResolvedGameQuery(userId, gameId), cancellationToken);
-        //TODO error catch
-        var result = _mapper.Map<ResolvedGame, ResolvedGameDto>(response.Value);
-        return result;
+        var result = await _mediator.Send(new GetResolvedGameQuery(userId, gameId), cancellationToken);
+
+        return result.MatchToHttpResponse(
+            resolvedGame => Results.Ok(_mapper.Map<ResolvedGame, ResolvedGameDto>(resolvedGame)),
+            error => error.Code switch
+            {
+                UserErrorCodes.NotFound => Results.NotFound(error.Description),
+                GameErrorCodes.NotFound => Results.NotFound(error.Description),
+                GameErrorCodes.NotOver => Results.BadRequest(error.Description),
+                ResolvedGameErrorCodes.NotFound => Results.NotFound(error.Description),
+                _ => throw new InvalidOperationException()
+            });
     }
 }

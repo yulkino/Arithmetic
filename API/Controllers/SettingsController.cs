@@ -1,5 +1,6 @@
 ﻿using API.DTOs.SettingsDtos.EditSettingsDtos;
 using API.DTOs.SettingsDtos.GetSettingsDtos;
+using Application.ClientErrors.ErrorCodes;
 using Application.Mediators.DifficultyMediator;
 using Application.Mediators.OperationMediator;
 using Application.Mediators.SettingsMediator.Edit;
@@ -23,48 +24,67 @@ public sealed class SettingsController : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpGet("User/{userId}/Settings")]
-    public async Task<ActionResult<SettingsDto>> GetUserSetting([FromRoute] Guid userId,
+    [HttpGet("User/{userId}/Game/{gameId}/Settings")]
+    public async Task<IResult> GetGameSetting([FromRoute] Guid userId, [FromRoute] Guid gameId,
         CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(new GetSettingsQuery(userId), cancellationToken);
-        //TODO error catch
-        var result = _mapper.Map<Settings, SettingsDto>(response.Value);
-        return result;
+        var result = await _mediator.Send(new GetSettingsQuery(userId, gameId), cancellationToken);
+
+        return result.MatchToHttpResponse(
+            gameSettings => Results.Ok(_mapper.Map<Settings, SettingsDto>(gameSettings)),
+            error => error.Code switch
+            {
+                UserErrorCodes.NotFound => Results.NotFound(error.Description),
+                GameErrorCodes.NotFound => Results.NotFound(error.Description),
+                SettingsErrorCodes.NotFound => Results.NotFound(error.Description),
+                _ => throw new InvalidOperationException()
+            });
     }
 
-    [HttpPut("User/{userId}/Settings")]
-    public async Task<ActionResult<SettingsDto>> EditUserSettings([FromRoute] Guid userId,
+    [HttpPut("User/{userId}/Game/{gameId}/Settings")]
+    public async Task<IResult> EditGameSettings([FromRoute] Guid userId, [FromRoute] Guid gameId,
         [FromBody] EditSettingsDto settings,
         CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(
-            new EditSettingsCommand(
+        var result = await _mediator.Send(new EditSettingsCommand(
                 userId,
+                gameId,
                 settings.OperationIds,
                 settings.DifficultyId,
                 settings.ExerciseCount),
             cancellationToken);
-        //TODO error catch
-        var result = _mapper.Map<Settings, SettingsDto>(response.Value);
-        return result;
+
+        return result.MatchToHttpResponse(
+            gameSettings => Results.Ok(_mapper.Map<Settings, SettingsDto>(gameSettings)),
+            error => error.Code switch
+            {
+                UserErrorCodes.NotFound => Results.NotFound(error.Description),
+                GameErrorCodes.NotFound => Results.NotFound(error.Description),
+                SettingsErrorCodes.NotFound => Results.NotFound(error.Description),
+                SettingsErrorCodes.Conflict => Results.Conflict(error.Description),
+                SettingsErrorCodes.OperationsErrorCodes.NotFound => Results.NotFound(error.Description),
+                SettingsErrorCodes.DifficultyErrorCodes.NotFound => Results.NotFound(error.Description),
+                _ => throw new InvalidOperationException()
+            });
     }
 
     [HttpGet("Settings/Operations")]
-    public async Task<ActionResult<List<OperationDto>>> GetOperationsList(CancellationToken cancellationToken)
+    public async Task<IResult> GetOperationsList(CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(new GetOperationsQuery(), cancellationToken);
-        //TODO error catch
-        var result = _mapper.Map<List<Operation>, List<OperationDto>>(response.Value);
-        return result;
+        var result = await _mediator.Send(new GetOperationsQuery(), cancellationToken);
+
+        return result.MatchToHttpResponse(
+            operations => Results.Ok(_mapper.Map<HashSet<Operation>, HashSet<OperationDto>>(operations)),
+            _ => throw new InvalidOperationException());
     }
 
     [HttpGet("Settings/Difficulties")]
-    public async Task<ActionResult<List<DifficultyDto>>> GetDifficultiesList(CancellationToken cancellationToken)
+    public async Task<IResult> GetDifficultiesList(CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(new GetDifficultiesQuery(), cancellationToken);
-        //TODO error catch
-        var result = _mapper.Map<List<Difficulty>, List<DifficultyDto>>(response.Value);
-        return result;
+        var result = await _mediator.Send(new GetDifficultiesQuery(), cancellationToken);
+
+        return result.MatchToHttpResponse(
+            difficulties => Results.Ok(_mapper.Map<HashSet<Difficulty>, HashSet<DifficultyDto>>(difficulties)),
+            _ => throw new InvalidOperationException());
     }
 }

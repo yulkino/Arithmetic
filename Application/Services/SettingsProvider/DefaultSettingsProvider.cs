@@ -1,13 +1,25 @@
-﻿using Domain.Entity.SettingsEntities;
+﻿using Application.ServiceContracts.Repositories.Read.SettingsReadRepositories;
+using Domain.Entity.SettingsEntities;
 
 namespace Application.Services.SettingsProvider;
 
 public class DefaultSettingsProvider : IDefaultSettingsProvider
 {
-    public Settings GetDefaultSettings()
+    private readonly IDifficultiesReadRepository _difficultiesReadRepository;
+    private readonly IOperationsReadRepository _operationsReadRepository;
+
+    public DefaultSettingsProvider(IDifficultiesReadRepository difficultiesReadRepository, 
+        IOperationsReadRepository operationsReadRepository)
     {
-        return new Settings(Difficulty.Easy,
-            new HashSet<Operation> { Operation.Addition, Operation.Subtraction },
-            10);
+        _difficultiesReadRepository = difficultiesReadRepository;
+        _operationsReadRepository = operationsReadRepository;
+    }
+
+    public async Task<Settings> GetDefaultSettingsAsync(CancellationToken cancellationToken = default)
+    {
+        return new Settings(
+            await _difficultiesReadRepository.GetDefaultDifficultyAsync(cancellationToken),
+            await _operationsReadRepository.GetDefaultOperationsAsync(cancellationToken),
+            5);
     }
 }

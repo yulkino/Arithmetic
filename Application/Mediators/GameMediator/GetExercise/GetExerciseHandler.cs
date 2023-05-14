@@ -1,6 +1,7 @@
 ﻿using Application.ClientErrors.Errors;
 using Application.ServiceContracts;
 using Application.ServiceContracts.Repositories.Read;
+using Application.ServiceContracts.Repositories.Write;
 using Domain.Entity.ExerciseEntities;
 using ErrorOr;
 using MediatR;
@@ -12,12 +13,14 @@ public class GetExerciseHandler : IRequestHandler<GetExerciseQuery, ErrorOr<Exer
     private readonly IGameReadRepository _gameReadRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IUserReadRepository _userReadRepository;
+    private readonly IGameWriteRepository _gameWriteRepository;
 
     public GetExerciseHandler(IGameReadRepository gameReadRepository, IUserReadRepository userReadRepository,
-        IUnitOfWork unitOfWork)
+        IGameWriteRepository gameWriteRepository ,IUnitOfWork unitOfWork)
     {
         _gameReadRepository = gameReadRepository;
         _userReadRepository = userReadRepository;
+        _gameWriteRepository = gameWriteRepository;
         _unitOfWork = unitOfWork;
     }
 
@@ -25,15 +28,19 @@ public class GetExerciseHandler : IRequestHandler<GetExerciseQuery, ErrorOr<Exer
     {
         var (userId, gameId) = request;
 
-        if (await _userReadRepository.GetUserByIdAsync(userId, cancellationToken) is null)
+        var user = await _userReadRepository.GetUserByIdAsync(userId, cancellationToken);
+        if (user is null)
             return Errors.UserErrors.NotFound;
 
-        var game = await _gameReadRepository.GetGameByIdAsync(gameId, userId, cancellationToken);
+        var game = await _gameReadRepository.GetGameByIdAsync(gameId, cancellationToken);
         if (game is null)
             return Errors.GameErrors.NotFound;
 
+        if (game.Exercises.Count == game.Settings.ExerciseCount)
+            return Errors.ExerciseErrors.BeyondAmountSettings;
+
         var nextExercise = game.GiveNextExercise();
-        game.Exercises.Add(nextExercise);
+        //game.Exercises.Add(nextExercise);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         return nextExercise;

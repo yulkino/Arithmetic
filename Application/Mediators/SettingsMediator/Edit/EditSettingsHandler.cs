@@ -11,6 +11,7 @@ namespace Application.Mediators.SettingsMediator.Edit;
 public class EditSettingsHandler : IRequestHandler<EditSettingsCommand, ErrorOr<Settings>>
 {
     private readonly IDifficultiesReadRepository _difficultiesReadRepository;
+    private readonly IGameReadRepository _gameReadRepository;
     private readonly IOperationsReadRepository _operationsReadRepository;
     private readonly ISettingsReadRepository _settingsReadRepository;
     private readonly IUnitOfWork _unitOfWork;
@@ -18,34 +19,43 @@ public class EditSettingsHandler : IRequestHandler<EditSettingsCommand, ErrorOr<
 
     public EditSettingsHandler(ISettingsReadRepository settingsReadRepository,
         IUserReadRepository userReadRepository, IOperationsReadRepository operationsReadRepository,
-        IDifficultiesReadRepository difficultiesReadRepository, IUnitOfWork unitOfWork)
+        IDifficultiesReadRepository difficultiesReadRepository, IGameReadRepository gameReadRepository, 
+        IUnitOfWork unitOfWork)
     {
         _settingsReadRepository = settingsReadRepository;
         _userReadRepository = userReadRepository;
         _operationsReadRepository = operationsReadRepository;
         _difficultiesReadRepository = difficultiesReadRepository;
+        _gameReadRepository = gameReadRepository;
         _unitOfWork = unitOfWork;
     }
 
     public async Task<ErrorOr<Settings>> Handle(EditSettingsCommand request, CancellationToken cancellationToken)
     {
-        var (userId, operations, difficulty, exerciseCount) = request;
+        var (userId, gameId, operations, difficulty, exerciseCount) = request;
 
-        if (await _userReadRepository.GetUserByIdAsync(userId, cancellationToken) is null)
+        var user = await _userReadRepository.GetUserByIdAsync(userId, cancellationToken);
+        if (user is null)
             return Errors.UserErrors.NotFound;
 
-        var settings = await _settingsReadRepository.GetSettingsAsync(userId, cancellationToken);
+        var game = await _gameReadRepository.GetGameByIdAsync(gameId, cancellationToken);
+        if(game is null)
+            return Errors.GameErrors.NotFound;
+
+        if(game.Exercises.Any())
+            return Errors.SettingsErrors.Conflict;
+
+        var settings = await _settingsReadRepository.GetSettingsAsync(game, cancellationToken);
         if (settings is null)
             return Errors.SettingsErrors.NotFound;
 
         var settingsOperations = await _operationsReadRepository.GetOperationsByIdsAsync(operations, cancellationToken);
         if (settingsOperations.Count is 0)
-            return Errors.SettingsErrors.Operations.NotFound;
+            return Errors.SettingsErrors.OperationsErrors.NotFound;
 
-        var settingsDifficulty =
-            await _difficultiesReadRepository.GetDifficultyByIdAsync(difficulty, cancellationToken);
+        var settingsDifficulty = await _difficultiesReadRepository.GetDifficultyByIdAsync(difficulty, cancellationToken);
         if (settingsDifficulty is null)
-            return Errors.SettingsErrors.Difficulty.NotFound;
+            return Errors.SettingsErrors.DifficultyErrors.NotFound;
 
         settings.Operations = settingsOperations;
         settings.Difficulty = settingsDifficulty;

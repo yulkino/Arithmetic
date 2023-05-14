@@ -25,7 +25,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entity.ExerciseEntities.Exercise", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("Answer")
@@ -43,6 +42,9 @@ namespace Infrastructure.Migrations
                     b.Property<double>("RightOperand")
                         .HasColumnType("float");
 
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("GameId");
@@ -55,7 +57,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entity.ExerciseEntities.ResolvedExercise", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<TimeSpan>("ElapsedTime")
@@ -85,7 +86,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entity.GameEntities.Game", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Date")
@@ -109,7 +109,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entity.GameEntities.ResolvedGame", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("CorrectAnswerCount")
@@ -136,7 +135,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entity.SettingsEntities.Difficulty", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("MaxDigitCount")
@@ -174,19 +172,13 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entity.SettingsEntities.Operation", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("SettingsId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("SettingsId");
 
                     b.ToTable("Operations");
 
@@ -216,7 +208,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entity.SettingsEntities.Settings", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("DifficultyId")
@@ -235,7 +226,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entity.Statistic", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("UserId")
@@ -251,7 +241,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entity.User", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Login")
@@ -270,7 +259,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.StatisticStaff.ExerciseProgressStatistic", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("ElementCountStatistic")
@@ -295,7 +283,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.StatisticStaff.GameStatistic", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("CorrectAnswersPercentage")
@@ -323,7 +310,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.StatisticStaff.OperationsStatistic", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("ElementCountStatistic")
@@ -345,6 +331,21 @@ namespace Infrastructure.Migrations
                     b.HasIndex("XId");
 
                     b.ToTable("OperationsStatistic");
+                });
+
+            modelBuilder.Entity("SettingsOperations", b =>
+                {
+                    b.Property<Guid>("OperationsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SettingsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("OperationsId", "SettingsId");
+
+                    b.HasIndex("SettingsId");
+
+                    b.ToTable("SettingsOperations");
                 });
 
             modelBuilder.Entity("Domain.Entity.ExerciseEntities.Exercise", b =>
@@ -411,13 +412,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("Game");
                 });
 
-            modelBuilder.Entity("Domain.Entity.SettingsEntities.Operation", b =>
-                {
-                    b.HasOne("Domain.Entity.SettingsEntities.Settings", null)
-                        .WithMany("Operations")
-                        .HasForeignKey("SettingsId");
-                });
-
             modelBuilder.Entity("Domain.Entity.SettingsEntities.Settings", b =>
                 {
                     b.HasOne("Domain.Entity.SettingsEntities.Difficulty", "Difficulty")
@@ -469,6 +463,21 @@ namespace Infrastructure.Migrations
                     b.Navigation("X");
                 });
 
+            modelBuilder.Entity("SettingsOperations", b =>
+                {
+                    b.HasOne("Domain.Entity.SettingsEntities.Operation", null)
+                        .WithMany()
+                        .HasForeignKey("OperationsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entity.SettingsEntities.Settings", null)
+                        .WithMany()
+                        .HasForeignKey("SettingsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Domain.Entity.GameEntities.Game", b =>
                 {
                     b.Navigation("Exercises");
@@ -477,11 +486,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entity.GameEntities.ResolvedGame", b =>
                 {
                     b.Navigation("ResolvedExercises");
-                });
-
-            modelBuilder.Entity("Domain.Entity.SettingsEntities.Settings", b =>
-                {
-                    b.Navigation("Operations");
                 });
 
             modelBuilder.Entity("Domain.Entity.Statistic", b =>

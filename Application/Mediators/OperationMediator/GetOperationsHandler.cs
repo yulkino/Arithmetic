@@ -5,14 +5,14 @@ using MediatR;
 
 namespace Application.Mediators.OperationMediator;
 
-public class GetOperationsHandler : IRequestHandler<GetOperationsQuery, ErrorOr<List<Operation>>>
+public class GetOperationsHandler : IRequestHandler<GetOperationsQuery, ErrorOr<HashSet<Operation>>>
 {
     private readonly IOperationsReadRepository _operationsReadRepository;
 
     public GetOperationsHandler(IOperationsReadRepository operationsReadRepository) =>
         _operationsReadRepository = operationsReadRepository;
 
-    public async Task<ErrorOr<List<Operation>>> Handle(GetOperationsQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<HashSet<Operation>>> Handle(GetOperationsQuery request, CancellationToken cancellationToken)
     {
         return await _operationsReadRepository.GetOperationsAsync(cancellationToken);
     }
