@@ -48,6 +48,9 @@ public class SaveExerciseHandler : IRequestHandler<SaveExerciseCommand, ErrorOr<
         if(resolvedGame is null)
             return Errors.ResolvedGameErrors.NotFound;
 
+        if (resolvedGame.ResolvedExercises.Any(r => r.Exercise.Id == exerciseId))
+            return Errors.ResolvedExerciseErrors.ExerciseAlreadyResolved;
+
         var resolvedExercise = exercise.Resolve(answer);
         resolvedGame.ResolvedExercises.Add(resolvedExercise);
 

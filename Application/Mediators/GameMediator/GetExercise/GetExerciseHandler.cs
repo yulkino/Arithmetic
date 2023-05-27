@@ -40,7 +40,6 @@ public class GetExerciseHandler : IRequestHandler<GetExerciseQuery, ErrorOr<Exer
             return Errors.ExerciseErrors.BeyondAmountSettings;
 
         var nextExercise = game.GiveNextExercise();
-        //game.Exercises.Add(nextExercise);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         return nextExercise;

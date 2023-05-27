@@ -19,7 +19,7 @@ public sealed class StatisticController : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpGet("User/{userId}/Statistic")]
+    [HttpPost("User/{userId}/Statistic")]
     public async Task<ActionResult<StatisticDto>> GetStatisticForGame([FromRoute] Guid userId,
         CancellationToken cancellationToken)
     {

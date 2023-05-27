@@ -6,5 +6,5 @@ namespace API.Mapping.SettingsMappingProfiles;
 
 public class SettingsMappingProfile : Profile
 {
-    public SettingsMappingProfile() => CreateMap<SettingsDto, Settings>();
+    public SettingsMappingProfile() => CreateMap<Settings, SettingsDto>();
 }

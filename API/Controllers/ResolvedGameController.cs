@@ -20,7 +20,7 @@ public sealed class ResolvedGameController : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpGet("User/{userId}/Game/{gameId}/Result")]
+    [HttpPost("User/{userId}/Game/{gameId}/Result")]
     public async Task<IResult> GetGameResult([FromRoute] Guid userId, [FromRoute] Guid gameId,
         CancellationToken cancellationToken)
     {
@@ -30,6 +30,7 @@ public sealed class ResolvedGameController : ControllerBase
             resolvedGame => Results.Ok(_mapper.Map<ResolvedGame, ResolvedGameDto>(resolvedGame)),
             error => error.Code switch
             {
+                GeneralErrorCodes.Validation => Results.BadRequest(error.Description),
                 UserErrorCodes.NotFound => Results.NotFound(error.Description),
                 GameErrorCodes.NotFound => Results.NotFound(error.Description),
                 GameErrorCodes.NotOver => Results.BadRequest(error.Description),

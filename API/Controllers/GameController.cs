@@ -34,13 +34,13 @@ public sealed class GameController : ControllerBase
             game => Results.Ok(_mapper.Map<Game, GameDto>(game)),
             error => error.Code switch
             {
+                GeneralErrorCodes.Validation => Results.BadRequest(error.Description),
                 UserErrorCodes.NotFound => Results.NotFound(error.Description),
-                GameErrorCodes.NotFound => Results.NotFound(error.Description),
                 _ => throw new InvalidOperationException()
             });
     }
 
-    [HttpGet("User/{userId}/Game/{gameId}")]
+    [HttpPost("User/{userId}/Game/{gameId}")]
     public async Task<IResult> GetNextExercise([FromRoute] Guid userId, [FromRoute] Guid gameId,
         CancellationToken cancellationToken)
     {
@@ -50,6 +50,7 @@ public sealed class GameController : ControllerBase
             exercise => Results.Ok(_mapper.Map<Exercise, ExerciseDto>(exercise)),
             error => error.Code switch
             {
+                GeneralErrorCodes.Validation => Results.BadRequest(error.Description),
                 UserErrorCodes.NotFound => Results.NotFound(error.Description),
                 GameErrorCodes.NotFound => Results.NotFound(error.Description),
                 ExerciseErrorCodes.BeyondAmountSettings => Results.BadRequest(error.Description),
@@ -68,10 +69,12 @@ public sealed class GameController : ControllerBase
             resolvedExercise => Results.Ok(_mapper.Map<ResolvedExercise, ResolvedExerciseDto>(resolvedExercise)),
             error => error.Code switch
             {
+                GeneralErrorCodes.Validation => Results.BadRequest(error.Description),
                 UserErrorCodes.NotFound => Results.NotFound(error.Description),
                 GameErrorCodes.NotFound => Results.NotFound(error.Description),
                 ExerciseErrorCodes.NotFound => Results.NotFound(error.Description),
                 ResolvedGameErrorCodes.NotFound => Results.NotFound(error.Description),
+                ResolvedExerciseErrorCodes.ExerciseAlreadyResolved => Results.BadRequest(error.Description),
                 _ => throw new InvalidOperationException()
             });
     }

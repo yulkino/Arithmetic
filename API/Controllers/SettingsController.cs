@@ -34,6 +34,7 @@ public sealed class SettingsController : ControllerBase
             gameSettings => Results.Ok(_mapper.Map<Settings, SettingsDto>(gameSettings)),
             error => error.Code switch
             {
+                GeneralErrorCodes.Validation => Results.BadRequest(error.Description),
                 UserErrorCodes.NotFound => Results.NotFound(error.Description),
                 GameErrorCodes.NotFound => Results.NotFound(error.Description),
                 SettingsErrorCodes.NotFound => Results.NotFound(error.Description),
@@ -58,6 +59,7 @@ public sealed class SettingsController : ControllerBase
             gameSettings => Results.Ok(_mapper.Map<Settings, SettingsDto>(gameSettings)),
             error => error.Code switch
             {
+                GeneralErrorCodes.Validation => Results.BadRequest(error.Description),
                 UserErrorCodes.NotFound => Results.NotFound(error.Description),
                 GameErrorCodes.NotFound => Results.NotFound(error.Description),
                 SettingsErrorCodes.NotFound => Results.NotFound(error.Description),
@@ -69,7 +71,7 @@ public sealed class SettingsController : ControllerBase
     }
 
     [HttpGet("Settings/Operations")]
-    public async Task<IResult> GetOperationsList(CancellationToken cancellationToken)
+    public async Task<IResult> GetOperations(CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(new GetOperationsQuery(), cancellationToken);
 
@@ -79,7 +81,7 @@ public sealed class SettingsController : ControllerBase
     }
 
     [HttpGet("Settings/Difficulties")]
-    public async Task<IResult> GetDifficultiesList(CancellationToken cancellationToken)
+    public async Task<IResult> GetDifficulties(CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(new GetDifficultiesQuery(), cancellationToken);
 
