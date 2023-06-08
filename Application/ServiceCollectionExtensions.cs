@@ -1,8 +1,6 @@
-﻿using Application.Mediators.DifficultyMediator;
-using Application.Mediators.GameMediator.Add;
+﻿using Application.Mediators.GameMediator.Add;
 using Application.Mediators.GameMediator.GetExercise;
 using Application.Mediators.GameMediator.SaveExercise;
-using Application.Mediators.OperationMediator;
 using Application.Mediators.ResolvedGameMediator.Get;
 using Application.Mediators.SettingsMediator.Edit;
 using Application.Mediators.SettingsMediator.Get;

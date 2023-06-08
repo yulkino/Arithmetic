@@ -1,4 +1,5 @@
 ﻿using API.DTOs.StatisticDtos;
+using Application.ClientErrors.ErrorCodes;
 using Application.Mediators.StatisticMediator.Get;
 using AutoMapper;
 using Domain.Entity;
@@ -20,12 +21,17 @@ public sealed class StatisticController : ControllerBase
     }
 
     [HttpPost("User/{userId}/Statistic")]
-    public async Task<ActionResult<StatisticDto>> GetStatisticForGame([FromRoute] Guid userId,
+    public async Task<IResult> GetStatisticForGame([FromRoute] Guid userId,
         CancellationToken cancellationToken)
     {
-        var response = await _mediator.Send(new GetStatisticQuery(userId), cancellationToken);
-        //TODO error catch
-        var result = _mapper.Map<Statistic, StatisticDto>(response.Value);
-        return result;
+        var result = await _mediator.Send(new GetStatisticQuery(userId), cancellationToken);
+
+        return result.MatchToHttpResponse(
+            statistic => Results.Ok(_mapper.Map<Statistic, StatisticDto>(statistic)),
+            error => error.Code switch
+            {
+                UserErrorCodes.NotFound => Results.NotFound(error.Description),
+                _ => throw new InvalidOperationException()
+            });
     }
 }

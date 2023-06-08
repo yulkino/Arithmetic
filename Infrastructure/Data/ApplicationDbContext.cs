@@ -19,6 +19,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<ResolvedExercise> ResolvedExercises { get; set; }
     public DbSet<Game> Games { get; set; }
     public DbSet<ResolvedGame> ResolvedGames { get; set; }
+    public DbSet<Statistic> Statistics { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

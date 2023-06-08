@@ -2,7 +2,7 @@
 
 public class ResolvedExercise : IEntity
 {
-    internal ResolvedExercise(double userAnswer, TimeSpan elapsedTime, Exercise exercise)
+    public ResolvedExercise(double userAnswer, TimeSpan elapsedTime, Exercise exercise)
     {
         Id = Guid.NewGuid();
         UserAnswer = userAnswer;
