@@ -10,6 +10,9 @@ public class OperationsStatisticCalculator : IStatisticCalculator<Diagram<Operat
     public Diagram<OperationsStatistic, Operation, TimeSpan> Calculate(List<ResolvedGame> resolvedGames)
     {
         var operationsStatistic = new Diagram<OperationsStatistic, Operation, TimeSpan>();
+        if (!resolvedGames.Any())
+            return operationsStatistic;
+
         var resolvedExercises = resolvedGames
             .SelectMany(g => g.ResolvedExercises)
             .ToList();
@@ -25,13 +28,15 @@ public class OperationsStatisticCalculator : IStatisticCalculator<Diagram<Operat
         Diagram<OperationsStatistic, Operation, TimeSpan> operationsStatistic)
     {
         var updatedStatistic = new Diagram<OperationsStatistic, Operation, TimeSpan>();
+        if(!newResolvedGames.Any())
+            return operationsStatistic;
 
         var newOperationsStatistic = Calculate(newResolvedGames);
 
         foreach (var operationStatistic in operationsStatistic)
         {
-            var newOperationStatistic = newOperationsStatistic.First(s => s.X == operationStatistic.X);
-            if (newOperationStatistic.ElementCountStatistic > 0 && newOperationStatistic.Y > TimeSpan.Zero)
+            var newOperationStatistic = newOperationsStatistic.Single(s => s.X == operationStatistic.X);
+            if (newOperationStatistic.ElementCountStatistic != 0 && newOperationStatistic.Y != TimeSpan.Zero)
             {
                 var newAverageTimeSpan = operationStatistic
                     .RecalculateAverageTimeSpanWith<OperationsStatistic, Operation, TimeSpan>(newOperationStatistic);
@@ -41,9 +46,7 @@ public class OperationsStatisticCalculator : IStatisticCalculator<Diagram<Operat
                     operationStatistic.ElementCountStatistic + newOperationStatistic.ElementCountStatistic));
             }
             else
-            {
                 updatedStatistic.AddNode(operationStatistic);
-            }
         }
 
         return updatedStatistic;
