@@ -21,7 +21,7 @@ public sealed class StatisticController : ControllerBase
     }
 
     [HttpPost("User/{userId}/Statistic")]
-    public async Task<IResult> GetStatisticForGame([FromRoute] Guid userId,
+    public async Task<IResult> GetUserStatistic([FromRoute] Guid userId,
         CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(new GetStatisticQuery(userId), cancellationToken);

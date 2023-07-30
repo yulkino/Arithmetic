@@ -1,7 +1,6 @@
 ﻿using Application.ServiceContracts.Repositories.Read;
 using Application.ServiceContracts.Repositories.Write;
 using Domain.Entity;
-using Domain.Entity.ExerciseEntities;
 using Domain.Entity.GameEntities;
 using Domain.Entity.SettingsEntities;
 using Infrastructure.Data;
@@ -23,6 +22,6 @@ public class GameRepository : IGameReadRepository, IGameWriteRepository
             .Include(g => g.Settings).ThenInclude(s => s.Operations)
             .SingleOrDefaultAsync(g => g.Id == gameId, cancellationToken);
 
-    public async ValueTask<Game> CreateAsync(User user, Settings settings, CancellationToken cancellationToken = default) 
-        => (await _dbContext.Games.AddAsync(new Game(user, settings), cancellationToken)).Entity;
+    public async ValueTask<Game> CreateAsync(User user, Settings settings, DateTime creationDate, CancellationToken cancellationToken = default) 
+        => (await _dbContext.Games.AddAsync(new Game(user, settings, creationDate), cancellationToken)).Entity;
 }

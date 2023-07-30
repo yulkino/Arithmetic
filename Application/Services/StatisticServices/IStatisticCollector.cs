@@ -5,6 +5,6 @@ namespace Application.Services.StatisticServices;
 
 public interface IStatisticCollector
 {
-    Statistic CollectStatistics(User user, List<ResolvedGame> resolvedGames);
-    Statistic UpdateStatistics(User user, List<ResolvedGame> resolvedGames, Statistic userStatistic);
+    Task<Statistic> CollectStatistics(User user, List<ResolvedGame> resolvedGames, CancellationToken cancellationToken);
+    Task<Statistic> UpdateStatistics(User user, List<ResolvedGame> resolvedGames, Statistic userStatistic, CancellationToken cancellationToken);
 }

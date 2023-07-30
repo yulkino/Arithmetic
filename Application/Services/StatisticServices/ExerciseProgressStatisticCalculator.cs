@@ -3,12 +3,15 @@ using Domain.StatisticStaff;
 
 namespace Application.Services.StatisticServices;
 
-public class
-    ExerciseProgressStatisticCalculator : IStatisticCalculator<Diagram<ExerciseProgressStatistic, DateTime, TimeSpan>>
+public class ExerciseProgressStatisticCalculator : IStatisticCalculator<Diagram<ExerciseProgressStatistic, DateTime, TimeSpan>>
 {
-    public Diagram<ExerciseProgressStatistic, DateTime, TimeSpan> Calculate(List<ResolvedGame> resolvedGames)
+    public Task<Diagram<ExerciseProgressStatistic, DateTime, TimeSpan>> Calculate(List<ResolvedGame> resolvedGames,
+        CancellationToken cancellationToken)
     {
         var exerciseProgressStatistic = new Diagram<ExerciseProgressStatistic, DateTime, TimeSpan>();
+        if(!resolvedGames.Any())
+            return Task.FromResult(exerciseProgressStatistic);
+
         var resolvedGameDates = resolvedGames
             .Select(g => g.Game.Date.Date)
             .Distinct()
@@ -29,21 +32,26 @@ public class
                 resolvedExercises.Count));
         }
 
-        return exerciseProgressStatistic;
+        return Task.FromResult(exerciseProgressStatistic);
     }
 
-    public Diagram<ExerciseProgressStatistic, DateTime, TimeSpan> UpdateCalculations(
+    public async Task<Diagram<ExerciseProgressStatistic, DateTime, TimeSpan>> UpdateCalculations(
         List<ResolvedGame> newResolvedGames,
-        Diagram<ExerciseProgressStatistic, DateTime, TimeSpan> exerciseProgressStatistic)
+        Diagram<ExerciseProgressStatistic, DateTime, TimeSpan> exerciseProgressStatistic,
+        CancellationToken cancellationToken)
     {
+        if(!newResolvedGames.Any())
+            return exerciseProgressStatistic;
+
         var newResolvedGameDates = newResolvedGames
             .Select(g => g.Game.Date.Date)
             .Distinct()
+            .OrderBy(x => x.Date)
             .ToList();
 
-        var newExerciseProgressStatistic = Calculate(newResolvedGames);
+        var newExerciseProgressStatistic = await Calculate(newResolvedGames, cancellationToken);
 
-        var earliestResolvedGameDate = newResolvedGameDates.First();
+        var earliestResolvedGameDate = newResolvedGameDates.MaxBy(x => x.Date);
         var containsIntersectingDate = exerciseProgressStatistic
             .Select(e => e.X.Date)
             .ToList()
@@ -65,12 +73,12 @@ public class
     private Diagram<ExerciseProgressStatistic, DateTime, TimeSpan> UpdateStatisticIncludingIntersectingDate(
         Diagram<ExerciseProgressStatistic, DateTime, TimeSpan> exerciseProgressStatistic,
         Diagram<ExerciseProgressStatistic, DateTime, TimeSpan> newExerciseProgressStatistic,
-        DateTime earliestResolvedGameDate)
+        DateTime intersectingDate)
     {
         var oldStatisticOfIntersectingDate =
-            exerciseProgressStatistic.First(e => e.X.Date == earliestResolvedGameDate);
+            exerciseProgressStatistic.Single(e => e.X.Date == intersectingDate);
         var newStatisticOfIntersectingDate =
-            newExerciseProgressStatistic.First(e => e.X.Date == earliestResolvedGameDate);
+            newExerciseProgressStatistic.Single(e => e.X.Date == intersectingDate);
 
         var newAverageTimeSpan = oldStatisticOfIntersectingDate
             .RecalculateAverageTimeSpanWith<ExerciseProgressStatistic, DateTime, TimeSpan>(
@@ -82,7 +90,6 @@ public class
             newStatisticOfIntersectingDate.ElementCountStatistic);
 
         var oldStatisticList = exerciseProgressStatistic.ToList();
-
         oldStatisticList.Remove(oldStatisticOfIntersectingDate);
 
         var newStatistic = newExerciseProgressStatistic.ToList();

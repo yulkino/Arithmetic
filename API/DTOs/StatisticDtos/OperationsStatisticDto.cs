@@ -2,6 +2,8 @@
 
 namespace API.DTOs.StatisticDtos;
 
-public sealed record OperationsStatisticDto(
-    OperationDto Operation,
-    TimeOnly GameAverageDuration);
+public sealed class OperationsStatisticDto
+{
+    public OperationDto Operation { get; set; }
+    public TimeOnly GameAverageDuration { get; set; }
+}

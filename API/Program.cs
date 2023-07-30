@@ -1,6 +1,8 @@
 using Application;
+using Domain.Entity.SettingsEntities;
 using FluentValidation;
 using Infrastructure;
+using Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,11 @@ services.AddInfrastructure(builder.Configuration);
 ValidatorOptions.Global.LanguageManager.Enabled = false;
 
 var app = builder.Build();
+
+using var scope = app.Services.CreateScope();
+var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+dbContext.AttachRange(Operation.Addition, Operation.Subtraction, Operation.Division, Operation.Multiplication);
+dbContext.AttachRange(Difficulty.Easy, Difficulty.Hard, Difficulty.Medium);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

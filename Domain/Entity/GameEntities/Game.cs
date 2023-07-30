@@ -6,13 +6,13 @@ namespace Domain.Entity.GameEntities;
 
 public class Game : IEntity, IEquatable<Game>
 {
-    public Game(User user, Settings settings)
+    public Game(User user, Settings settings, DateTime creationDate)
     {
         Id = Guid.NewGuid();
         User = user;
         Settings = settings;
         Exercises = new List<Exercise>();
-        Date = DateTime.Now;
+        Date = creationDate;
     }
 
     private Game() { }
@@ -30,14 +30,14 @@ public class Game : IEntity, IEquatable<Game>
         return ReferenceEquals(this, other) || Id.Equals(other.Id);
     }
 
-    public Exercise GiveNextExercise()
+    public Exercise GiveNextExercise(DateTime startTime)
     {
         var operation = Settings.Operations.PickRandom();
         var max = (int)Math.Pow(10, Settings.Difficulty.MaxDigitCount);
         var first = Pick(max);
         var second = Pick(max);
 
-        var exercise = new Exercise(first, second, operation);
+        var exercise = new Exercise(first, second, operation, startTime);
         Exercises.Add(exercise);
         return exercise;
 

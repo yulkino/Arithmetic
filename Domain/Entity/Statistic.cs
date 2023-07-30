@@ -15,9 +15,9 @@ public class Statistic : IEntity
 
     private Statistic() { }
     public User User { get; }
-    public List<GameStatistic>? GameStatisticList { get; set; }
-    public Diagram<OperationsStatistic, Operation, TimeSpan>? OperationsStatisticList { get; set; }
-    public Diagram<ExerciseProgressStatistic, DateTime, TimeSpan>? ExerciseProgressStatisticList { get; set; }
+    public List<GameStatistic>? GameStatistic { get; set; }
+    public Diagram<OperationsStatistic, Operation, TimeSpan>? OperationsStatistic { get; set; }
+    public Diagram<ExerciseProgressStatistic, DateTime, TimeSpan>? ExerciseProgressStatistic { get; set; }
     public List<ResolvedGame> ResolvedGame { get; }
     public Guid Id { get; }
 }

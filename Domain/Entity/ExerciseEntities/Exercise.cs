@@ -4,14 +4,14 @@ namespace Domain.Entity.ExerciseEntities;
 
 public class Exercise : IEntity
 {
-    public Exercise(double leftOperand, double rightOperand, Operation operation)
+    public Exercise(double leftOperand, double rightOperand, Operation operation, DateTime startTime)
     {
         Id = Guid.NewGuid();
         LeftOperand = leftOperand;
         RightOperand = rightOperand;
         Operation = operation;
 
-        StartTime = DateTime.Now;
+        StartTime = startTime;
 
         Answer = Operation.Act(leftOperand, rightOperand);
     }

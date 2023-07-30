@@ -25,17 +25,16 @@ public class StatisticCollector : IStatisticCollector
         _exerciseProgressStatisticsCalculator = exerciseProgressStatisticsCalculator;
     }
 
-    public Statistic CollectStatistics(User user, List<ResolvedGame> resolvedGames)
+    public async Task<Statistic> CollectStatistics(User user, List<ResolvedGame> resolvedGames, CancellationToken cancellationToken)
     {
-        return new Statistic(user, resolvedGames)
-        {
-            GameStatisticList = _gameStatisticCalculator.Calculate(resolvedGames),
-            OperationsStatisticList = _operationStatisticCalculator.Calculate(resolvedGames),
-            ExerciseProgressStatisticList = _exerciseProgressStatisticsCalculator.Calculate(resolvedGames)
-        };
+        var statistic = new Statistic(user, resolvedGames);
+        statistic.ExerciseProgressStatistic = await _exerciseProgressStatisticsCalculator.Calculate(resolvedGames, cancellationToken);
+        statistic.OperationsStatistic = await _operationStatisticCalculator.Calculate(resolvedGames, cancellationToken);
+        statistic.GameStatistic = await _gameStatisticCalculator.Calculate(resolvedGames, cancellationToken);
+        return statistic;
     }
 
-    public Statistic UpdateStatistics(User user, List<ResolvedGame> resolvedGames, Statistic userStatistic)
+    public async Task<Statistic> UpdateStatistics(User user, List<ResolvedGame> resolvedGames, Statistic userStatistic, CancellationToken cancellationToken)
     {
         var newResolvedGames = resolvedGames.Except(userStatistic.ResolvedGame).ToList();
 
@@ -44,12 +43,12 @@ public class StatisticCollector : IStatisticCollector
             return userStatistic;
         }
 
-        userStatistic.GameStatisticList = _gameStatisticCalculator.UpdateCalculations(
-            newResolvedGames, userStatistic.GameStatisticList!);
-        userStatistic.OperationsStatisticList = _operationStatisticCalculator.UpdateCalculations(
-            newResolvedGames, userStatistic.OperationsStatisticList!);
-        userStatistic.ExerciseProgressStatisticList = _exerciseProgressStatisticsCalculator.UpdateCalculations(
-            newResolvedGames, userStatistic.ExerciseProgressStatisticList!);
+        userStatistic.GameStatistic = await _gameStatisticCalculator.UpdateCalculations(
+            newResolvedGames, userStatistic.GameStatistic!, cancellationToken);
+        userStatistic.OperationsStatistic = await _operationStatisticCalculator.UpdateCalculations(
+            newResolvedGames, userStatistic.OperationsStatistic!, cancellationToken);
+        userStatistic.ExerciseProgressStatistic = await _exerciseProgressStatisticsCalculator.UpdateCalculations(
+            newResolvedGames, userStatistic.ExerciseProgressStatistic!, cancellationToken);
 
         return userStatistic;
     }

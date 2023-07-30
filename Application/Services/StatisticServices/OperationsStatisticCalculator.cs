@@ -1,4 +1,5 @@
-﻿using Domain.Entity.ExerciseEntities;
+﻿using Application.ServiceContracts.Repositories.Read.SettingsReadRepositories;
+using Domain.Entity.ExerciseEntities;
 using Domain.Entity.GameEntities;
 using Domain.Entity.SettingsEntities;
 using Domain.StatisticStaff;
@@ -7,7 +8,15 @@ namespace Application.Services.StatisticServices;
 
 public class OperationsStatisticCalculator : IStatisticCalculator<Diagram<OperationsStatistic, Operation, TimeSpan>>
 {
-    public Diagram<OperationsStatistic, Operation, TimeSpan> Calculate(List<ResolvedGame> resolvedGames)
+    private readonly IOperationsReadRepository _operationsReadRepository;
+
+    public OperationsStatisticCalculator(IOperationsReadRepository operationsReadRepository)
+    {
+        _operationsReadRepository = operationsReadRepository;
+    }
+
+    public async Task<Diagram<OperationsStatistic, Operation, TimeSpan>> Calculate(List<ResolvedGame> resolvedGames,
+        CancellationToken cancellationToken)
     {
         var operationsStatistic = new Diagram<OperationsStatistic, Operation, TimeSpan>();
         if (!resolvedGames.Any())
@@ -17,21 +26,23 @@ public class OperationsStatisticCalculator : IStatisticCalculator<Diagram<Operat
             .SelectMany(g => g.ResolvedExercises)
             .ToList();
 
-        operationsStatistic.AddNode(CalculateOperationStatistic(resolvedExercises, Operation.Addition));
-        operationsStatistic.AddNode(CalculateOperationStatistic(resolvedExercises, Operation.Subtraction));
-        operationsStatistic.AddNode(CalculateOperationStatistic(resolvedExercises, Operation.Multiplication));
-        operationsStatistic.AddNode(CalculateOperationStatistic(resolvedExercises, Operation.Division));
+        var operations = await _operationsReadRepository.GetOperationsAsync(cancellationToken);
+        foreach (var operation in operations)
+        {
+            operationsStatistic.AddNode(CalculateOperationStatistic(resolvedExercises, operation));
+        }
+
         return operationsStatistic;
     }
 
-    public Diagram<OperationsStatistic, Operation, TimeSpan> UpdateCalculations(List<ResolvedGame> newResolvedGames,
-        Diagram<OperationsStatistic, Operation, TimeSpan> operationsStatistic)
+    public async Task<Diagram<OperationsStatistic, Operation, TimeSpan>> UpdateCalculations(List<ResolvedGame> newResolvedGames,
+        Diagram<OperationsStatistic, Operation, TimeSpan> operationsStatistic, CancellationToken cancellationToken)
     {
         var updatedStatistic = new Diagram<OperationsStatistic, Operation, TimeSpan>();
         if(!newResolvedGames.Any())
             return operationsStatistic;
 
-        var newOperationsStatistic = Calculate(newResolvedGames);
+        var newOperationsStatistic = await Calculate(newResolvedGames, cancellationToken);
 
         foreach (var operationStatistic in operationsStatistic)
         {

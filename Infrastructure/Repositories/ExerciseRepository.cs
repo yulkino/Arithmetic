@@ -1,5 +1,4 @@
 ﻿using Application.ServiceContracts.Repositories.Read;
-using Domain.Entity;
 using Domain.Entity.ExerciseEntities;
 using Domain.Entity.GameEntities;
 using Infrastructure.Data;

@@ -1,10 +1,9 @@
-﻿using API.DTOs.GameDtos;
+﻿namespace API.DTOs.StatisticDtos;
 
-namespace API.DTOs.StatisticDtos;
-
-public sealed record GameStatisticDto(
-    Guid GameId,
-    DateTime GameDate,
-    int ExerciseCount,
-    TimeOnly GameDuration,
-    double CorrectAnswersPercentage);
+public sealed class GameStatisticDto
+{
+    public DateTime GameDate { get; set; }
+    public int ExerciseCount { get; set; }
+    public TimeSpan GameDuration { get; set; }
+    public double CorrectAnswersPercentage { get; set; }
+}

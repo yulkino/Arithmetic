@@ -1,7 +1,7 @@
 ﻿using Application.ClientErrors.Errors;
 using Application.ServiceContracts;
 using Application.ServiceContracts.Repositories.Read;
-using Application.ServiceContracts.Repositories.Write;
+using Application.Services;
 using Domain.Entity.ExerciseEntities;
 using ErrorOr;
 using MediatR;
@@ -12,16 +12,16 @@ public class GetExerciseHandler : IRequestHandler<GetExerciseQuery, ErrorOr<Exer
 {
     private readonly IGameReadRepository _gameReadRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ITimeProvider _timeProvider;
     private readonly IUserReadRepository _userReadRepository;
-    private readonly IGameWriteRepository _gameWriteRepository;
 
     public GetExerciseHandler(IGameReadRepository gameReadRepository, IUserReadRepository userReadRepository,
-        IGameWriteRepository gameWriteRepository ,IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork, ITimeProvider timeProvider)
     {
         _gameReadRepository = gameReadRepository;
         _userReadRepository = userReadRepository;
-        _gameWriteRepository = gameWriteRepository;
         _unitOfWork = unitOfWork;
+        _timeProvider = timeProvider;
     }
 
     public async Task<ErrorOr<Exercise>> Handle(GetExerciseQuery request, CancellationToken cancellationToken)
@@ -39,7 +39,7 @@ public class GetExerciseHandler : IRequestHandler<GetExerciseQuery, ErrorOr<Exer
         if (game.Exercises.Count == game.Settings.ExerciseCount)
             return Errors.ExerciseErrors.BeyondAmountSettings;
 
-        var nextExercise = game.GiveNextExercise();
+        var nextExercise = game.GiveNextExercise(_timeProvider.Now);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         return nextExercise;

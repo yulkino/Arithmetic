@@ -1,5 +1,4 @@
-﻿using Domain.Entity;
-using Domain.Entity.GameEntities;
+﻿using Domain.Entity.GameEntities;
 
 namespace Application.ServiceContracts.Repositories.Read;
 

@@ -29,7 +29,7 @@ public class User : IEntity, IEquatable<User>
         if (ReferenceEquals(this, obj))
             return true;
 
-        return obj.GetType() == this.GetType() && Equals((User)obj);
+        return obj.GetType() == GetType() && Equals((User)obj);
     }
 
     public override int GetHashCode() => Id.GetHashCode();

@@ -21,9 +21,20 @@ public class ResolvedGameRepository : IResolvedGameReadRepository, IResolvedGame
 
     public async Task<List<ResolvedGame>> GetUsersGamesAsync(User user, CancellationToken cancellationToken = default) 
         => await _dbContext.ResolvedGames
+            .Where(r => r.Game.User.Equals(user))
             .Include(g => g.Game)
+                .ThenInclude(g => g.Settings)
+                .ThenInclude(s => s.Difficulty)
+            .Include(g => g.Game)
+                .ThenInclude(g => g.Settings)
+                .ThenInclude(s => s.Operations)
+            .Include(g => g.Game)
+                .ThenInclude(g => g.Exercises).
+                ThenInclude(e => e.Operation)
             .Include(r => r.ResolvedExercises)
-            .Where(r => r.Game.User.Equals(user)).ToListAsync(cancellationToken);
+                .ThenInclude(r => r.Exercise)
+                .ThenInclude(e => e.Operation)
+            .ToListAsync(cancellationToken);
 
     public async ValueTask<ResolvedGame> CreateResolvedGameAsync(Game game, CancellationToken cancellationToken = default)
         => (await _dbContext.ResolvedGames.AddAsync(new ResolvedGame(game), cancellationToken)).Entity;

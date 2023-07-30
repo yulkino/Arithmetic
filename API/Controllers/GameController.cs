@@ -5,7 +5,6 @@ using Application.Mediators.GameMediator.Add;
 using Application.Mediators.GameMediator.GetExercise;
 using Application.Mediators.GameMediator.SaveExercise;
 using AutoMapper;
-using Azure;
 using Domain.Entity.ExerciseEntities;
 using Domain.Entity.GameEntities;
 using MediatR;

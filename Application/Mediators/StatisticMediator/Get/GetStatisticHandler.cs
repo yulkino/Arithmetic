@@ -42,18 +42,18 @@ public class GetStatisticHandler : IRequestHandler<GetStatisticQuery, ErrorOr<St
         if (userResolvedGames.Count == 0)
             return new Statistic(user, userResolvedGames);
 
-        var userStatistic = await _statisticReadRepository.GetUserStatisticAsync(userId, cancellationToken);
+        var userStatistic = await _statisticReadRepository.GetUserStatisticAsync(user, cancellationToken);
         if (userStatistic is null)
         {
-            var statistic = await _statisticWriteRepository.CreateUserStatistic(
-                _statisticCollector.CollectStatistics(user, userResolvedGames), cancellationToken);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-            return statistic;
+            userStatistic = await _statisticCollector.CollectStatistics(user, userResolvedGames, cancellationToken);
+            await _statisticWriteRepository.CreateUserStatistic(userStatistic, cancellationToken);
+        }
+        else
+        {
+            await _statisticCollector.UpdateStatistics(user, userResolvedGames, userStatistic, cancellationToken);
         }
 
-        var updatedUserStatistic = await _statisticWriteRepository.UpdateUserStatistic(
-            _statisticCollector.UpdateStatistics(user, userResolvedGames, userStatistic), cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        return updatedUserStatistic;
+        return userStatistic;
     }
 }

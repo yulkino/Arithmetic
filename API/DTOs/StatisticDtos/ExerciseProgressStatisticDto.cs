@@ -1,5 +1,7 @@
 ﻿namespace API.DTOs.StatisticDtos;
 
-public sealed record ExerciseProgressStatisticDto(
-    DateTime ExercisesResolveDate,
-    TimeOnly ExercisesResolveAverageDuration);
+public sealed class ExerciseProgressStatisticDto
+{
+    public DateTime ExercisesResolveDate { get; set; }
+    public TimeOnly ExercisesResolveAverageDuration { get; set; }
+}

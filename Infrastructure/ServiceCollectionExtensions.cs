@@ -2,10 +2,12 @@
 using Application.ServiceContracts.Repositories.Read;
 using Application.ServiceContracts.Repositories.Read.SettingsReadRepositories;
 using Application.ServiceContracts.Repositories.Write;
+using Application.Services;
 using Infrastructure.Configuration;
 using Infrastructure.Data;
 using Infrastructure.Repositories;
 using Infrastructure.Repositories.SettingsRepositories;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,7 +22,11 @@ public static class ServiceCollectionExtensions
             .GetRequiredSection(DatabaseConnectionOptions.SectionName)
             .Get<DatabaseConnectionOptions>()!;
         services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(databaseConnectionOptions.ArithmeticDatabase));
+        {
+            options.AddInterceptors(new StaticEntityInterceptor());
+            options.UseSqlServer(databaseConnectionOptions.ArithmeticDatabase);
+            options.EnableSensitiveDataLogging();
+        });
 
         services.AddScoped<IUserReadRepository, UserRepository>();
         services.AddScoped<IUserWriteRepository, UserRepository>();
@@ -42,5 +48,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IDifficultiesReadRepository, DifficultiesRepository>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddTransient<ITimeProvider, TimeProvider>();
     }
 }

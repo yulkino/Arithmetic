@@ -14,8 +14,8 @@ public class StatisticEntityTypeConfiguration : IEntityTypeConfiguration<Statist
             .ValueGeneratedNever();
         builder.HasOne(statistic => statistic.User);
         builder.HasMany(statistic => statistic.ResolvedGame);
-        builder.HasMany(statistic => statistic.GameStatisticList);
-        builder.HasMany(statistic => statistic.OperationsStatisticList);
-        builder.HasMany(statistic => statistic.ExerciseProgressStatisticList);
+        builder.HasMany(statistic => statistic.GameStatistic);
+        builder.HasMany(statistic => statistic.OperationsStatistic);
+        builder.HasMany(statistic => statistic.ExerciseProgressStatistic);
     }
 }

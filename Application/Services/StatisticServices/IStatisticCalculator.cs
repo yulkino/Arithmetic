@@ -5,6 +5,6 @@ namespace Application.Services.StatisticServices;
 public interface IStatisticCalculator<TResult>
     where TResult : class
 {
-    TResult Calculate(List<ResolvedGame> resolvedGames);
-    TResult UpdateCalculations(List<ResolvedGame> newResolvedGames, TResult statistic);
+    Task<TResult> Calculate(List<ResolvedGame> resolvedGames, CancellationToken cancellationToken = default);
+    Task<TResult> UpdateCalculations(List<ResolvedGame> newResolvedGames, TResult statistic, CancellationToken cancellationToken = default);
 }

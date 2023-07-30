@@ -1,6 +1,7 @@
 ﻿namespace Domain.Entity.SettingsEntities;
 
-public sealed class Operation : IEntity
+public sealed class 
+Operation : IEntity
 {
     public static readonly Operation Addition = new()
     {
