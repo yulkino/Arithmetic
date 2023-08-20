@@ -20,6 +20,9 @@ public class ExerciseProgressStatisticEntityTypeConfiguration : IEntityTypeConfi
             .IsRequired();
         builder
             .Property(exerciseProgressStatistic => exerciseProgressStatistic.Y)
-            .IsRequired();
+            .IsRequired()
+            .HasConversion(
+                t => t.TotalMilliseconds, 
+                t => TimeSpan.FromMilliseconds(t));
     }
 }

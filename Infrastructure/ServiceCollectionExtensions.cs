@@ -23,7 +23,7 @@ public static class ServiceCollectionExtensions
             .Get<DatabaseConnectionOptions>()!;
         services.AddDbContext<ApplicationDbContext>(options =>
         {
-            options.AddInterceptors(new StaticEntityInterceptor());
+            options.AddInterceptors(StaticEntityInterceptor.Instance);
             options.UseSqlServer(databaseConnectionOptions.ArithmeticDatabase);
             options.EnableSensitiveDataLogging();
         });

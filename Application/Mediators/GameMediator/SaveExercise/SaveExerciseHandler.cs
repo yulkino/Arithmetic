@@ -1,6 +1,7 @@
 ﻿using Application.ClientErrors.Errors;
 using Application.ServiceContracts;
 using Application.ServiceContracts.Repositories.Read;
+using Application.Services;
 using Domain.Entity.ExerciseEntities;
 using ErrorOr;
 using MediatR;
@@ -12,18 +13,20 @@ public class SaveExerciseHandler : IRequestHandler<SaveExerciseCommand, ErrorOr<
     private readonly IExerciseReadRepository _exerciseReadRepository;
     private readonly IGameReadRepository _gameReadRepository;
     private readonly IResolvedGameReadRepository _resolvedGameReadRepository;
+    private readonly ITimeProvider _timeProvider;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IUserReadRepository _userReadRepository;
 
     public SaveExerciseHandler(IExerciseReadRepository exerciseReadRepository,
         IUserReadRepository userReadRepository, IGameReadRepository gameReadRepository,
-        IResolvedGameReadRepository resolvedGameReadRepository,
+        IResolvedGameReadRepository resolvedGameReadRepository, ITimeProvider timeProvider,
         IUnitOfWork unitOfWork)
     {
         _exerciseReadRepository = exerciseReadRepository;
         _userReadRepository = userReadRepository;
         _gameReadRepository = gameReadRepository;
         _resolvedGameReadRepository = resolvedGameReadRepository;
+        _timeProvider = timeProvider;
         _unitOfWork = unitOfWork;
     }
 
@@ -51,7 +54,7 @@ public class SaveExerciseHandler : IRequestHandler<SaveExerciseCommand, ErrorOr<
         if (resolvedGame.ResolvedExercises.Any(r => r.Exercise.Id == exerciseId))
             return Errors.ResolvedExerciseErrors.ExerciseAlreadyResolved;
 
-        var resolvedExercise = exercise.Resolve(answer);
+        var resolvedExercise = exercise.Resolve(answer, _timeProvider.Now);
         resolvedGame.ResolvedExercises.Add(resolvedExercise);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);

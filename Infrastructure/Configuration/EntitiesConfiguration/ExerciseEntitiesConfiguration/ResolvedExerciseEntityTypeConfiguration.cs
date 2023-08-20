@@ -20,7 +20,10 @@ public class ResolvedExerciseEntityTypeConfiguration : IEntityTypeConfiguration<
             .IsRequired();
         builder
             .Property(resolvedExercise => resolvedExercise.ElapsedTime)
-            .IsRequired();
+            .IsRequired()
+            .HasConversion(
+                t => t.TotalMilliseconds, 
+                t => TimeSpan.FromMilliseconds(t));
         builder.HasOne(resolvedExercise => resolvedExercise.Exercise);
     }
 }

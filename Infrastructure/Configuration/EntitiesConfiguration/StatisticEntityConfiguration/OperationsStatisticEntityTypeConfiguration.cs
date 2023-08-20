@@ -17,7 +17,10 @@ public class OperationsStatisticEntityTypeConfiguration : IEntityTypeConfigurati
             .IsRequired();
         builder
             .Property(operationsStatistic => operationsStatistic.Y)
-            .IsRequired();
+            .IsRequired()
+            .HasConversion(
+                t => t.TotalMilliseconds, 
+                t => TimeSpan.FromMilliseconds(t));
         builder.HasOne(operationsStatistic => operationsStatistic.X);
     }
 }

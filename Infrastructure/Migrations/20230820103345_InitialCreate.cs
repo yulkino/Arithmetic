@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -144,7 +144,7 @@ namespace Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     X = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Y = table.Column<TimeSpan>(type: "time", nullable: false),
+                    Y = table.Column<double>(type: "float", nullable: false),
                     ElementCountStatistic = table.Column<int>(type: "int", nullable: false),
                     StatisticId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
@@ -165,7 +165,7 @@ namespace Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     GameDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ExerciseCount = table.Column<int>(type: "int", nullable: false),
-                    GameDuration = table.Column<TimeSpan>(type: "time", nullable: false),
+                    GameDuration = table.Column<double>(type: "float", nullable: false),
                     CorrectAnswersPercentage = table.Column<double>(type: "float", nullable: false),
                     StatisticId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
@@ -185,7 +185,7 @@ namespace Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     XId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Y = table.Column<TimeSpan>(type: "time", nullable: false),
+                    Y = table.Column<double>(type: "float", nullable: false),
                     ElementCountStatistic = table.Column<int>(type: "int", nullable: false),
                     StatisticId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
@@ -240,7 +240,7 @@ namespace Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     GameId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CorrectAnswerCount = table.Column<int>(type: "int", nullable: false),
-                    ElapsedTime = table.Column<TimeSpan>(type: "time", nullable: false),
+                    ElapsedTime = table.Column<double>(type: "float", nullable: false),
                     StatisticId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
@@ -265,7 +265,7 @@ namespace Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserAnswer = table.Column<double>(type: "float", nullable: false),
-                    ElapsedTime = table.Column<TimeSpan>(type: "time", nullable: false),
+                    ElapsedTime = table.Column<double>(type: "float", nullable: false),
                     IsCorrect = table.Column<bool>(type: "bit", nullable: false),
                     ExerciseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ResolvedGameId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)

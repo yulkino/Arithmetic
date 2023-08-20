@@ -20,7 +20,10 @@ public class GameStatisticEntityTypeConfiguration : IEntityTypeConfiguration<Gam
             .IsRequired();
         builder
             .Property(gameStatistic => gameStatistic.GameDuration)
-            .IsRequired();
+            .IsRequired()
+            .HasConversion(
+                t => t.TotalMilliseconds, 
+                t => TimeSpan.FromMilliseconds(t));
         builder
             .Property(gameStatistic => gameStatistic.GameDate)  
             .IsRequired();

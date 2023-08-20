@@ -6,6 +6,8 @@ namespace Infrastructure.Data;
 
 internal class StaticEntityInterceptor : IMaterializationInterceptor
 {
+    public static readonly StaticEntityInterceptor Instance = new(); 
+    
     public object InitializedInstance(MaterializationInterceptionData materializationData, object instance)
     {
         if (instance is Operation or Difficulty)

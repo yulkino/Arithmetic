@@ -17,7 +17,10 @@ public class ResolvedGameEntityTypeConfiguration : IEntityTypeConfiguration<Reso
             .IsRequired();
         builder
             .Property(resolvedGame => resolvedGame.ElapsedTime)
-            .IsRequired();
+            .IsRequired()
+            .HasConversion(
+                t => t.TotalMilliseconds, 
+                t => TimeSpan.FromMilliseconds(t));
         builder.HasOne(resolvedGame => resolvedGame.Game);
         builder.HasMany(resolvedGame => resolvedGame.ResolvedExercises);
     }

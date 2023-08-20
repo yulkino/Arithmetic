@@ -17,7 +17,7 @@ namespace Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.4")
+                .HasAnnotation("ProductVersion", "7.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -59,8 +59,8 @@ namespace Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<TimeSpan>("ElapsedTime")
-                        .HasColumnType("time");
+                    b.Property<double>("ElapsedTime")
+                        .HasColumnType("float");
 
                     b.Property<Guid>("ExerciseId")
                         .HasColumnType("uniqueidentifier");
@@ -114,8 +114,8 @@ namespace Infrastructure.Migrations
                     b.Property<int>("CorrectAnswerCount")
                         .HasColumnType("int");
 
-                    b.Property<TimeSpan>("ElapsedTime")
-                        .HasColumnType("time");
+                    b.Property<double>("ElapsedTime")
+                        .HasColumnType("float");
 
                     b.Property<Guid>("GameId")
                         .HasColumnType("uniqueidentifier");
@@ -270,8 +270,8 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("X")
                         .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("Y")
-                        .HasColumnType("time");
+                    b.Property<double>("Y")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -294,8 +294,8 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("GameDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("GameDuration")
-                        .HasColumnType("time");
+                    b.Property<double>("GameDuration")
+                        .HasColumnType("float");
 
                     b.Property<Guid?>("StatisticId")
                         .HasColumnType("uniqueidentifier");
@@ -321,8 +321,8 @@ namespace Infrastructure.Migrations
                     b.Property<Guid>("XId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<TimeSpan>("Y")
-                        .HasColumnType("time");
+                    b.Property<double>("Y")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -437,21 +437,21 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.StatisticStaff.ExerciseProgressStatistic", b =>
                 {
                     b.HasOne("Domain.Entity.Statistic", null)
-                        .WithMany("ExerciseProgressStatisticList")
+                        .WithMany("ExerciseProgressStatistic")
                         .HasForeignKey("StatisticId");
                 });
 
             modelBuilder.Entity("Domain.StatisticStaff.GameStatistic", b =>
                 {
                     b.HasOne("Domain.Entity.Statistic", null)
-                        .WithMany("GameStatisticList")
+                        .WithMany("GameStatistic")
                         .HasForeignKey("StatisticId");
                 });
 
             modelBuilder.Entity("Domain.StatisticStaff.OperationsStatistic", b =>
                 {
                     b.HasOne("Domain.Entity.Statistic", null)
-                        .WithMany("OperationsStatisticList")
+                        .WithMany("OperationsStatistic")
                         .HasForeignKey("StatisticId");
 
                     b.HasOne("Domain.Entity.SettingsEntities.Operation", "X")
@@ -490,11 +490,11 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entity.Statistic", b =>
                 {
-                    b.Navigation("ExerciseProgressStatisticList");
+                    b.Navigation("ExerciseProgressStatistic");
 
-                    b.Navigation("GameStatisticList");
+                    b.Navigation("GameStatistic");
 
-                    b.Navigation("OperationsStatisticList");
+                    b.Navigation("OperationsStatistic");
 
                     b.Navigation("ResolvedGame");
                 });

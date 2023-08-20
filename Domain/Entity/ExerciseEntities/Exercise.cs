@@ -24,8 +24,8 @@ public class Exercise : IEntity
     public DateTime StartTime { get; }
     public Guid Id { get; }
 
-    public ResolvedExercise Resolve(double userAnswer)
+    public ResolvedExercise Resolve(double userAnswer, DateTime endTime)
     {
-        return new ResolvedExercise(userAnswer, DateTime.Now - StartTime, this);
+        return new ResolvedExercise(userAnswer, endTime - StartTime, this);
     }
 }
