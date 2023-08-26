@@ -9,7 +9,7 @@ public class ResolvedExercise : IEntity
         ElapsedTime = elapsedTime;
         Exercise = exercise;
 
-        IsCorrect = Math.Abs(Exercise.Answer - userAnswer) < 0.01;
+        IsCorrect = Math.Abs(Exercise.Answer - userAnswer) < 0.0001;
     }
 
     private ResolvedExercise() { }
