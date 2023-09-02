@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public class GameRepository : IGameReadRepository, IGameWriteRepository
+internal class GameRepository : IGameReadRepository, IGameWriteRepository
 {
     private readonly ApplicationDbContext _dbContext;
 

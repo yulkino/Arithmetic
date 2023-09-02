@@ -29,9 +29,9 @@ public sealed class UserController : ControllerBase
     [ProducesResponseType(Status404NotFound)]
     public async Task<IResult> Login([FromBody] LoginDto loginData, CancellationToken cancellationToken)
     {
-        var result = await _mediator.Send(new GetUserQuery(loginData.Login, loginData.Password), cancellationToken);
+        var result = await _mediator.Send(new GetUserQuery(loginData.Email, loginData.Password), cancellationToken);
         return result.MatchToHttpResponse(
-            response => Results.Ok(_mapper.Map<User, UserDto>(response)),
+            response => Results.Ok(_mapper.Map<GetUserResponse, LoginUserResponseDto>(response)),
             error => error.Code switch
             {
                 GeneralErrorCodes.Validation => Results.BadRequest(error.Description),
@@ -44,15 +44,15 @@ public sealed class UserController : ControllerBase
     [HttpPost("register")]
     [ProducesResponseType(Status200OK)]
     [ProducesResponseType(Status400BadRequest)]
-    [ProducesResponseType(Status404NotFound)]
+    [ProducesResponseType(Status409Conflict)]
     public async Task<IResult> Register([FromBody] RegisterDto registerData,
         CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(
-            new AddUserCommand(registerData.Login, registerData.Password, registerData.PasswordConfirmation),
+            new AddUserCommand(registerData.Email, registerData.Password, registerData.PasswordConfirmation),
             cancellationToken);
         return result.MatchToHttpResponse(
-            response => Results.Ok(_mapper.Map<User, UserDto>(response)),
+            response => Results.Ok(_mapper.Map<User, RegisterUserResponseDto>(response)),
             error => error.Code switch
             {
                 GeneralErrorCodes.Validation => Results.BadRequest(error.Description),

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public class ResolvedGameRepository : IResolvedGameReadRepository, IResolvedGameWriteRepository
+internal class ResolvedGameRepository : IResolvedGameReadRepository, IResolvedGameWriteRepository
 {
     private readonly ApplicationDbContext _dbContext;
 

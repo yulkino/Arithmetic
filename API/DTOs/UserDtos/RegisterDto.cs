@@ -1,6 +1,6 @@
 ﻿namespace API.DTOs.UserDtos;
 
 public sealed record RegisterDto(
-    string Login,
+    string Email,
     string Password,
     string PasswordConfirmation);

@@ -14,12 +14,9 @@
     <Folder Include="Mediators\GameMediator\Add\" />
     <Folder Include="Mediators\GameMediator\GetExercise\" />
     <Folder Include="Mediators\GameMediator\SaveExercise\" />
-    <Folder Include="Mediators\DifficultyMediator\" />
-    <Folder Include="Mediators\OperationMediator\" />
     <Folder Include="Mediators\SettingsMediator\Get\" />
     <Folder Include="Mediators\SettingsMediator\Edit\" />
     <Folder Include="Mediators\StatisticMediator\Get\" />
-    <Folder Include="Mediators\UserMediator\Get\" />
     <Folder Include="Mediators\UserMediator\Add\" />
     <Folder Include="Mapping\" />
     <Folder Include="PipelineBehavior\" />

@@ -2,15 +2,17 @@
 
 public class User : IEntity, IEquatable<User>
 {
-    public User(string login, string passwordHash)
+    public User(string email, string passwordHash, string identityId)
     {
         Id = Guid.NewGuid();
-        Login = login;
+        Email = email;
         PasswordHash = passwordHash;
+        IdentityId = identityId;
     }
 
-    public string Login { get; }
+    public string Email { get; }
     public string PasswordHash { get; }
+    public string IdentityId { get; }
     public Guid Id { get; }
 
     public bool Equals(User? other)

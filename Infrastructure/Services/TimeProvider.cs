@@ -1,8 +1,8 @@
-﻿using Application.Services;
+﻿using Application.ServiceContracts;
 
 namespace Infrastructure.Services;
 
-public class TimeProvider : ITimeProvider
+internal class TimeProvider : ITimeProvider
 {
     public DateTime Now => DateTime.Now;
 }

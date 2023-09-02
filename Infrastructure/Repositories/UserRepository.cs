@@ -12,9 +12,9 @@ public class UserRepository : IUserReadRepository, IUserWriteRepository
 
     public UserRepository(ApplicationDbContext dbContext) => _dbContext = dbContext;
 
-    public async ValueTask<User?> GetUserByLoginAsync(string login, CancellationToken cancellationToken = default)
+    public async ValueTask<User?> GetUserByLoginAsync(string email, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Users.SingleOrDefaultAsync(u => u.Login == login, cancellationToken);
+        return await _dbContext.Users.SingleOrDefaultAsync(u => u.Email == email, cancellationToken);
     }
 
     public async ValueTask<User?> GetUserByIdAsync(Guid userId, CancellationToken cancellationToken = default)
@@ -22,13 +22,14 @@ public class UserRepository : IUserReadRepository, IUserWriteRepository
         return await _dbContext.Users.SingleOrDefaultAsync(u => u.Id == userId, cancellationToken);
     }
 
-    public async ValueTask<User?> LoginUserAsync(string login, string password, CancellationToken cancellationToken = default)
+    public async ValueTask<User?> LoginUserAsync(string email, string password, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Users.SingleOrDefaultAsync(u => u.Login == login && u.PasswordHash == password, cancellationToken);
+        return await _dbContext.Users.SingleOrDefaultAsync(u => u.Email == email && u.PasswordHash == password, cancellationToken);
     }
 
-    public async ValueTask<User> AddUserAsync(string login, string password, CancellationToken cancellationToken = default)
+    public async ValueTask<User> AddUserAsync(string email, string password, string identityId,
+        CancellationToken cancellationToken = default)
     {
-        return (await _dbContext.Users.AddAsync(new User(login, password), cancellationToken)).Entity;
+        return (await _dbContext.Users.AddAsync(new User(email, password, identityId), cancellationToken)).Entity;
     }
 }

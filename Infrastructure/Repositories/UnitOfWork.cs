@@ -3,7 +3,7 @@ using Infrastructure.Data;
 
 namespace Infrastructure.Repositories;
 
-public class UnitOfWork : IUnitOfWork
+internal class UnitOfWork : IUnitOfWork
 {
     private readonly ApplicationDbContext _context;
 

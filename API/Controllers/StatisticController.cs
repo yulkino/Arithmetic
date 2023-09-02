@@ -4,11 +4,14 @@ using Application.Mediators.StatisticMediator.Get;
 using AutoMapper;
 using Domain.Entity;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.AspNetCore.Http.StatusCodes;
 
 namespace API.Controllers;
 
 [ApiController]
+[Authorize]
 public sealed class StatisticController : ControllerBase
 {
     private readonly IMapper _mapper;
@@ -21,6 +24,8 @@ public sealed class StatisticController : ControllerBase
     }
 
     [HttpPost("User/{userId}/Statistic")]
+    [ProducesResponseType(Status200OK)]
+    [ProducesResponseType(Status404NotFound)]
     public async Task<IResult> GetUserStatistic([FromRoute] Guid userId,
         CancellationToken cancellationToken)
     {

@@ -7,7 +7,7 @@ internal class AddUserCommandValidator : AbstractValidator<AddUserCommand>
 {
     public AddUserCommandValidator()
     {
-        RuleFor(u => u.Login).NotEmpty();
+        RuleFor(u => u.Email).NotEmpty();
         RuleFor(u => u.Password).NotEmpty();
         RuleFor(u => u.PasswordConfirmation)
             .NotEmpty()

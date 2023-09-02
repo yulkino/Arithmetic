@@ -6,5 +6,5 @@ namespace API.Mapping.UserMappingProfiles;
 
 public class UserMappingProfile : Profile
 {
-    public UserMappingProfile() => CreateMap<User, UserDto>();
+    public UserMappingProfile() => CreateMap<User, RegisterUserResponseDto>();
 }

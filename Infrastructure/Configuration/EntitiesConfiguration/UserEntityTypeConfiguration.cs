@@ -13,10 +13,13 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
             .Property(user => user.Id)
             .ValueGeneratedNever();
         builder
-            .Property(user => user.Login)
-            .IsRequired();
+            .HasIndex(user => user.Email)
+            .IsUnique();
         builder
             .Property(user => user.PasswordHash)
             .IsRequired();
+        builder
+            .HasIndex(user => user.IdentityId)
+            .IsUnique();
     }
 }

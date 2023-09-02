@@ -1,5 +1,3 @@
-﻿using Domain.Entity;
+﻿namespace Application.Mediators.UserMediator.Get;
 
-namespace Application.Mediators.UserMediator.Get;
-
-public sealed record GetUserQuery(string Login, string Password) : IOperationRequest<User>;
+public sealed record GetUserQuery(string Email, string Password) : IOperationRequest<GetUserResponse>;

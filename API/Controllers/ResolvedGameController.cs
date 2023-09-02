@@ -4,11 +4,14 @@ using Application.Mediators.ResolvedGameMediator.Get;
 using AutoMapper;
 using Domain.Entity.GameEntities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.AspNetCore.Http.StatusCodes;
 
 namespace API.Controllers;
 
 [ApiController]
+[Authorize]
 public sealed class ResolvedGameController : ControllerBase
 {
     private readonly IMapper _mapper;
@@ -21,6 +24,9 @@ public sealed class ResolvedGameController : ControllerBase
     }
 
     [HttpPost("User/{userId}/Game/{gameId}/Result")]
+    [ProducesResponseType(Status200OK)]
+    [ProducesResponseType(Status400BadRequest)]
+    [ProducesResponseType(Status404NotFound)]
     public async Task<IResult> GetGameResult([FromRoute] Guid userId, [FromRoute] Guid gameId,
         CancellationToken cancellationToken)
     {

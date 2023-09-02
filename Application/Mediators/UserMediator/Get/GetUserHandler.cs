@@ -1,28 +1,36 @@
 ﻿using Application.ClientErrors.Errors;
 using Application.ServiceContracts.Repositories.Read;
-using Domain.Entity;
+using Application.Services.Authentication;
 using ErrorOr;
 using MediatR;
 
 namespace Application.Mediators.UserMediator.Get;
 
-public class GetUserHandler : IRequestHandler<GetUserQuery, ErrorOr<User>>
+public class GetUserHandler : IRequestHandler<GetUserQuery, ErrorOr<GetUserResponse>>
 {
     private readonly IUserReadRepository _userReadRepository;
+    private readonly IJwtProvider _jwtProvider;
 
-    public GetUserHandler(IUserReadRepository userReadRepository) => _userReadRepository = userReadRepository;
-
-    public async Task<ErrorOr<User>> Handle(GetUserQuery request, CancellationToken cancellationToken)
+    public GetUserHandler(IUserReadRepository userReadRepository, IJwtProvider jwtProvider)
     {
-        var (login, password) = request;
+        _userReadRepository = userReadRepository;
+        _jwtProvider = jwtProvider;
+    }
 
-        if (await _userReadRepository.GetUserByLoginAsync(login, cancellationToken) is null)
+    public async Task<ErrorOr<GetUserResponse>> Handle(GetUserQuery request, CancellationToken cancellationToken)
+    {
+        var (email, password) = request;
+
+        if (await _userReadRepository.GetUserByLoginAsync(email, cancellationToken) is null)
             return Errors.UserErrors.NotFound;
 
-        var user = await _userReadRepository.LoginUserAsync(login, password, cancellationToken);
+        var user = await _userReadRepository.LoginUserAsync(email, password, cancellationToken);
         if (user is null)
             return Errors.UserErrors.Failure;
 
-        return user;
+        var response = await _jwtProvider.GetForCredentialsAsync(email, password);
+        if (response.IsError)
+            return response.FirstError;
+        return new GetUserResponse(user.Id, user.Email, response.Value);
     }
 }

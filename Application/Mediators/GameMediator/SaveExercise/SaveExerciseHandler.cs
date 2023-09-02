@@ -1,7 +1,6 @@
 ﻿using Application.ClientErrors.Errors;
 using Application.ServiceContracts;
 using Application.ServiceContracts.Repositories.Read;
-using Application.Services;
 using Domain.Entity.ExerciseEntities;
 using ErrorOr;
 using MediatR;

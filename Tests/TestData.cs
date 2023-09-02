@@ -10,7 +10,7 @@ public static class TestData
 {
     public static List<ResolvedGame> GetTestResolvedGame()
     {
-        var user = new User("TestLogin", "TestPassword");
+        var user = new User("TestLogin", "TestPassword", "TestIdentity");
         var settings = new Settings(
             Difficulty.Medium,
             new HashSet<Operation>()

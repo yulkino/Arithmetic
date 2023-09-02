@@ -3,7 +3,7 @@ using Domain.Entity.SettingsEntities;
 using ErrorOr;
 using MediatR;
 
-namespace Application.Mediators.DifficultyMediator;
+namespace Application.Mediators.DifficultyMediator.Get;
 
 public class GetDifficultiesHandler : IRequestHandler<GetDifficultiesQuery, ErrorOr<HashSet<Difficulty>>>
 {

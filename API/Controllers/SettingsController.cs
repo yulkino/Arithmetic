@@ -1,18 +1,21 @@
 ﻿using API.DTOs.SettingsDtos.EditSettingsDtos;
 using API.DTOs.SettingsDtos.GetSettingsDtos;
 using Application.ClientErrors.ErrorCodes;
-using Application.Mediators.DifficultyMediator;
-using Application.Mediators.OperationMediator;
+using Application.Mediators.DifficultyMediator.Get;
+using Application.Mediators.OperationMediator.Get;
 using Application.Mediators.SettingsMediator.Edit;
 using Application.Mediators.SettingsMediator.Get;
 using AutoMapper;
 using Domain.Entity.SettingsEntities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.AspNetCore.Http.StatusCodes;
 
 namespace API.Controllers;
 
 [ApiController]
+[Authorize]
 public sealed class SettingsController : ControllerBase
 {
     private readonly IMapper _mapper;
@@ -25,6 +28,9 @@ public sealed class SettingsController : ControllerBase
     }
 
     [HttpGet("User/{userId}/Game/{gameId}/Settings")]
+    [ProducesResponseType(Status200OK)]
+    [ProducesResponseType(Status400BadRequest)]
+    [ProducesResponseType(Status404NotFound)]
     public async Task<IResult> GetGameSetting([FromRoute] Guid userId, [FromRoute] Guid gameId,
         CancellationToken cancellationToken)
     {
@@ -43,6 +49,10 @@ public sealed class SettingsController : ControllerBase
     }
 
     [HttpPut("User/{userId}/Game/{gameId}/Settings")]
+    [ProducesResponseType(Status200OK)]
+    [ProducesResponseType(Status400BadRequest)]
+    [ProducesResponseType(Status404NotFound)]
+    [ProducesResponseType(Status409Conflict)]
     public async Task<IResult> EditGameSettings([FromRoute] Guid userId, [FromRoute] Guid gameId,
         [FromBody] EditSettingsDto settings,
         CancellationToken cancellationToken)
@@ -71,6 +81,7 @@ public sealed class SettingsController : ControllerBase
     }
 
     [HttpGet("Settings/Operations")]
+    [ProducesResponseType(Status200OK)]
     public async Task<IResult> GetOperations(CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(new GetOperationsQuery(), cancellationToken);
@@ -81,6 +92,7 @@ public sealed class SettingsController : ControllerBase
     }
 
     [HttpGet("Settings/Difficulties")]
+    [ProducesResponseType(Status200OK)]
     public async Task<IResult> GetDifficulties(CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(new GetDifficultiesQuery(), cancellationToken);

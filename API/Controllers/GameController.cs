@@ -8,11 +8,14 @@ using AutoMapper;
 using Domain.Entity.ExerciseEntities;
 using Domain.Entity.GameEntities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.AspNetCore.Http.StatusCodes;
 
 namespace API.Controllers;
 
 [ApiController]
+[Authorize]
 public sealed class GameController : ControllerBase
 {
     private readonly IMapper _mapper;
@@ -25,6 +28,9 @@ public sealed class GameController : ControllerBase
     }
 
     [HttpPost("User/{userId}/Game")]
+    [ProducesResponseType(Status200OK)]
+    [ProducesResponseType(Status400BadRequest)]
+    [ProducesResponseType(Status404NotFound)]
     public async Task<IResult> StartGame([FromRoute] Guid userId, CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(new AddGameCommand(userId), cancellationToken);
@@ -40,6 +46,9 @@ public sealed class GameController : ControllerBase
     }
 
     [HttpPost("User/{userId}/Game/{gameId}")]
+    [ProducesResponseType(Status200OK)]
+    [ProducesResponseType(Status400BadRequest)]
+    [ProducesResponseType(Status404NotFound)]
     public async Task<IResult> GetNextExercise([FromRoute] Guid userId, [FromRoute] Guid gameId,
         CancellationToken cancellationToken)
     {
@@ -58,6 +67,9 @@ public sealed class GameController : ControllerBase
     }
 
     [HttpPost("User/{userId}/Game/{gameId}/Exercise/{exerciseId}")]
+    [ProducesResponseType(Status200OK)]
+    [ProducesResponseType(Status400BadRequest)]
+    [ProducesResponseType(Status404NotFound)]
     public async Task<IResult> SaveAnswer([FromRoute] Guid userId, [FromRoute] Guid gameId,
         [FromRoute] Guid exerciseId, [FromQuery] double answer, CancellationToken cancellationToken)
     {

@@ -50,8 +50,10 @@ public static class ServiceCollectionExtensions
 
     private static void AddUserBehavior(this MediatRServiceConfiguration config)
     {
-        config.AddBehavior<IPipelineBehavior<AddUserCommand, ErrorOr<User>>, ValidationBehavior<AddUserCommand, User>>();
-        config.AddBehavior<IPipelineBehavior<GetUserQuery, ErrorOr<User>>, ValidationBehavior<GetUserQuery, User>>();
+        config.AddBehavior<IPipelineBehavior<AddUserCommand, ErrorOr<User>>, 
+            ValidationBehavior<AddUserCommand, User>>();
+        config.AddBehavior<IPipelineBehavior<GetUserQuery, ErrorOr<GetUserResponse>>, 
+            ValidationBehavior<GetUserQuery, GetUserResponse>>();
     }
 
     private static void AddSettingsBehavior(this MediatRServiceConfiguration config)
@@ -64,7 +66,8 @@ public static class ServiceCollectionExtensions
 
     private static void AddGameBehavior(this MediatRServiceConfiguration config)
     {
-        config.AddBehavior<IPipelineBehavior<AddGameCommand, ErrorOr<Game>>, ValidationBehavior<AddGameCommand, Game>>();
+        config.AddBehavior<IPipelineBehavior<AddGameCommand, ErrorOr<Game>>, 
+            ValidationBehavior<AddGameCommand, Game>>();
         config.AddBehavior<IPipelineBehavior<GetExerciseQuery, ErrorOr<Exercise>>,
                 ValidationBehavior<GetExerciseQuery, Exercise>>();
         config.AddBehavior<IPipelineBehavior<SaveExerciseCommand, ErrorOr<ResolvedExercise>>,

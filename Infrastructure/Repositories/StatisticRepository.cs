@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public class StatisticRepository : IStatisticReadRepository, IStatisticWriteRepository
+internal class StatisticRepository : IStatisticReadRepository, IStatisticWriteRepository
 {
     private readonly ApplicationDbContext _dbContext;
 

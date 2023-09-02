@@ -1,5 +1,5 @@
 ﻿namespace API.DTOs.UserDtos;
 
 public sealed record LoginDto(
-    string Login,
+    string Email,
     string Password);

@@ -7,7 +7,7 @@ internal class GetUserQueryValidator : AbstractValidator<GetUserQuery>
 {
     public GetUserQueryValidator()
     {
-        RuleFor(u => u.Login).NotEmpty();
+        RuleFor(u => u.Email).NotEmpty();
         RuleFor(u => u.Password).NotEmpty();
     }
 }

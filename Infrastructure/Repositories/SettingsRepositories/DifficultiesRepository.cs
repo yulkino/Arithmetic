@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories.SettingsRepositories;
 
-public class DifficultiesRepository : IDifficultiesReadRepository
+internal class DifficultiesRepository : IDifficultiesReadRepository
 {
     private readonly ApplicationDbContext _dbContext;
 

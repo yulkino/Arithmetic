@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories.SettingsRepositories;
 
-public class SettingsRepository : ISettingsReadRepository
+internal class SettingsRepository : ISettingsReadRepository
 {
     private readonly ApplicationDbContext _dbContext;
 

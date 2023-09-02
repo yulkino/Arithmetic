@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public class ExerciseRepository : IExerciseReadRepository
+internal class ExerciseRepository : IExerciseReadRepository
 {
     private readonly ApplicationDbContext _dbContext;
 

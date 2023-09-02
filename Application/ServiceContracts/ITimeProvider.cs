@@ -1,4 +1,4 @@
-﻿namespace Application.Services;
+﻿namespace Application.ServiceContracts;
 
 public interface ITimeProvider
 {
