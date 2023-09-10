@@ -21,8 +21,16 @@ public sealed class ExerciseProgressStatistic : IStatisticElement<DateTime, Time
     public DateTime X { get; init; }
 
     /// <summary>Exercises resolve average duration on date <seealso cref="X" /></summary>
-    public TimeSpan Y { get; init; }
+    public TimeSpan Y { get; private set; }
 
     /// <summary>The number of elements that participated in the calculation of this node/></summary>
-    public int ElementCountStatistic { get; init; }
+    public int ElementCountStatistic { get; private set; }
+
+    public IStatisticElement<DateTime, TimeSpan> UpdateAverageDuration(
+        TimeSpan newAverageDuration, int newElementCount)
+    {
+        Y = newAverageDuration;
+        ElementCountStatistic = newElementCount;
+        return this;
+    }
 }

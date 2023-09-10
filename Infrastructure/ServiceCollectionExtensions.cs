@@ -28,7 +28,6 @@ public static class ServiceCollectionExtensions
         {
             options.AddInterceptors(StaticEntityInterceptor.Instance);
             options.UseSqlServer(databaseConnectionOptions.ArithmeticDatabase);
-            options.EnableSensitiveDataLogging();
         });
 
         services.AddRepositories();

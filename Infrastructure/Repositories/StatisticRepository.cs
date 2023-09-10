@@ -23,12 +23,8 @@ internal class StatisticRepository : IStatisticReadRepository, IStatisticWriteRe
                 .ThenInclude(e => e.Operation)
             .Include(s => s.ResolvedGame)
                 .ThenInclude(r => r.Game)
-                .ThenInclude(g => g.Exercises)
-            .Include(s => s.ResolvedGame)
-                .ThenInclude(r => r.Game)
-                .ThenInclude(g => g.Settings)
-                .ThenInclude(s => s.Operations)
             .Include(s => s.User)
+            .AsSplitQuery()
             .SingleOrDefaultAsync(s => s.User.Equals(user), cancellationToken);
 
     public ValueTask<Statistic> CreateUserStatistic(Statistic statistic, CancellationToken cancellationToken = default) => 

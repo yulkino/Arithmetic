@@ -14,7 +14,10 @@ internal class SettingsRepository : ISettingsReadRepository
 
     public async ValueTask<Settings?> GetSettingsAsync(Game game, CancellationToken cancellationToken = default) 
         => (await _dbContext.Games
-            .Include(g => g.Settings).ThenInclude(s => s.Operations)
-            .Include(g => g.Settings).ThenInclude(s => s.Difficulty)
+            .Include(g => g.Settings)
+                .ThenInclude(s => s.Operations)
+            .Include(g => g.Settings)
+                .ThenInclude(s => s.Difficulty)
+            .AsSplitQuery()
             .SingleOrDefaultAsync(g => g.Equals(game), cancellationToken))?.Settings;
 }

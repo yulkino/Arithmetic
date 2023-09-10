@@ -38,7 +38,6 @@ public class OperationsStatisticCalculator : IStatisticCalculator<Diagram<Operat
     public async Task<Diagram<OperationsStatistic, Operation, TimeSpan>> UpdateCalculations(List<ResolvedGame> newResolvedGames,
         Diagram<OperationsStatistic, Operation, TimeSpan> operationsStatistic, CancellationToken cancellationToken)
     {
-        var updatedStatistic = new Diagram<OperationsStatistic, Operation, TimeSpan>();
         if(!newResolvedGames.Any())
             return operationsStatistic;
 
@@ -47,20 +46,16 @@ public class OperationsStatisticCalculator : IStatisticCalculator<Diagram<Operat
         foreach (var operationStatistic in operationsStatistic)
         {
             var newOperationStatistic = newOperationsStatistic.Single(s => s.X == operationStatistic.X);
-            if (newOperationStatistic.ElementCountStatistic != 0 && newOperationStatistic.Y != TimeSpan.Zero)
-            {
-                var newAverageTimeSpan = operationStatistic
-                    .RecalculateAverageTimeSpanWith<OperationsStatistic, Operation, TimeSpan>(newOperationStatistic);
-                updatedStatistic.AddNode(new OperationsStatistic(
-                    operationStatistic.X,
-                    newAverageTimeSpan,
-                    operationStatistic.ElementCountStatistic + newOperationStatistic.ElementCountStatistic));
-            }
-            else
-                updatedStatistic.AddNode(operationStatistic);
-        }
+            if (newOperationStatistic.ElementCountStatistic == 0 || newOperationStatistic.Y == TimeSpan.Zero)
+                continue;
 
-        return updatedStatistic;
+            var newAverageTimeSpan = operationStatistic
+                .RecalculateAverageTimeSpanWith<OperationsStatistic, Operation, TimeSpan>(newOperationStatistic);
+            var newElementCount = operationStatistic.ElementCountStatistic +
+                                  newOperationStatistic.ElementCountStatistic;
+            operationStatistic.UpdateAverageDuration(newAverageTimeSpan, newElementCount);
+        }
+        return operationsStatistic;
     }
 
     private OperationsStatistic CalculateOperationStatistic(List<ResolvedExercise> resolvedExercises,

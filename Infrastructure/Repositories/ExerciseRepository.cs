@@ -17,6 +17,7 @@ internal class ExerciseRepository : IExerciseReadRepository
         => (await _dbContext.Games
                 .Include(g => g.Settings)
                 .Include(g => g.Exercises)
+                .AsSplitQuery()
                 .SingleOrDefaultAsync(g => g.Equals(game), cancellationToken))?.Exercises
             .SingleOrDefault(e => e.Id == exerciseId);
 }

@@ -83,20 +83,14 @@ public class ExerciseProgressStatisticCalculator : IStatisticCalculator<Diagram<
         var newAverageTimeSpan = oldStatisticOfIntersectingDate
             .RecalculateAverageTimeSpanWith<ExerciseProgressStatistic, DateTime, TimeSpan>(
                 newStatisticOfIntersectingDate);
-        var newStatisticElement = new ExerciseProgressStatistic(
-            oldStatisticOfIntersectingDate.X,
-            newAverageTimeSpan,
-            oldStatisticOfIntersectingDate.ElementCountStatistic +
-            newStatisticOfIntersectingDate.ElementCountStatistic);
+        var newElementCount = oldStatisticOfIntersectingDate.ElementCountStatistic +
+                              newStatisticOfIntersectingDate.ElementCountStatistic;
 
         var oldStatisticList = exerciseProgressStatistic.ToList();
-        oldStatisticList.Remove(oldStatisticOfIntersectingDate);
+        oldStatisticOfIntersectingDate.UpdateAverageDuration(newAverageTimeSpan, newElementCount);
 
-        var newStatistic = newExerciseProgressStatistic.ToList();
-        newStatistic.Remove(newStatisticOfIntersectingDate);
-
-        oldStatisticList.Add(newStatisticElement);
-        oldStatisticList.AddRange(newStatistic);
+        newExerciseProgressStatistic.Remove(newStatisticOfIntersectingDate);
+        oldStatisticList.AddRange(newExerciseProgressStatistic);
 
         return oldStatisticList.ToDiagram<ExerciseProgressStatistic, DateTime, TimeSpan>();
     }

@@ -7,5 +7,5 @@ public interface IResolvedGameReadRepository : IReadRepository<ResolvedGame>
 {
     ValueTask<ResolvedGame?> GetResolvedGameAsync(Game game, CancellationToken cancellationToken = default);
 
-    Task<List<ResolvedGame>> GetUsersGamesAsync(User user, CancellationToken cancellationToken = default);
+    Task<List<ResolvedGame>> GetUsersResolvedGamesAsync(User user, CancellationToken cancellationToken = default);
 }

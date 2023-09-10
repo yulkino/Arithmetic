@@ -18,8 +18,11 @@ internal class GameRepository : IGameReadRepository, IGameWriteRepository
         => await _dbContext.Games
             .Include(g => g.Exercises)
             .Include(g => g.User)
-            .Include(g => g.Settings).ThenInclude(s => s.Difficulty)
-            .Include(g => g.Settings).ThenInclude(s => s.Operations)
+            .Include(g => g.Settings)
+                .ThenInclude(s => s.Difficulty)
+            .Include(g => g.Settings)
+                .ThenInclude(s => s.Operations)
+            .AsSplitQuery()
             .SingleOrDefaultAsync(g => g.Id == gameId, cancellationToken);
 
     public async ValueTask<Game> CreateAsync(User user, Settings settings, DateTime creationDate, CancellationToken cancellationToken = default) 

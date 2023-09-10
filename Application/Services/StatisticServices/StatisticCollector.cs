@@ -42,15 +42,15 @@ public class StatisticCollector : IStatisticCollector
         {
             return userStatistic;
         }
-
+        
         userStatistic.GameStatistic = await _gameStatisticCalculator.UpdateCalculations(
             newResolvedGames, userStatistic.GameStatistic!, cancellationToken);
         userStatistic.OperationsStatistic = await _operationStatisticCalculator.UpdateCalculations(
             newResolvedGames, userStatistic.OperationsStatistic!, cancellationToken);
-        //TODO fix that OperationsStatistic add new and not edit exists
         userStatistic.ExerciseProgressStatistic = await _exerciseProgressStatisticsCalculator.UpdateCalculations(
             newResolvedGames, userStatistic.ExerciseProgressStatistic!, cancellationToken);
-
+        userStatistic.ResolvedGame.AddRange(newResolvedGames);
+        
         return userStatistic;
     }
 }
