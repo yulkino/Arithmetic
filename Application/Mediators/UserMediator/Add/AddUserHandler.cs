@@ -36,7 +36,7 @@ public class AddUserHandler : IRequestHandler<AddUserCommand, ErrorOr<User>>
             return Errors.UserErrors.Conflict(email);
         
         var identityId = await _authenticationService.RegisterAsync(email, password, cancellationToken);
-        var user = await _userWriteRepository.AddUserAsync(email, password, identityId, cancellationToken);
+        var user = await _userWriteRepository.AddUserAsync(email, identityId, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         return user;
     }

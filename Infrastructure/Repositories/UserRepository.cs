@@ -22,14 +22,14 @@ public class UserRepository : IUserReadRepository, IUserWriteRepository
         return await _dbContext.Users.SingleOrDefaultAsync(u => u.Id == userId, cancellationToken);
     }
 
-    public async ValueTask<User?> LoginUserAsync(string email, string password, CancellationToken cancellationToken = default)
+    public async ValueTask<User?> LoginUserAsync(string email, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Users.SingleOrDefaultAsync(u => u.Email == email && u.PasswordHash == password, cancellationToken);
+        return await _dbContext.Users.SingleOrDefaultAsync(u => u.Email == email, cancellationToken);
     }
 
-    public async ValueTask<User> AddUserAsync(string email, string password, string identityId,
+    public async ValueTask<User> AddUserAsync(string email, string identityId,
         CancellationToken cancellationToken = default)
     {
-        return (await _dbContext.Users.AddAsync(new User(email, password, identityId), cancellationToken)).Entity;
+        return (await _dbContext.Users.AddAsync(new User(email, identityId), cancellationToken)).Entity;
     }
 }

@@ -16,9 +16,6 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
             .HasIndex(user => user.Email)
             .IsUnique();
         builder
-            .Property(user => user.PasswordHash)
-            .IsRequired();
-        builder
             .HasIndex(user => user.IdentityId)
             .IsUnique();
     }

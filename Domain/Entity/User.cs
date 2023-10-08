@@ -2,16 +2,14 @@
 
 public class User : IEntity, IEquatable<User>
 {
-    public User(string email, string passwordHash, string identityId)
+    public User(string email, string identityId)
     {
         Id = Guid.NewGuid();
         Email = email;
-        PasswordHash = passwordHash;
         IdentityId = identityId;
     }
 
     public string Email { get; }
-    public string PasswordHash { get; }
     public string IdentityId { get; }
     public Guid Id { get; }
 

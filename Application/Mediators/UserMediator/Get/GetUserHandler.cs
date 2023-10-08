@@ -24,7 +24,7 @@ public class GetUserHandler : IRequestHandler<GetUserQuery, ErrorOr<GetUserRespo
         if (await _userReadRepository.GetUserByLoginAsync(email, cancellationToken) is null)
             return Errors.UserErrors.NotFound;
 
-        var user = await _userReadRepository.LoginUserAsync(email, password, cancellationToken);
+        var user = await _userReadRepository.LoginUserAsync(email, cancellationToken);
         if (user is null)
             return Errors.UserErrors.Failure;
 

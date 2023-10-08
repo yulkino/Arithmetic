@@ -73,7 +73,7 @@ public class OperationsStatisticCalculatorTests
     [Test]
     public async Task UpdateCalculations_Should_ReturnUpdatedOperationsStatistic_When_ReceivesNewResolvedGames()
     {
-        var user = new User("TestLogin", "TestPassword","TestIdentity");
+        var user = new User("TestLogin", "TestIdentity");
         var settings = new Settings(
             Difficulty.Medium,
             new HashSet<Operation>()
@@ -176,7 +176,7 @@ public class OperationsStatisticCalculatorTests
     [Test]
     public async Task Calculate_Should_ReturnAllOperationsStatistic_When_ReceivesNotAllOperationsFromResolvedGames()
     {
-        var user = new User("TestLogin", "TestPassword", "TestIdentity");
+        var user = new User("TestLogin", "TestIdentity");
         var settings = new Settings(
             Difficulty.Medium,
             new HashSet<Operation>()
