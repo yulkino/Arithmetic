@@ -4,5 +4,5 @@ namespace Infrastructure.Services;
 
 internal class TimeProvider : ITimeProvider
 {
-    public DateTime Now => DateTime.Now;
+    public DateTime Now => DateTime.UtcNow.ToUniversalTime();
 }

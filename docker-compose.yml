@@ -1,0 +1,33 @@
+﻿secrets:
+  - firebase_auth:
+      external: true
+  - db_name:
+      external: true
+  - db_user:
+      external: true
+  - db_password:
+      external: true
+services:
+  api:
+    image: api
+    build:
+      context: .
+      dockerfile: API/Dockerfile
+    environment:
+      - FIREBASE_AUTH=/run/secrets/firebase_auth
+      - POSTGRES_DB=/run/secrets/db_name
+      - POSTGRES_USER=/run/secrets/db_user
+      - POSTGRES_PASSWORD=/run/secrets/db_password
+    depends_on:
+        - postgresql
+      
+  postgresql:
+    image: postgres
+    environment:
+      - POSTGRES_DB=/run/secrets/db_name
+      - POSTGRES_USER=/run/secrets/db_user
+      - POSTGRES_PASSWORD=/run/secrets/db_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./volumes/data/db:/var/lib/postgresql/data

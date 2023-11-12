@@ -17,9 +17,9 @@ namespace Infrastructure.Migrations
                 name: "Difficulties",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MaxDigitCount = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    MaxDigitCount = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,8 +30,8 @@ namespace Infrastructure.Migrations
                 name: "Operations",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -42,9 +42,9 @@ namespace Infrastructure.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Login = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    IdentityId = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -55,9 +55,9 @@ namespace Infrastructure.Migrations
                 name: "Settings",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    DifficultyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ExerciseCount = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    DifficultyId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ExerciseCount = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -74,8 +74,8 @@ namespace Infrastructure.Migrations
                 name: "Statistic",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -92,10 +92,10 @@ namespace Infrastructure.Migrations
                 name: "Games",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SettingsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    SettingsId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -118,8 +118,8 @@ namespace Infrastructure.Migrations
                 name: "SettingsOperations",
                 columns: table => new
                 {
-                    OperationsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SettingsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    OperationsId = table.Column<Guid>(type: "uuid", nullable: false),
+                    SettingsId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -142,11 +142,11 @@ namespace Infrastructure.Migrations
                 name: "ExerciseProgressStatistic",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    X = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Y = table.Column<double>(type: "float", nullable: false),
-                    ElementCountStatistic = table.Column<int>(type: "int", nullable: false),
-                    StatisticId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    X = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Y = table.Column<double>(type: "double precision", nullable: false),
+                    ElementCountStatistic = table.Column<int>(type: "integer", nullable: false),
+                    StatisticId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -162,12 +162,12 @@ namespace Infrastructure.Migrations
                 name: "GameStatistic",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    GameDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ExerciseCount = table.Column<int>(type: "int", nullable: false),
-                    GameDuration = table.Column<double>(type: "float", nullable: false),
-                    CorrectAnswersPercentage = table.Column<double>(type: "float", nullable: false),
-                    StatisticId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    GameDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ExerciseCount = table.Column<int>(type: "integer", nullable: false),
+                    GameDuration = table.Column<double>(type: "double precision", nullable: false),
+                    CorrectAnswersPercentage = table.Column<double>(type: "double precision", nullable: false),
+                    StatisticId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -183,11 +183,11 @@ namespace Infrastructure.Migrations
                 name: "OperationsStatistic",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    XId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Y = table.Column<double>(type: "float", nullable: false),
-                    ElementCountStatistic = table.Column<int>(type: "int", nullable: false),
-                    StatisticId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    XId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Y = table.Column<double>(type: "double precision", nullable: false),
+                    ElementCountStatistic = table.Column<int>(type: "integer", nullable: false),
+                    StatisticId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -209,13 +209,13 @@ namespace Infrastructure.Migrations
                 name: "Exercises",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    LeftOperand = table.Column<double>(type: "float", nullable: false),
-                    RightOperand = table.Column<double>(type: "float", nullable: false),
-                    OperationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Answer = table.Column<double>(type: "float", nullable: false),
-                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    GameId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    LeftOperand = table.Column<double>(type: "double precision", nullable: false),
+                    RightOperand = table.Column<double>(type: "double precision", nullable: false),
+                    OperationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Answer = table.Column<double>(type: "double precision", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    GameId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -237,11 +237,11 @@ namespace Infrastructure.Migrations
                 name: "ResolvedGames",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    GameId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CorrectAnswerCount = table.Column<int>(type: "int", nullable: false),
-                    ElapsedTime = table.Column<double>(type: "float", nullable: false),
-                    StatisticId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    GameId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CorrectAnswerCount = table.Column<int>(type: "integer", nullable: false),
+                    ElapsedTime = table.Column<double>(type: "double precision", nullable: false),
+                    StatisticId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -263,12 +263,12 @@ namespace Infrastructure.Migrations
                 name: "ResolvedExercises",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserAnswer = table.Column<double>(type: "float", nullable: false),
-                    ElapsedTime = table.Column<double>(type: "float", nullable: false),
-                    IsCorrect = table.Column<bool>(type: "bit", nullable: false),
-                    ExerciseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ResolvedGameId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserAnswer = table.Column<double>(type: "double precision", nullable: false),
+                    ElapsedTime = table.Column<double>(type: "double precision", nullable: false),
+                    IsCorrect = table.Column<bool>(type: "boolean", nullable: false),
+                    ExerciseId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ResolvedGameId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -381,6 +381,18 @@ namespace Infrastructure.Migrations
                 name: "IX_Statistic_UserId",
                 table: "Statistic",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Email",
+                table: "Users",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_IdentityId",
+                table: "Users",
+                column: "IdentityId",
+                unique: true);
         }
 
         /// <inheritdoc />

@@ -15,7 +15,14 @@ internal sealed class AuthenticationService : IAuthenticationService
 
     public async Task<bool> UserExists(string email, CancellationToken cancellationToken = default)
     {
-        var userRecord = await FirebaseAuth.DefaultInstance.GetUserByEmailAsync(email, cancellationToken);
-        return userRecord is not null;
+        try
+        {
+            await FirebaseAuth.DefaultInstance.GetUserByEmailAsync(email, cancellationToken);
+            return true;
+        }
+        catch (FirebaseAuthException)
+        {
+            return false;
+        }
     }
 }

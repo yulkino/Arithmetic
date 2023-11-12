@@ -24,10 +24,11 @@ public static class ServiceCollectionExtensions
         var databaseConnectionOptions = config
             .GetRequiredSection(DatabaseConnectionOptions.SectionName)
             .Get<DatabaseConnectionOptions>()!;
+        var connectionStringBuilder = new DatabaseConnectionBuilder(databaseConnectionOptions, config);
         services.AddDbContext<ApplicationDbContext>(options =>
         {
             options.AddInterceptors(StaticEntityInterceptor.Instance);
-            options.UseSqlServer(databaseConnectionOptions.ArithmeticDatabase);
+            options.UseNpgsql(connectionStringBuilder.GetConnectionString());
         });
 
         services.AddRepositories();
@@ -63,23 +64,30 @@ public static class ServiceCollectionExtensions
     private static void AddFirebaseAuthentication(this IServiceCollection services, 
         IConfiguration config)
     {
+        var firebaseAuthOptions = config
+            .GetRequiredSection(FirebaseAuthenticationOptions.SectionName)
+            .Get<FirebaseAuthenticationOptions>();
         FirebaseApp.Create(new AppOptions()
         {
-            Credential = GoogleCredential.FromFile("autharithmetic-firebase.json")
+            Credential = GoogleCredential.FromFile(firebaseAuthOptions?.FirebaseAuthFilePath)
         });
         services.AddScoped<IAuthenticationService, AuthenticationService>();
+        
+        var authOptions = config
+            .GetRequiredSection(AuthenticationOptions.SectionName)
+            .Get<AuthenticationOptions>();
         services.AddHttpClient<IJwtProvider, JwtProvider>(client =>
         {
-            client.BaseAddress = new Uri(config["Authentication:TokenUri"] ?? 
+            client.BaseAddress = new Uri(authOptions?.TokenUri ?? 
                 throw new ArgumentException("Authentication TokenUri cannot be null"));
         });
         services
             .AddAuthentication()
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtOptions =>
             {
-                jwtOptions.Authority = config["Authentication:ValidIssuer"];
-                jwtOptions.Audience = config["Authentication:Audience"];
-                jwtOptions.TokenValidationParameters.ValidIssuer = config["Authentication:ValidIssuer"];
+                jwtOptions.Authority = authOptions?.ValidIssuer;
+                jwtOptions.Audience = authOptions?.Audience;
+                jwtOptions.TokenValidationParameters.ValidIssuer = authOptions?.ValidIssuer;
             });
     }
 }
