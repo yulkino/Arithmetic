@@ -1,42 +1,29 @@
-﻿secrets:
-  firebase_auth:
-      external: true
-  db_name:
-      external: true
-  db_user:
-      external: true
-  db_password:
-      external: true
-services:
+﻿services:
   api:
     image: api
     build:
       context: .
       dockerfile: API/Dockerfile
     environment:
-      - FIREBASE_AUTH_FILE=/run/secrets/firebase_auth
-      - POSTGRES_DB=/run/secrets/db_name
-      - POSTGRES_USER=/run/secrets/db_user
-      - POSTGRES_PASSWORD=/run/secrets/db_password
-    secrets:
-      - firebase_auth
-      - db_name
-      - db_user
-      - db_password
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - firebase_auth:/app/data/autharithmetic-firebase.json
     depends_on:
         - postgresql
       
   postgresql:
     image: postgres
     environment:
-      - POSTGRES_DB=/run/secrets/db_name
-      - POSTGRES_USER=/run/secrets/db_user
-      - POSTGRES_PASSWORD=/run/secrets/db_password
-    secrets:
-      - db_name
-      - db_user
-      - db_password
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
       - ./volumes/data/db:/var/lib/postgresql/data
+
+volumes:
+  firebase_auth:
+    external: true
