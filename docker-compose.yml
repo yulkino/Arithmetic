@@ -9,7 +9,7 @@
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
-      - firebase_auth:/app/data/autharithmetic-firebase.json
+      - firebase_auth:/app/data
     depends_on:
         - postgresql
     user: "1000:1001"
@@ -27,4 +27,3 @@
 
 volumes:
   firebase_auth:
-    external: true
