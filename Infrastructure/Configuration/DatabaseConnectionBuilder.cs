@@ -9,9 +9,9 @@ public class DatabaseConnectionBuilder
     {
         Host = options.Host;
         Port = options.Port;
-        Database = config[options.DatabasePath]!;
-        Username = config[options.UsernamePath]!;
-        Password = config[options.PasswordPath]!;
+        Database = config[options.Database]!;
+        Username = config[options.Username]!;
+        Password = config[options.Password]!;
     }
     
     public string Host { get; init; }

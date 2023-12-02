@@ -67,10 +67,10 @@ public static class ServiceCollectionExtensions
         var firebaseAuthOptions = config
             .GetRequiredSection(FirebaseAuthenticationOptions.SectionName)
             .Get<FirebaseAuthenticationOptions>();
-        FirebaseApp.Create(new AppOptions()
-        {
-            Credential = GoogleCredential.FromFile(firebaseAuthOptions?.FirebaseAuthFilePath)
-        });
+        // FirebaseApp.Create(new AppOptions()
+        // {
+        //     Credential = GoogleCredential.FromFile(firebaseAuthOptions?.FirebaseAuthFilePath)
+        // });
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         
         var authOptions = config
