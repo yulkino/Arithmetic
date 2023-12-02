@@ -9,11 +9,10 @@
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
-      - firebase_auth:/app/data
+      - ./volumes/data/auth:/app/data
     depends_on:
-        - postgresql
-    user: "1000:1001"
-      
+      - postgresql
+
   postgresql:
     image: postgres
     environment:
@@ -24,6 +23,3 @@
       - "5432:5432"
     volumes:
       - ./volumes/data/db:/var/lib/postgresql/data
-
-volumes:
-  firebase_auth:
